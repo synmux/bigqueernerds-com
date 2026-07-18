@@ -2,6 +2,7 @@
 export default defineNuxtConfig({
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
+  css: ["~/assets/css/main.css"],
 
   nitro: {
     preset: "cloudflare_module",
@@ -13,4 +14,23 @@ export default defineNuxtConfig({
   },
 
   modules: ["nitro-cloudflare-dev", "@nuxt/fonts", "@nuxt/image"],
+
+  fonts: {
+    families: [
+      {
+        name: "IBM Plex Sans",
+        provider: "google",
+        weights: [400, 700],
+        styles: ["normal", "italic"],
+        subsets: ["latin"],
+      },
+      {
+        name: "Metrophobic",
+        provider: "google",
+        weights: [400],
+        styles: ["normal"],
+        subsets: ["latin"],
+      },
+    ],
+  },
 });
