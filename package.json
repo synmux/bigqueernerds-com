@@ -1,25 +1,26 @@
 {
-	"name": "bigqueernerds-com",
-	"type": "module",
-	"private": true,
-	"scripts": {
-		"build": "nuxt build",
-		"dev": "nuxt dev",
-		"generate": "nuxt generate",
-		"preview": "bun run build && wrangler dev",
-		"postinstall": "nuxt prepare",
-		"deploy": "bun run build && wrangler deploy",
-		"cf-typegen": "wrangler types"
-	},
-	"dependencies": {
-		"nuxt": "^4.4.8",
-		"vue": "^3.5.39",
-		"vue-router": "^5.1.0"
-	},
-	"devDependencies": {
-		"@types/node": "^26.1.1",
-		"nitro-cloudflare-dev": "^0.2.2",
-		"nitropack": "^2.13.4",
-		"wrangler": "^4.112.0"
-	}
+  "name": "bigqueernerds-com",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "bun run build && wrangler dev",
+    "postinstall": "nuxt prepare",
+    "deploy": "bun run build && wrangler deploy",
+    "cf-typegen": "wrangler types",
+    "prepare": "skilld prepare || true"
+  },
+  "dependencies": {
+    "nuxt": "^4.4.8",
+    "vue": "^3.5.40",
+    "vue-router": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "nitro-cloudflare-dev": "^0.2.2",
+    "nitropack": "^2.13.4",
+    "wrangler": "^4.112.0"
+  }
 }

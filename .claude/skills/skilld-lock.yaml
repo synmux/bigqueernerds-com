@@ -1,0 +1,43 @@
+skills:
+  vue-skilld:
+    packageName: vue
+    version: 3.5.40
+    repo: vuejs/core
+    source: "https://github.com/vuejs/core/tree/v3.5.40/docs"
+    syncedAt: 2026-07-18
+    generator: skilld
+  nuxt-skilld:
+    packageName: nuxt
+    version: 4.4.8
+    repo: nuxt/nuxt
+    source: "https://nuxt.com/llms.txt"
+    syncedAt: 2026-07-18
+    generator: skilld
+  vue-router-skilld:
+    packageName: vue-router
+    version: 5.2.0
+    repo: vuejs/router
+    source: "https://github.com/vuejs/router/tree/v5.2.0/docs"
+    syncedAt: 2026-07-18
+    generator: skilld
+  nitro-cloudflare-dev-skilld:
+    packageName: nitro-cloudflare-dev
+    version: 0.2.2
+    repo: pi0/nitro-cloudflare-dev
+    source: "ungh://pi0/nitro-cloudflare-dev"
+    syncedAt: 2026-07-18
+    generator: skilld
+  types-node-skilld:
+    packageName: "@types/node"
+    version: 26.1.1
+    repo: DefinitelyTyped/DefinitelyTyped
+    source: readme
+    syncedAt: 2026-07-18
+    generator: skilld
+  nitropack-skilld:
+    packageName: nitropack
+    version: 2.13.4
+    repo: nitrojs/nitro
+    source: "https://github.com/nitrojs/nitro/tree/v2.13.4/docs"
+    syncedAt: 2026-07-18
+    generator: skilld
