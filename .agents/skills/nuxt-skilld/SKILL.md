@@ -23,8 +23,6 @@ Use `skilld search "query" -p nuxt` instead of grepping `.skilld/` directories. 
 
 This section documents version-specific API changes in Nuxt v4.4.8 — prioritizing recent major/minor releases where breaking changes and renamed APIs are most likely to differ from pre-trained knowledge.
 
-## API Changes
-
 - BREAKING: `statusCode` → `status`, `statusMessage` → `statusText` — Renamed in v4.3 for Web API naming conventions and Nitro v3 alignment [source](./.skilld/releases/v4.3.0.md#deprecations)
 
 - NEW: `createUseFetch(options | function)` — Factory function to create custom instances of `useFetch` with default options, new in v4.4 [source](./.skilld/releases/v4.4.0.md#createusefetch-and-createuseasyncdata)

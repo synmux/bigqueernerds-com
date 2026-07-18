@@ -1,30 +1,31 @@
+---
 skills:
   vue-skilld:
     packageName: vue
     version: 3.5.40
     repo: vuejs/core
-    source: "https://github.com/vuejs/core/tree/v3.5.40/docs"
+    source: https://github.com/vuejs/core/tree/v3.5.40/docs
     syncedAt: 2026-07-18
     generator: skilld
   nuxt-skilld:
     packageName: nuxt
     version: 4.4.8
     repo: nuxt/nuxt
-    source: "https://nuxt.com/llms.txt"
+    source: https://nuxt.com/llms.txt
     syncedAt: 2026-07-18
     generator: skilld
   vue-router-skilld:
     packageName: vue-router
     version: 5.2.0
     repo: vuejs/router
-    source: "https://github.com/vuejs/router/tree/v5.2.0/docs"
+    source: https://github.com/vuejs/router/tree/v5.2.0/docs
     syncedAt: 2026-07-18
     generator: skilld
   nitro-cloudflare-dev-skilld:
     packageName: nitro-cloudflare-dev
     version: 0.2.2
     repo: pi0/nitro-cloudflare-dev
-    source: "ungh://pi0/nitro-cloudflare-dev"
+    source: ungh://pi0/nitro-cloudflare-dev
     syncedAt: 2026-07-18
     generator: skilld
   types-node-skilld:
@@ -38,20 +39,20 @@ skills:
     packageName: nitropack
     version: 2.13.4
     repo: nitrojs/nitro
-    source: "https://github.com/nitrojs/nitro/tree/v2.13.4/docs"
+    source: https://github.com/nitrojs/nitro/tree/v2.13.4/docs
     syncedAt: 2026-07-18
     generator: skilld
   nuxt-fonts-skilld:
     packageName: "@nuxt/fonts"
     version: 0.14.0
     repo: nuxt/fonts
-    source: "https://fonts.nuxt.com/llms.txt"
+    source: https://fonts.nuxt.com/llms.txt
     syncedAt: 2026-07-18
     generator: skilld
   nuxt-image-skilld:
     packageName: "@nuxt/image"
     version: 2.0.0
     repo: nuxt/image
-    source: "https://github.com/nuxt/image/tree/v2.0.0/docs"
+    source: https://github.com/nuxt/image/tree/v2.0.0/docs
     syncedAt: 2026-07-18
     generator: skilld
