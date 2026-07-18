@@ -21,47 +21,49 @@ Use `skilld search "query" -p nitro-cloudflare-dev` instead of grepping `.skilld
 
 ## API Changes
 
-This section documents version-specific API changes for nitro-cloudflare-dev v0.2.2 — prioritising recent major/minor releases.
+This section documents version-specific API changes that affect usage of nitro-cloudflare-dev in v0.2.2.
 
-## Breaking Changes and New Features
+- BREAKING: `shamefullyPatchR2Buckets` option removed in v0.2.0 — this configuration option was removed and will cause configuration errors if still present in `cloudflareDev` config; remove it from `nitro.config.ts` or `nuxt.config.ts` [source](./.skilld/releases/v0.2.0.md)
 
-- BREAKING: `shamefullyPatchR2Buckets` configuration option removed in v0.2.0 — if your code uses this option in `cloudflareDev` or `nitro.cloudflareDev` config, it will be silently ignored and R2 buckets will no longer be patched in development [source](./.skilld/releases/v0.2.0.md#refactors)
+- NEW: `environment` config option — added in v0.1.5, allows specifying a particular Cloudflare environment for multi-environment configurations via `cloudflareDev: { environment: 'production' }` [source](./.skilld/releases/v0.1.5.md)
 
-- NEW: Configuration file format support — v0.2.2 now recognises `wrangler.json` and `wrangler.jsonc` in addition to the previously supported `wrangler.toml`, automatically detecting the closest configuration file in the directory tree [source](./.skilld/releases/v0.2.2.md#enhancements)
+- CHANGED: Configuration file format support — v0.2.2 extends support to include `wrangler.json` and `wrangler.jsonc` in addition to `wrangler.toml`; the module automatically locates the closest configuration file [source](./.skilld/releases/v0.2.2.md)
 
-**Also changed:** `environment` configuration option · `configPath` and `silent` options
+- CHANGED: Environment variable handling — v0.2.1 fixed behaviour to only set environment when explicitly defined, preventing silent environment mismatches in multi-environment setups [source](./.skilld/releases/v0.2.1.md)
+
+**Also changed:** `configPath` config option · `persistDir` config option · `silent` config option
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Register the module differently for Nuxt vs Nitro — Nuxt uses string-based module registration in `defineNuxtConfig()` whilst Nitro requires an explicit import and function call in `modules` array. [source](./.skilld/pkg/README.md:L16:L32)
+- Install `wrangler` as a sibling dev dependency — the module requires it to access the Cloudflare runtime. Without it, `getPlatformProxy` will fail and dev mode will not initialise bindings [source](./.skilld/pkg/README.md#usage)
 
-- Support both `wrangler.toml` and `wrangler.json`/`wrangler.jsonc` configuration files — the module automatically detects and uses the closest wrangler config file in the directory hierarchy without explicit configuration. [source](./.skilld/releases/v0.2.2.md:L13)
+- Use `wrangler.json` or `wrangler.jsonc` instead of `.toml` — JSON/JSONC formats provide better IDE schema support and type hints, while the module auto-discovers all three formats equally [source](./.skilld/releases/v0.2.2.md)
 
-- Configure the `environment` option only when targeting specific multi-environment setups — passing an undefined environment can cause issues; v0.2.1 fixes this by checking if environment is actually defined before setting it. [source](./.skilld/releases/v0.2.1.md:L13)
+- Rely on auto-discovery for `wrangler.toml` location — the module searches from `srcDir` upward and finds the closest config file. Only set `configPath` if your setup deviates from the standard project layout [source](./pkg-nitro-cloudflare-dev/README.md#available-options)
 
-- Access Cloudflare bindings through the h3 event context using three complementary patterns: `event.cf` for metadata, `event.cloudflare.env` for bindings, and `event.cloudflare.context` for the platform context. [source](./.skilld/pkg/dist/index.d.ts:L4:L13)
+- Define `environment` only when using multi-environment setups — leave it undefined for single-environment projects. The v0.2.1 fix ensures undefined is handled safely without binding errors [source](./.skilld/releases/v0.2.1.md)
 
-- Customise the persistence directory away from the default `.wrangler/state/v3` only if you need to isolate state across multiple development environments — the default location is automatically added to `.gitignore` on first use. [source](./.skilld/pkg/README.md:L34:L47)
+- Do not store persistent state in `.wrangler/state/v3` — this directory is ephemeral and intended for miniflare's internal runtime state only. Use a separate database or KV namespace for application data [source](./pkg-nitro-cloudflare-dev/README.md#configuration-and-persistence)
 
-- Pass `configPath` when your wrangler configuration is in a non-standard location or multiple projects share a monorepo — this allows the module to find the correct configuration without walking up the directory tree. [source](./.skilld/pkg/README.md:L40:L47)
+- Never manually add `.wrangler/state/v3` to `.gitignore` — the module detects whether it exists and adds it automatically on first load [source](./pkg-nitro-cloudflare-dev/README.md#configuration-and-persistence)
 
-- Use `silent: true` in development configurations where the module banner clutters output (CI logs, script execution) — the module logs initialisation time when not silent, which is useful for performance tracking during local development. [source](./.skilld/pkg/README.md:L40:L47)
+- Set `silent: true` in CI/CD environments — suppresses the colourized banner output (which may cause terminal escapes to appear in logs) and reduces noise in build logs. Leave unset for local development [source](./pkg-nitro-cloudflare-dev/README.md#available-options)
 
-- Avoid using R2 bucket patching workarounds since `shamefullyPatchR2Buckets` was removed in v0.2.0 — the module now provides clean access to R2 through standard Cloudflare bindings without requiring shims. [source](./.skilld/releases/v0.2.0.md:L13)
+- Access Cloudflare bindings via `event.cloudflare.env` and `event.cloudflare.context` in server routes — both are injected automatically by the module as extensions to H3 EventContext [source](./.skilld/pkg/dist/index.d.ts:L4:14)
 
-- Access the request metadata via `event.cloudflare.request` which includes the decorated `cf` property — this gives you per-request Cloudflare metadata (client country, threat score, cache status) in a single object. [source](./.skilld/pkg/dist/index.d.ts:L6:L9)
+- The module runs only in dev mode and has zero overhead in production — guard Cloudflare-specific code with `process.dev` checks when needed, but the module itself skips all initialisation in production builds [source](./pkg-nitro-cloudflare-dev/README.md)
 
-- Configure Nuxt-specific options through the `nitro.cloudflareDev` property in `nuxt.config.ts` rather than top-level `cloudflareDev` — this namespace prevents conflicts with other frameworks and clearly signals Nitro-specific configuration. [source](./.skilld/pkg/README.md:L40)
+- Migrate away from `shamefullyPatchR2Buckets` if upgrading from v0.1.x — this option was removed in v0.2.0. R2 bucket access is now handled natively by `getPlatformProxy` without patching [source](./.skilld/releases/v0.2.0.md)
 
-- Ensure wrangler is installed as a dev dependency alongside nitro-cloudflare-dev — the module depends on `getPlatformProxy` from wrangler's SDK, which is not included in nitro-cloudflare-dev itself. [source](./.skilld/pkg/README.md:L10:L14)
+- Enable eager proxy initialisation for faster dev server startup — the module attempts to initialise the `getPlatformProxy` object before your first request arrives. Errors during this step surface immediately, not lazily [source](./.skilld/releases/v0.1.1.md)
 
-- Initialize bindings eagerly on server startup rather than lazily — the module performs eager proxy initialisation for better dev server startup performance and to surface configuration errors earlier. [source](./.skilld/releases/CHANGELOG.md:L149)
+- Bind event context in middleware if passing context between handlers — v0.1.6 fixed context binding for complex handler chains. Ensure the event object is passed directly rather than destructuring context [source](./.skilld/releases/v0.1.6.md)
 
-- Bind the plugin context correctly to preserve `this` scope in plugin methods — v0.1.6 fixed context binding issues that could cause runtime errors when calling methods from plugin hooks. [source](./.skilld/releases/CHANGELOG.md:L65)
+- Use relative paths for custom `configPath` — paths are resolved relative to the project root (nitro's `rootDir`), not the current working directory. This ensures your config is found regardless of where the dev server is launched [source](./pkg-nitro-cloudflare-dev/README.md#available-options)
 
-- Verify wrangler configuration is valid and readable when the module starts — the module gracefully handles missing wrangler.toml files and logs helpful errors rather than crashing silently. [source](./.skilld/releases/CHANGELOG.md:L273:L275)
+- Expect the module to become optional in future Nitro releases — the core framework plans native `miniflare` integration as a dev preset. Code written with this module will continue to work when you upgrade [source](./pkg-nitro-cloudflare-dev/README.md)
 
 <!-- /skilld:best-practices -->

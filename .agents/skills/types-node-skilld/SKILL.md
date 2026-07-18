@@ -1,9 +1,9 @@
 ---
 name: types-node-skilld
-description: 'TypeScript definitions for node. ALWAYS use when writing code importing "@types/node". Consult for debugging, best practices, or modifying @types/node, types/node, types node, DefinitelyTyped.'
+description: 'ALWAYS use when writing code importing "@types/node". Consult for debugging, best practices, or modifying @types/node, types/node, types node, DefinitelyTyped.'
 metadata:
   version: 26.1.1
-  generated_by: cached
+  generated_by: Anthropic · Haiku 4.5
   generated_at: 2026-07-18
 ---
 
@@ -11,7 +11,7 @@ metadata:
 
 **Tags:** ts2.5: 12.12.6, ts2.6: 12.12.6, ts2.0: 12.12.6
 
-**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
+**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
 ## Search
 
@@ -19,77 +19,57 @@ Use `skilld search "query" -p @types/node` instead of grepping `.skilld/` direct
 
 <!-- skilld:api-changes -->
 
+## @types/node v26.1.1 API Changes
+
+This section documents version-specific API changes for @types/node v26.1.1 — focusing on recent major/minor releases and migrations.
+
 ## API Changes
 
-This section documents version-specific API changes in @types/node v26.1.1.
+- BREAKING: TypeScript < 5.0 support dropped for FFI module — `ffi.d.ts` uses `const` type parameters (TypeScript 5.0+ syntax), causing parse-time errors with TypeScript < 5.0 even with `skipLibCheck: true` [source](./.skilld/discussions/discussion-75225.md)
 
-### New APIs in v26.1.0
+- NEW: FFI module (`node:ffi`) for native function interface — enables loading dynamic libraries and calling native functions via `dlopen()`, `dlsym()`, `dlclose()`, with memory helper functions (`readUTF8String()`, `readArrayOf8BitIntegers()`, etc.) and a `suffix` constant for platform-specific shared library extensions [source](./.skilld/pkg/ffi.d.ts:L1-100)
 
-- NEW: `node:ffi` module — new Foreign Function Interface support with `dlopen()`, `dlsym()`, and `dlclose()` for dynamic library loading [source](./.skilld/pkg/ffi.d.ts:L89)
+- NEW: `crypto.randomUUIDv7()` — generates RFC 9562 version 7 UUIDs (available since Node v24.16.0); previously only `randomUUID()` (v4) was supported [source](./.skilld/pkg/crypto.d.ts:L3019)
 
-- NEW: `http.IncomingMessage.signal` — AbortSignal property for cancelling downstream work (fetch, database queries) when client disconnects [source](./.skilld/pkg/http.d.ts:L1350)
+- NEW: Test runner context query — `test.getTestContext()` function returns the active test or suite context, allowing access to test metadata from outside the callback [source](./.skilld/pkg/test.d.ts:L973)
 
-- NEW: `node:sqlite` database methods — `Database.serialize()` and `Database.deserialize()` for snapshot operations and database cloning [source](./.skilld/pkg/sqlite.d.ts:L26)
+- NEW: Test randomization — `randomize` boolean option on test runner options to randomize execution order of tests and test files (deterministic via `seed` option) [source](./.skilld/pkg/test.d.ts:L286)
 
-- NEW: `diagnostics_channel.Channel.store()` and `.scope()` — context-local storage for async tracing with automatic cleanup [source](./.skilld/pkg/diagnostics_channel.d.ts:L26)
+- NEW: Suite introspection — `SuiteContext.passed` property (boolean), `SuiteContext.attempt` property (zero-based attempt number), and `SuiteContext.diagnostic()` method for suite diagnostics [source](./.skilld/pkg/test.d.ts:L1384-1403)
 
-- NEW: `stream/iter` iterator improvements — additional async iterator utilities for stream processing [source](./.skilld/pkg/stream/iter.d.ts)
+- NEW: V8 synchronous heap profiling — `v8.startHeapProfiling()` with `SyncHeapProfileHandle` interface containing `stop()` and `cancel()` methods for collecting synchronous heap profiles [source](./.skilld/pkg/v8.d.ts:L26)
 
-- NEW: `node:quic` stream management — stream destruction and state tracking for QUIC protocol endpoints [source](./.skilld/pkg/quic.d.ts:L26)
-
-- NEW: `test` module enhancements — additional test runner APIs and context support in v26.1.0 [source](./.skilld/pkg/test.d.ts)
-
-- NEW: `v8` profiling — `SyncHeapProfileHandle` interface for synchronous heap profiling operations [source](./.skilld/pkg/v8.d.ts)
-
-- NEW: `crypto` module HKDF API — new HKDF (HMAC-based Key Derivation Function) support in crypto operations [source](./.skilld/pkg/crypto.d.ts:L26)
-
-### Deprecated APIs (Still Supported)
-
-- DEPRECATED: `Buffer.new()` — since v10.0.0, use `Buffer.from()` instead [source](./.skilld/pkg/buffer.buffer.d.ts:L45)
-
-- DEPRECATED: `Buffer.allocUnsafe()` — since v10.0.0, use `Buffer.alloc()` with secure initialization [source](./.skilld/pkg/buffer.buffer.d.ts:L50)
-
-- DEPRECATED: `Buffer.slice()` — use `Buffer.subarray()` instead for consistent array-like semantics [source](./.skilld/pkg/buffer.buffer.d.ts:L100)
-
-- DEPRECATED: `cluster.isMaster` — since v16.0.0, use `cluster.isPrimary` instead [source](./.skilld/pkg/cluster.d.ts:L45)
-
-- DEPRECATED: `cluster.setupMaster()` — since v16.0.0, use `cluster.setupPrimary()` instead [source](./.skilld/pkg/cluster.d.ts:L50)
-
-- DEPRECATED: `child_process.ExecFileOptions` — replaced with `ExecException` type union for error handling [source](./.skilld/pkg/child_process.d.ts:L120)
-
-- DEPRECATED: `crypto.Encoding` types — will be removed, use `BufferEncoding` instead for consistent type checking [source](./.skilld/pkg/crypto.d.ts:L250)
-
-**Also changed:** `Buffer.from()` encodings · `crypto.setFips()`/`getFips()` migration · `AsyncLocalStorage` context restoration · Stream `.iterator()` options · QUIC transport parameter validation
+**Also changed:** `ReadableStreamReadDoneResult` type compatibility with `lib.dom.d.ts` (v25 migration) · `crypto.randomUUIDV7Options` interface · FFI memory API (`readBigInt64LE`, `readBigUInt64LE`, `readPointer`, `writePointer`, etc.)
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Prefer `AsyncLocalStorage` over `AsyncResource` for managing execution context in async flows — the former is performant and memory-efficient, while the latter is for embedders needing fine-grained lifecycle hooks [source](./.skilld/discussions/discussion-74956.md)
+- Use `node:` prefix when importing Node.js modules to ensure ESM compatibility and clarity — both `import fs from 'node:fs'` and `import { open } from 'node:fs/promises'` are standard patterns [source](./.skilld/pkg/fs/promises.d.ts#L201)
 
-- Configure TypeScript's `lib` in tsconfig.json to include ES built-in features (e.g., `"es2025.iterator"` for iterator helpers, `"ESNext"` for `Array.fromAsync`) — @types/node does not ship built-in definitions; TypeScript's compiler libs provide them [source](./.skilld/discussions/discussion-74504.md)
+- Prefer fs/promises over callback-based fs APIs for all file I/O operations — the promises-based module provides better error handling, cleaner syntax, and integrates well with async/await patterns [source](./.skilld/pkg/fs/promises.d.ts#L1188)
 
-- Use `fs/promises` module for file operations in async contexts rather than callback-based APIs — it integrates cleanly with async/await and avoids callback nesting [source](./.skilld/pkg/index.d.ts:L38)
+- Use `AbortSignal` with async operations to enable cancellation without requiring manual cleanup — pass an `AbortSignal` to functions like `readFile()` and `watch()` to support timeouts and user-initiated cancellations [source](./.skilld/pkg/fs/promises.d.ts#L1198:L1210)
 
-- Prefer `execFile()` over `exec()` in child_process — execFile is more secure by default, does not spawn a shell, and prevents command injection vulnerabilities [source](./.skilld/pkg/index.d.ts:L58)
+- Prefer WHATWG URL API (the `URL` class) over deprecated `url.parse()` — the modern API is standard across JavaScript environments and avoids security issues related to host name spoofing and incorrect credential handling [source](./.skilld/pkg/url.d.ts#L68:L88)
 
-- Set `cleanup: true` in `stream/promises` `finished()` when you need to remove dangling event listeners automatically; without it, error/end/finish/close listeners persist after the promise resolves [source](./.skilld/pkg/index.d.ts:L98)
+- Use `stream/promises` for promise-based stream pipelines and `stream/iter` for modern iterator-based consumption — these provide composable, chainable APIs for stream transformation without callback nesting [source](./.skilld/pkg/index.d.ts#L95:L98)
 
-- Type child_process encoding explicitly using `ExecFileOptionsWithStringEncoding` or `ExecFileOptionsWithBufferEncoding` — TypeScript narrows stdout/stderr to string or Buffer respectively, preventing type mismatches at runtime [source](./.skilld/pkg/index.d.ts:L58)
+- Use `dns/promises` instead of callback-based DNS operations — enables natural async/await syntax and better error propagation in DNS-heavy applications [source](./.skilld/pkg/dns/promises.d.ts#L417)
 
-- Use `Error.captureStackTrace(err, Function)` to hide implementation frames from stack traces — the second parameter removes frames at and above that function, making stack traces more readable for library errors [source](./.skilld/pkg/index.d.ts:L1)
+- Set `chunkSize` explicitly in file read/write operations to optimise performance for your use case — the default (131072 bytes) suits most scenarios, but adjust based on your streaming characteristics [source](./.skilld/pkg/fs/promises.d.ts#L109,L136)
 
-- Pass `AbortController` signal into `stream/promises` `pipeline()` to cancel processing gracefully — when aborted, the underlying pipeline is destroyed with an AbortError [source](./.skilld/pkg/index.d.ts:L98)
+- Use `EventEmitter.once()` instead of `.on()` when listening for single events — avoids manual listener cleanup and reduces memory overhead when handling one-time events [source](./.skilld/pkg/events.d.ts#L236:L256)
 
-- Enable `captureRejections` on EventEmitter subclasses to handle promise rejections emitted during event dispatch — without it, unhandled rejections can crash the process [source](./.skilld/pkg/index.d.ts:L68)
+- Use `import.meta.url` with `new URL()` to construct file paths in ESM code — provides reliable path resolution across different execution contexts without relying on `__dirname` or `__filename` [source](./.skilld/pkg/fs/promises.d.ts#L746,L1276)
 
-- Use typed event maps in EventEmitter subclasses for type-safe event names and listener signatures — extend `EventMap<T>` to provide intellisense and compile-time validation [source](./.skilld/pkg/index.d.ts:L68)
+- Recognise that @types/node only supports the last two years of TypeScript versions — do not expect compatibility with TypeScript versions older than ~2 years; upgrade TypeScript or pin @types/node to an older version if this is a constraint [source](./.skilld/discussions/discussion-75225.md)
 
-- Avoid calling methods directly on objects returned by `executionAsyncResource()` — they are Node.js internal handles with undocumented APIs that may crash your application [source](./.skilld/pkg/index.d.ts:L56)
+- Import ES builtin definitions from TypeScript's lib (e.g., `es2025.iterator` or `esnext.iterator` in tsconfig), not from @types/node — @types/node provides Node.js-specific APIs only; async iterator helpers and other ES features come from TypeScript's standard library [source](./.skilld/discussions/discussion-74956.md)
 
-- Use promise-based APIs from `dns/promises` and `readline/promises` over callback versions when building modern async code — they integrate natively with async/await patterns [source](./.skilld/pkg/index.d.ts:L66)
+- Use `Abortable` mixin when creating custom resource types that support cancellation — this interface integrates with Node.js conventions for signal-based cancellation and works with existing timeout patterns [source](./.skilld/pkg/fs/promises.d.ts#L70:L77)
 
-- Mark callback-based APIs with `@deprecated` annotations in your TypeScript definitions if migrating a library to async patterns — this signals users to adopt promise-based alternatives [source](./.skilld/pkg/index.d.ts:L1)
+- Use `stream/iter` with `pipeTo()` for composition over the callback-based `.pipe()` — provides backpressure handling, error propagation, and chainable transformations without callback pyramid nesting [source](./.skilld/pkg/fs/promises.d.ts#L568:L569)
 
 <!-- /skilld:best-practices -->

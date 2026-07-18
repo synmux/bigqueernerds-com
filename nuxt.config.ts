@@ -13,7 +13,16 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ["nitro-cloudflare-dev", "@nuxt/fonts", "@nuxt/image"],
+  modules: [
+    "nitro-cloudflare-dev",
+    "@nuxt/fonts",
+    "@nuxt/image",
+    "@nuxt/a11y",
+    "@nuxt/eslint",
+    "@nuxt/hints",
+    "@nuxt/icon",
+    "@nuxt/scripts",
+  ],
 
   fonts: {
     families: [

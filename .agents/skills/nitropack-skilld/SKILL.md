@@ -21,75 +21,87 @@ Use `skilld search "query" -p nitropack` instead of grepping `.skilld/` director
 
 ## API Changes
 
-This section documents version-specific API changes in Nitro v2.13.4 and recent releases.
+This section documents version-specific API changes — prioritize recent major/minor releases.
 
-### Import Path Deprecations
+## DEPRECATED Imports
 
-- DEPRECATED: `defineNitroConfig` from main export — v2.x redirects to `nitropack/config` module. Import from `nitropack/config` directly instead [source](./.skilld/pkg/./dist/core/index.d.ts:L67-L68)
+- DEPRECATED: `defineNitroConfig()` — v2 moved to `nitropack/config`, avoid importing from main entry [source](./.skilld/pkg/dist/core/index.d.ts:L66:L68)
 
-- DEPRECATED: `NitroRuntimeConfig` interface from main export — moved to `nitropack/types`. Import from `nitropack/types` instead; duplicate exports remain for v2 compatibility [source](./.skilld/pkg/./dist/core/index.d.ts:L70-L82)
+- DEPRECATED: `NitroRuntimeConfig` interface — import from `nitropack/types` instead, main export is legacy [source](./.skilld/pkg/dist/core/index.d.ts:L70:L82)
 
-- DEPRECATED: `NitroRuntimeHooks` interface from main export — moved to `nitropack/types`. Import from `nitropack/types` instead [source](./.skilld/pkg/./dist/core/index.d.ts:L83-L92)
+- DEPRECATED: `NitroRuntimeHooks` interface — import from `nitropack/types` instead, main export is legacy [source](./.skilld/pkg/dist/core/index.d.ts:L83:L92)
 
-- DEPRECATED: `NitroRuntimeConfigApp` interface from main export — moved to `nitropack/types`. Import from `nitropack/types` instead [source](./.skilld/pkg/./dist/core/index.d.ts:L93-L97)
+- DEPRECATED: `NitroRuntimeConfigApp` interface — import from `nitropack/types` instead, main export is legacy [source](./.skilld/pkg/dist/core/index.d.ts:L94:L98)
 
-### Configuration & Runtime
+## NEW Experimental Task APIs
 
-- NEW: `ssrRoutes` config option — specify custom routes to server-side render independently of page detection (v2.12.0 feature) [source](./.skilld/releases/v2.12.0.md:L17)
+- NEW: `runTask(taskEvent, opts)` (experimental) — run tasks programmatically with name and payload; throws 404 if task missing, 501 if no handler; requires `experimental.tasks: true` in config [source](./.skilld/docs/1.docs/50.tasks.md:L150:L164)
 
-- NEW: `workspaceDir` config option — configure workspace directory for multi-package setups (v2.11.12) [source](./.skilld/releases/v2.11.12.md:L24)
+- NEW: `listTasks(opts)` (experimental) — list all available tasks with metadata; requires `experimental.tasks: true` in config [source](./.skilld/pkg/dist/core/index.d.ts:L20:L25)
 
-- NEW: Dev presets — framework-specific presets for development servers. Cloudflare dev preset (#3470, #3479) adds zero-config Cloudflare environment in dev mode (v2.12.0) [source](./.skilld/releases/v2.12.0.md:L13-L14)
+- NEW: `defineTask()` — task definition helper with optional `meta` (name, description) and required `run(event)` function [source](./.skilld/docs/1.docs/50.tasks.md:L27:L60)
 
-### Deployment & Observability
+## NEW Task Configuration
 
-- NEW: Vercel observability route hints — automatic o11y integration for observability platforms on Vercel deployments (v2.12.0, #3474) [source](./.skilld/releases/v2.12.0.md:L15)
+- NEW: `scheduledTasks` config — map cron expressions to task names for automatic execution; tasks receive `payload.scheduledTime` with current timestamp; supported by dev, node_server, bun, deno_server, cloudflare_module, vercel presets [source](./.skilld/docs/1.docs/50.tasks.md:L100:L129)
 
-- BREAKING: Vercel `__nitro` function renamed to `__fallback` — Vercel preset internal function name changed (v2.12.5, #3502) [source](./.skilld/releases/v2.12.5.md:L20)
+- NEW: `experimental.tasks` config flag — must be `true` to enable task APIs; tasks are scanned from `tasks/` directory with nested naming via `:` delimiter [source](./.skilld/docs/1.docs/50.tasks.md:L9:L25)
 
-- DEPRECATED: `edgio` preset — deployment preset discontinued and no longer supported (v2.12.5) [source](./.skilld/releases/v2.12.5.md:L27)
+- NEW: Task file structure — define tasks in `tasks/[name].ts` with nested directories joined by `:`, e.g. `tasks/db/migrate.ts` → task name `db:migrate` [source](./.skilld/docs/1.docs/50.tasks.md:L27:L31)
 
-### Experimental APIs
+## NEW Configuration Options
 
-- EXPERIMENTAL: `runTask(taskEvent, opts?)` — execute server tasks at runtime. Signature and behavior subject to change [source](./.skilld/pkg/./dist/core/index.d.ts:L17-L19)
+- NEW: `ssrRoutes` config option — added in v2.12.0 for server-side rendering routes configuration [source](./.skilld/releases/v2.12.0.md:L17)
 
-- EXPERIMENTAL: `listTasks(opts?)` → `Record<string, { meta: { description } }>` — list available server tasks. API unstable in v2.x [source](./.skilld/pkg/./dist/core/index.d.ts:L21-L25)
+## NEW Provider Features
 
-- EXPERIMENTAL: Cloudflare durable object `publish` export — new durable object messaging API (v2.11.10, #3305) [source](./.skilld/releases/v2.11.10.md:L19)
+- NEW: Vercel observability route hints — route-level observability tracking in v2.12.0; configurable via `nitro.config.ts` [source](./.skilld/releases/v2.12.0.md:L15:L15)
 
-**Also changed:** Version metadata enhancement · Bun idle timeout env var support (v2.13.0) · Static asset compression concurrency limits · Firebase gen 1 SDK import fixes · ISR request handling improvements · Gzip encoding for `.gz` static files (v2.13.0) · Vary header for compressed assets · Route rules security hardening for proxy/redirect (v2.13.4)
+- NEW: Cloudflare dev preset — development preset for Cloudflare Workers added in v2.12.0 with full docs support [source](./.skilld/releases/v2.12.0.md:L13:L14)
+
+- NEW: Vercel skew protection support — added in v2.13.0 for deployment skew tolerance [source](./.skilld/releases/v2.13.0.md:L13)
+
+## NEW Runtime Features
+
+- NEW: `NITRO_BUN_IDLE_TIMEOUT` environment variable — control Bun runtime idle timeout; added in v2.13.0 [source](./.skilld/releases/v2.13.0.md:L14)
+
+## Preset Deprecations
+
+- DEPRECATED: `edgio` preset — no longer recommended; migrate to alternative provider [source](./.skilld/releases/v2.12.5.md:L27)
+
+**Also changed:** `AWS Amplify` node.js default to 20.x · Version meta endpoint for build info · Bun runtime support in Vercel preset
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Use `swr: true` in route rules or cached handlers for stale-while-revalidate caching — serves cached responses immediately while revalidating in the background, improving perceived latency without blocking the user. Default is `swr: true` with `maxAge: 1`. Set `swr: false` only when you need to block and wait for fresh values. [source](./.skilld/docs/1.docs/7.cache.md#swl-behavior)
+- Pass `event` as the first argument to `defineCachedFunction` in edge workers — keeps the instance alive during cache updates without blocking the response to clients [source](./.skilld/docs/1.docs/7.cache.md:L99:122)
 
-- Combine `cache.varies` with explicit `headers: { Vary: '...' }` for proper CDN and browser caching — `varies` only creates separate server-side cache entries, it does not emit HTTP `Vary` headers. Use both together to signal to intermediary caches that responses differ by those headers. [source](./.skilld/discussions/discussion-3529.md)
+- Use generic type parameters with `useStorage()` to type-safely access storage values — apply generics either to `useStorage()` or to individual `getItem()` calls [source](./.skilld/docs/1.docs/8.storage.md:L27:29)
 
-- Use route-scoped middleware via `handlers` config with `middleware: true` instead of global middleware for performance-sensitive routes — file-based middleware in `middleware/` runs on every request; the `handlers` config with a specific `route` pattern runs only when matched, avoiding unnecessary overhead. [source](./.skilld/docs/1.docs/5.routing.md#route-scoped-middleware)
+- Define OpenAPI metadata at build-time with `defineRouteMeta` macro — zero runtime overhead since metadata is statically extracted during the build process [source](./.skilld/docs/1.docs/50.openapi.md:L38:62)
 
-- Pass `event` as the first argument to `defineCachedFunction` on edge workers — edge worker instances are destroyed after each request; passing the event lets Nitro use `event.waitUntil` to keep the instance alive while the cache refreshes in the background, ensuring the response is sent immediately. [source](./.skilld/docs/1.docs/7.cache.md#edge-workers-instructions)
+- Use `$development` and `$production` keys in `nitro.config.ts` to apply environment-specific configuration overrides — cleaner than separate config files and works with c12 conventions [source](./.skilld/docs/1.docs/50.configuration.md:L42:62)
 
-- Prefer `definePlugin` with lifecycle hooks over multiple global middleware for cross-cutting concerns — plugins execute once on startup and register hooks that fire throughout the request lifecycle (request, response, error, close); this is more efficient than middleware that runs on every request. [source](./.skilld/docs/1.docs/50.plugins.md#nitro-runtime-hooks)
+- Leverage route rule merging with pattern specificity — least-specific patterns match first, more-specific rules override them, use `false` to explicitly disable inherited rules [source](./.skilld/docs/1.docs/5.routing.md:L460:477)
 
-- Prefix middleware files with numbers to enforce explicit execution order — file names are sorted as strings, so `10.auth.ts` sorts before `2.logger.ts`. Use zero-padding (e.g., `01`, `02`, `10`) to avoid surprises. [source](./.skilld/docs/1.docs/5.routing.md#execution-order)
+- Pass an `upgrade` hook to `defineWebSocketHandler` to authenticate connections and attach context data before the connection opens [source](./.skilld/docs/1.docs/50.websocket.md:L78:110)
 
-- Route rules are merged from least-specific to most-specific; use `false` to explicitly disable inherited rules — when patterns overlap, more specific rules take precedence. Set `cache: false` or `basicAuth: false` to override a parent pattern. [source](./.skilld/docs/1.docs/5.routing.md#rule-merging-and-overrides)
+- Use `devStorage` to override storage drivers only during development and prerendering — allows local filesystem or in-memory storage while production uses managed services like Redis [source](./.skilld/docs/1.docs/8.storage.md:L104:129)
 
-- Use `devStorage` to provide development-only storage drivers while keeping production config intact — this allows you to use a local filesystem driver in development while your production config points to Redis or another remote service, without conditional branching in your code. [source](./.skilld/docs/1.docs/8.storage.md#development-storage)
+- Map nested runtime config keys to environment variables with `UPPER_SNAKE_CASE` prefix — Nitro automatically converts nested objects to env vars using the `NITRO_` prefix [source](./.skilld/docs/1.docs/50.configuration.md:L145:159)
 
-- Server entry (`server.ts`) runs AFTER route matching fails, not before — it is registered as a catch-all (`/**`) route that matches only when specific routes don't. Use server entry for renderer fallback or catch-all logic, not authentication (use route rules or middleware instead). [source](./.skilld/docs/1.docs/6.server-entry.md#request-lifecycle)
+- Organize related routes without affecting file-based routing using route groups wrapped in parentheses — useful for separating `/api` (admin) and `/api` (public) handlers in the same directory [source](./.skilld/docs/1.docs/5.routing.md:L59:75)
 
-- Apply middleware with conditional logic on URL path to scope global middleware instead of creating multiple files — since global middleware runs on every request, check the URL inside the middleware function (e.g., `event.url.pathname.startsWith('/api/')`) rather than scattering logic across files. This keeps scope rules centralized. [source](./.skilld/docs/1.docs/5.routing.md#request-filtering)
+- Set `lazy: true` in route configuration to defer handler imports until they're first requested — improves initial build and startup time especially for large projects [source](./.skilld/docs/1.docs/5.routing.md:L245:253)
 
-- Use hook `tags` array in error handlers to identify the error source — tags like `"request"`, `"response"`, `"cache"`, `"plugin"`, `"unhandledRejection"` help you differentiate where an error originated, enabling targeted error handling logic. [source](./.skilld/docs/1.docs/50.plugins.md#capturing-errors)
+- Define scheduled tasks with cron expressions in `scheduledTasks` config — Nitro automatically handles platform-specific scheduling (Cloudflare, Vercel) without manual setup [source](./.skilld/docs/1.docs/50.tasks.md:L100:129)
 
-- Enable `envExpansion: true` to substitute environment variable references in runtime config at runtime — set values like `url: "https://{{APP_DOMAIN}}/api"` and Nitro will expand `{{APP_DOMAIN}}` to the environment variable value, useful for multi-environment configs. [source](./.skilld/docs/1.docs/50.configuration.md#env-expansion)
+- Request deduplication happens automatically for concurrent cache misses on the same key — only one handler invocation runs, all waiting requests share the result [source](./.skilld/docs/1.docs/7.cache.md:L50:52)
 
-- Use `getKey()` function in `defineCachedFunction` to control cache key generation for complex arguments — without `getKey`, Nitro hashes the entire argument set; a custom `getKey` lets you exclude irrelevant parameters (e.g., return repo name when the function takes `(event, repo, timestamp)`). [source](./.skilld/docs/1.docs/7.cache.md#cache-keys)
+- Use `handlers` config with `middleware: true` and a specific `route` pattern for route-scoped middleware — avoids running global middleware on every request when you only need protection on `/api/**` [source](./.skilld/docs/1.docs/5.routing.md:L392:410)
 
-- Unregister hooks when you need to conditionally disable behavior in plugins — the `hook()` method returns an unregister function; call it later to remove the hook, useful for feature flags or environment-specific behavior without complex conditional logic inside hooks. [source](./.skilld/docs/1.docs/50.plugins.md#unregistering-hooks)
+- Prefix numbered middleware files with zero-padding (e.g., `01`, `02`) when you have more than ten middleware in the same directory — prevents string-based sorting issues where `10.ts` would run before `2.ts` [source](./.skilld/docs/1.docs/5.routing.md:L361:371)
 
 <!-- /skilld:best-practices -->

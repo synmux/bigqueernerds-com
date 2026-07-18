@@ -5,7 +5,7 @@
       <li>
         <strong
           >Queer and neurodivergent people are talent-rich and chronically
-          underpaid.</strong
+          underemployed.</strong
         >
         We intend to correct this, starting with ourselves.
       </li>

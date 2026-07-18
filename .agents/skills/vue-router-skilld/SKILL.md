@@ -21,73 +21,85 @@ Use `skilld search "query" -p vue-router` instead of grepping `.skilld/` directo
 
 ## API Changes
 
-This section documents version-specific API changes for Vue Router v5.x — prioritising recent major/minor releases.
+This section documents version-specific API changes for vue-router — prioritize recent major/minor releases.
 
-**NEW:** `defineBasicLoader()` — new in v5.0.0 (experimental), defines data loaders for automatic data fetching during navigation. Exports a composable with `data`, `isLoading`, `error`, and `reload` properties [source](./.skilld/docs/data-loaders/index.md)
+### Breaking Changes (Score 5: Silent Breakage)
 
-**NEW:** `defineColadaLoader()` — new in v5.0.0 (experimental), alternative loader using Pinia Colada. Import from `vue-router/experimental/pinia-colada` [source](./.skilld/docs/data-loaders/index.md)
+- BREAKING: Empty optional params silently omitted from resolved params since v5.0.7 — routes with optional parameters now exclude empty values from `route.params`, potentially breaking code checking for param existence [source](./.skilld/releases/v5.0.7.md:L24)
 
-**NEW:** `DataLoaderPlugin` — new in v5.0.0 (experimental), Vue plugin to enable data loaders across the application. Must be installed before the router [source](./.skilld/docs/data-loaders/index.md:L18)
+- BREAKING: Query params optional by default (experimental) since v5.0.0 — query parameters are now optional in type definitions by default, changing validation strictness [source](./.skilld/releases/v5.0.0.md:L14)
 
-**NEW:** `reroute()` — new in v5.0.0 (experimental), function to control navigation from within a data loader. Similar to returning a value in a navigation guard [source](./.skilld/docs/data-loaders/defining-loaders.md:L88:106)
+- BREAKING: `miss()` throws internally and returns `never` (experimental) since v5.0.3 — function behaviour changed fundamentally for data loaders error handling [source](./.skilld/releases/v5.0.3.md:L12)
 
-**NEW:** File-based routing via `VueRouter` plugin — merged from unplugin-vue-router in v5.0.0. Import from `vue-router/vite` for Vite or `vue-router/unplugin` for other bundlers. Automatically generates typed routes [source](./.skilld/docs/file-based-routing/index.md)
+### New APIs (Score 4)
 
-**NEW:** `definePage()` — new in v5.0.0, used in page components to define route metadata (name, params, etc.) when using file-based routing [source](./.skilld/docs/guide/migration/v4-to-v5.md#2-update-imports)
+- NEW: Raw param parsers support in v5.1.0 — allows defining param parsers with `ParamParser<T>` interface for custom route parameter parsing and validation [source](./.skilld/releases/v5.1.0.md:L13)
 
-**NEW:** Raw param parsers support — new in v5.1.0, allows string-based param parser definitions for convenience. Pass string names directly instead of objects [source](./.skilld/releases/v5.1.0.md:L18)
+- NEW: Allow overriding global Router type in v5.1.0 — use `TypesConfig` to customise the Router type returned by `useRouter()` for type narrowing [source](./.skilld/releases/v5.1.0.md:L15)
 
-**NEW:** `RouteMap` type — new in v5.0.0, typed route definition available in generated `route-map.d.ts` file for full type safety with file-based routing [source](./.skilld/releases/v5.0.7.md:L26)
+- NEW: `reroute()` function (experimental) in v5.0.3 — replaces deprecated `new NavigationResult()` for triggering route navigation within data loaders [source](./.skilld/releases/v5.0.3.md:L13)
 
-**DEPRECATED:** `next()` parameter in navigation guards — deprecated with warning in v5.0.3, should use Promise-based returns or data loaders instead. Warning: "next() is deprecated, use navigation guards with data loaders for data fetching" [source](./.skilld/issues/issue-2647.md)
+- NEW: Data loaders (experimental) in v5.0.0 — async data loading feature added as experimental API for route-level data fetching [source](./.skilld/releases/v5.0.0.md:L16)
 
-**BREAKING:** IIFE build no longer includes `@vue/devtools-api` — changed in v5.0.0 because devtools-api v8 does not expose an IIFE build. Only affects projects using the IIFE-only build without separate devtools module [source](./.skilld/releases/v5.0.0.md)
+### Deprecated / Renamed APIs (Score 3)
 
-**RENAMED:** Unplugin imports — v5.0.0 merged unplugin-vue-router into core with new import paths: `unplugin-vue-router/vite` → `vue-router/vite`; `unplugin-vue-router` → `vue-router/unplugin` [source](./.skilld/docs/guide/migration/v4-to-v5.md:L38:53)
+- DEPRECATED: `NavigationResult()` constructor in v5.0.3 — use `reroute()` instead for navigation within data loaders [source](./.skilld/releases/v5.0.3.md:L26)
 
-**RENAMED:** Data loader imports — v5.0.0 moved to experimental exports: `unplugin-vue-router/data-loaders/basic` → `vue-router/experimental`; `unplugin-vue-router/data-loaders/pinia-colada` → `vue-router/experimental/pinia-colada` [source](./.skilld/docs/guide/migration/v4-to-v5.md:L55:64)
+- DEPRECATED: `selectNavigationResult()` removed (experimental) in v5.0.3 — data loader helper removed, use alternative patterns [source](./.skilld/releases/v5.0.3.md:L14)
 
-**RENAMED:** Volar plugin imports — v5.0.0 uses new paths: `unplugin-vue-router/volar/sfc-typed-router` → `vue-router/volar/sfc-typed-router`; `unplugin-vue-router/volar/sfc-route-blocks` → `vue-router/volar/sfc-route-blocks` [source](./.skilld/docs/guide/migration/v4-to-v5.md:L100:104)
+- DEPRECATED: `next()` callback in navigation guards in v5.0.3 — guards now use return values instead of callback invocation [source](./.skilld/releases/v5.0.3.md:L23)
 
-**NEW:** Experimental query params optional by default — new in v5.0.0, query parameters are treated as optional without needing special syntax in typed routes [source](./.skilld/releases/v5.0.0.md:L14)
+### Enhanced/New Features (Score 3–4)
 
-**NEW:** Override useRouter() type — new in v5.1.0, allows customisation of the global Router type via `TypesConfig` for better type safety [source](./.skilld/releases/v5.1.0.md:L17)
+- NEW: String param parsers for convenience in v5.1.0 — pass string names to `defineParamParser()` for built-in parsers instead of inline functions [source](./.skilld/releases/v5.1.0.md:L18)
 
-**IMPROVED:** Param parser validation — v5.0.7 enhances `defineParamParser()` with `include`/`exclude` options for filtering which params a parser applies to [source](./.skilld/releases/v5.0.7.md:L15)
+- ENHANCED: `defineParamParser()` more intuitive in v5.0.7 — improved API signature for defining custom URL parameter serialisation [source](./.skilld/releases/v5.0.7.md:L12)
 
-**Also changed:** Query params filtering without route matching failure · Lazy loader syntax via `lazy` option · Data commit timing with `commit` option (immediate/after-load) · Server-side rendering optimisation with `server: false` · Automatic scroll behaviour improvements in v5.2.0 ignoring stale async results
+- NEW: Param parser include/exclude options in v5.0.7 — add `include` and `exclude` options to `defineParamParser()` for granular parser scope control [source](./.skilld/releases/v5.0.7.md:L15)
+
+- ENHANCED: Typed `definePage` params.path in v5.1.0 — params.path property now has strict typing to match route definitions [source](./.skilld/releases/v5.1.0.md:L11)
+
+- ENHANCED: Strict type for `definePage` param default in v5.1.0 — param default values are now type-checked against route parameter types [source](./.skilld/releases/v5.1.0.md:L12)
+
+- NEW: Runtime warning for invalid query param formats in v5.1.0 — warns at runtime when query parameters don't match declared formats [source](./.skilld/releases/v5.1.0.md:L16)
+
+- NEW: Override `useRouter()` return type with experimental types config in v5.1.0 — (experimental) use `TypesConfig` to replace Router type at IDE level [source](./.skilld/releases/v5.1.0.md:L17)
+
+**Also changed:** Support `_parent` in nested folders · Volar plugins · Route JSON schema · Runtime error on missing param parsers · Force array type raw param parsers · Deterministic param parser type order · Helpful diagnostics (v5.2.0) · Ignore stale async scrollBehavior results (v5.2.0) · Allow Pinia 4 (v5.2.0)
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
+## Vue Router 5.2.0 Best Practices
+
 ## Best Practices
 
-- Avoid the third `next` callback parameter in navigation guards — the newer return-based API is clearer and prevents accidental double-calls. Return `false` to cancel navigation, a route location to redirect, or `undefined`/`true` to proceed. [source](./.skilld/docs/guide/advanced/navigation-guards.md#optional-third-argument-next)
+- Always use dynamic imports for lazy-loaded route components — enables code splitting and only fetches the component when the route is visited, significantly reducing initial bundle size [source](./.skilld/docs/guide/advanced/lazy-loading.md#L1:L35)
 
-- Use `router.beforeResolve()` instead of `router.beforeEach()` for data fetching and permission checks — it runs after all in-component guards and async components are resolved, ensuring the user won't see incomplete pages. [source](./.skilld/docs/guide/advanced/navigation-guards.md#global-resolve-guards)
+- Watch specific route parameter changes with computed watchers instead of watching the entire `route` object — prevents unnecessary watchers firing and improves reactivity precision [source](./.skilld/docs/guide/advanced/composition-api.md#L35:L52)
 
-- Always use dynamic imports for route components to enable automatic code splitting — this is not just a performance optimisation but becomes essential as applications scale. Replace static imports with `() => import('./component.vue')` in route configurations. [source](./.skilld/docs/guide/advanced/lazy-loading.md#lazy-loading-routes)
+- Use `router.beforeResolve` instead of `beforeEach` for data fetching and permission checks — executes after all async components are resolved, ensuring data is ready before rendering [source](./.skilld/docs/guide/advanced/navigation-guards.md#L89:L112)
 
-- Adopt the Data Loaders pattern for streamlined data fetching — extract async logic outside component setup using `defineBasicLoader()` or `defineColadaLoader()`, which automatically awaits data before rendering and prevents race conditions. Install `DataLoaderPlugin` before the router. [source](./.skilld/docs/data-loaders/index.md#installation)
+- Avoid the third `next()` argument in navigation guards — favour returning values (`false` to cancel, route location to redirect) instead, which is clearer and reduces nesting errors [source](./.skilld/docs/guide/advanced/navigation-guards.md#L66:L87)
 
-- When using Data Loaders across multiple pages, extract them to separate `loaders/` files and re-export them from page components — this optimises chunk splitting whilst ensuring the router recognises and awaits the loaders during navigation. [source](./.skilld/docs/data-loaders/organization.md#loaders-organization)
+- Register the `DataLoaderPlugin` before adding the router to the app — ensures data loaders are properly initialized and can intercept navigation before rendering [source](./.skilld/docs/data-loaders/index.md#L18:L39)
 
-- Specify expected errors in Data Loaders using the `errors` option to prevent unexpected errors from aborting navigation — distinguish between errors that should be displayed locally (`errors: true`) versus those that should abort navigation entirely. [source](./.skilld/docs/data-loaders/error-handling.md#defining-expected-errors)
+- Export all data loaders from page components, even if defined separately — allows the router to discover and await loaders during navigation, enabling proper data fetching orchestration [source](./.skilld/docs/data-loaders/organization.md#L48)
 
-- In Composition API components, watch specific route properties (`route.params.id`) rather than the entire route object — this avoids unnecessary reactivity and improves performance when query or hash parameters change. [source](./.skilld/docs/guide/advanced/composition-api.md#accessing-the-router-and-current-route-inside-setup)
+- Inject global dependencies into loader functions before any `await` statements — after awaiting, the injection context is lost and subsequent inject calls will fail [source](./.skilld/docs/data-loaders/defining-loaders.md#L59:L84)
 
-- Use `onBeforeRouteUpdate()` in Composition API to detect parameter changes and avoid re-fetching when only query or hash changes — check `to.params.id !== from.params.id` to determine if the dynamic segment actually changed. [source](./.skilld/docs/guide/advanced/composition-api.md#navigation-guards)
+- Extract shared data loaders to separate files and re-export from page components — reduces bundle size by preventing page component chunks from being loaded just to access a loader [source](./.skilld/docs/data-loaders/organization.md#L1:L46)
 
-- Leverage route meta fields with automatic parent-to-child merging for route-specific configuration — use `router.beforeEach()` to check `to.meta.requiresAuth` instead of looping through `to.matched`, as Vue Router automatically merges all ancestor meta values. [source](./.skilld/docs/guide/advanced/meta.md#route-meta-fields)
+- Use `RouterView` v-slot to wrap route components with `KeepAlive` and `Transition` — enables component caching and animated transitions between routes without repeating the slot logic [source](./.skilld/docs/guide/advanced/router-view-slot.md#L15:L47)
 
-- Use `router-view` with a slot and dynamic transition names based on route depth (`to.meta.transition`) — this replaces static global transitions with context-aware animations that create natural forward/backward navigation feelings. [source](./.skilld/docs/guide/advanced/transitions.md#route-based-dynamic-transition)
+- Calculate dynamic scroll offset margins using `getComputedStyle()` instead of hardcoded values — adapts to elements with dynamic heights like sticky headers without breaking responsive layouts [source](./.skilld/docs/guide/advanced/scroll-behavior.md#L119:L143)
 
-- Return a Promise from `scrollBehavior()` when you need to delay scrolling until after transitions complete — this ensures smooth animations by waiting for route components to fully render before repositioning the viewport. [source](./.skilld/docs/guide/advanced/scroll-behavior.md#delaying-the-scroll)
+- Await `router.push()` and check the resolved value to detect navigation failures — differentiates between successful navigation, prevention, cancellation, and redirection [source](./.skilld/docs/guide/advanced/navigation-failures.md#L38:L47)
 
-- Prefer `createWebHistory()` over `createWebHashHistory()` for production applications — modern browsers handle the history API well, and clean URLs significantly improve SEO. Ensure your server falls back to serving `index.html` for unmatched routes. [source](./.skilld/docs/guide/essentials/history-mode.md#html5-mode)
+- Use `isNavigationFailure()` with `NavigationFailureType` to classify why navigation failed — allows handling aborted, cancelled, and duplicated navigation attempts differently [source](./.skilld/docs/guide/advanced/navigation-failures.md#L49:L61)
 
-- Await `router.push()` and detect navigation failures using `isNavigationFailure()` to distinguish between successful navigations and prevented ones — this is essential for UI state management (e.g. closing menus only after successful navigation). [source](./.skilld/docs/guide/advanced/navigation-failures.md#detecting-navigation-failures)
+- Spread `RouterLink.props` when creating custom link components and use `useLink` for advanced implementations — ensures all RouterLink features and props are available in your custom component [source](./.skilld/docs/guide/advanced/extending-router-link.md#L14:L127)
 
-- Use file-based routing with the built-in plugin to automatically generate typed routes instead of manually configuring `RouteNamedMap` — this eliminates boilerplate and keeps types in sync with your file structure. [source](./.skilld/docs/guide/advanced/typed-routes.md#typed-routes)
+- Call `router.replace()` after `router.addRoute()` to navigate to the newly added route immediately — the router adds the route but doesn't navigate; manual navigation is required to display the new route [source](./.skilld/docs/guide/advanced/dynamic-routing.md#L12:L37)
 
 <!-- /skilld:best-practices -->

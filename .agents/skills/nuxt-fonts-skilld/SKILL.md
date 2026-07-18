@@ -21,91 +21,75 @@ Use `skilld search "query" -p @nuxt/fonts` instead of grepping `.skilld/` direct
 
 ## API Changes
 
-This section documents version-specific API changes in @nuxt/fonts v0.14.0 and recent releases.
+This section documents version-specific API changes — prioritise recent major/minor releases.
 
-### Breaking Changes (v0.14.0)
+- BREAKING: Font format default changed to `woff2` only — v0.14 removes multiple format resolution by default, reducing CSS size. Configure `formats` in `defaults` to restore previous behaviour [source](./.skilld/releases/v0.14.0.md#breaking-changes)
 
-- BREAKING: Default font format is now `woff2` only — Previously, font providers returned multiple formats (`woff2`, `woff`, `truetype`, etc.). v0.14.0 resolves only `woff2` fonts by default, reducing CSS size. To restore previous behaviour, configure `fonts.defaults.formats` with additional formats like `['woff2', 'woff', 'ttf']` [source](./.skilld/releases/v0.14.0.md#breaking-changes)
+- BREAKING: Migration to `unifont` provider system — v0.10 and v0.12 major upgrade. Custom providers must use new `unifont` API instead of previous provider interface [source](./.skilld/releases/v0.10.0.md#breaking-changes)
 
-- BREAKING: Font metadata cache invalidation — Font metadata caches are now isolated per provider and per provider options. After upgrading, your cache at `node_modules/.cache/nuxt/fonts/` will be invalidated and fonts re-fetched on next build (one-time occurrence) [source](./.skilld/releases/v0.14.0.md#cache-invalidation)
+- BREAKING: CommonJS outputs removed — v0.11 removed CJS distribution and requires `@nuxt/module-builder` alpha. Projects importing CJS entry points will fail [source](./.skilld/releases/v0.11.0.md#breaking-changes)
 
-- BREAKING: Default font weight changed to `400 700` — In v0.12.0, the default font weight was explicitly set to `400 700`. Existing configurations without explicit weight defaults will now resolve differently [source](./.skilld/releases/v0.12.0.md:L30)
+- BREAKING: Default font weight is now `'400 700'` — v0.12 changed default from unspecified to weight range, affecting variable font resolution and fallback metrics [source](./.skilld/releases/v0.12.0.md:L30:31)
 
-- BREAKING: Unified provider interface via `unifont` — v0.10.0 and v0.12.0 migrated to `unifont` for provider handling. Custom provider implementations or provider-specific integrations may require updates to match the new unifont interface [source](./.skilld/releases/v0.10.0.md#breaking-changes)
+- NEW: `npm` provider — v0.14 adds built-in provider to resolve fonts installed as npm packages via CDN metadata lookup [source](./.skilld/releases/v0.14.0.md#resolve-fonts-from-node_modules)
 
-- BREAKING: CommonJS output removed — v0.11.0 removed CJS outputs and uses `@nuxt/module-builder`. Projects requiring CommonJS imports of `@nuxt/fonts` must migrate to ESM [source](./.skilld/releases/v0.11.0.md:L55)
+- NEW: `defaults.formats` option — v0.14 allows control over which font formats are resolved (e.g., `['woff2']`, `['woff2', 'woff', 'ttf']`) [source](./.skilld/releases/v0.14.0.md#font-format-resolution)
 
-### New Configuration Options (v0.14.0)
+- NEW: `googleicons` provider — v0.8 added dedicated provider for Material Design Icons as a font source [source](./.skilld/releases/v0.8.0.md:L14)
 
-- NEW: `fonts.defaults.formats` — Control which font formats are resolved. Specify an array from `['woff2', 'woff', 'ttf', 'otf', 'eot']` to customise provider output [source](./.skilld/releases/v0.14.0.md:L54:L65)
+- NEW: `providerOptions` property for font families — v0.14 allows per-family provider-specific options via `families[].providerOptions` object [source](./.skilld/releases/v0.14.0.md#provider-specific-font-family-options)
 
-- NEW: `fonts.throwOnError` — Configure whether font resolution errors should throw (stops build) or warn (build continues). Default is `false` (warn only) [source](./.skilld/releases/v0.14.0.md:L89:L99)
+- NEW: `throwOnError` configuration option — v0.14 allows configuring whether font resolution errors throw or warn (default: `false`) [source](./.skilld/releases/v0.14.0.md#throwonerror-option)
 
-- NEW: `providerOptions` in font family config — Pass provider-specific options when configuring individual font families. Allows per-family customisation: `{ name: 'My Font', provider: 'google', providerOptions: { google: { /* ... */ } } }` [source](./.skilld/releases/v0.14.0.md:L67:L87)
+- NEW: `fonts:public-asset-context` hook — v0.13 exposes hook for customising public asset context during font resolution [source](./.skilld/releases/v0.13.0.md:L15)
 
-### New Features (v0.14.0)
+- DEPRECATED: CSS variable processing default changed — v0.11 defaults `processCSSVariables` to `'font-prefixed-only'` (was `true`). Full CSS variable support now requires explicit `true` value [source](./.skilld/docs/content/1.get-started/2.configuration.md:L244:258)
 
-- NEW: `npm` provider — Built-in provider resolves fonts installed as npm packages via CDN metadata. Automatically attempts to find fonts in `node_modules` if no other provider matches. Configure with optional settings: `fonts: { npm: { /* options */ } }` [source](./.skilld/releases/v0.14.0.md:L39:L51)
+- NEW: CSS variable prefix processing — v0.11 automatically processes CSS variables prefixed with `--font` by default (when `processCSSVariables: 'font-prefixed-only'`) [source](./.skilld/releases/v0.11.0.md:L14)
 
-- NEW: lightningcss support — If Nuxt uses Vite's lightningcss mode (e.g. with rolldown-vite), injected `@font-face` declarations are now minified with lightningcss instead of esbuild [source](./.skilld/releases/v0.14.0.md:L101:L103)
+- NEW: Experimental `disableLocalFallbacks` option — v0.8 adds experimental feature to disable automatic local fallback font generation [source](./.skilld/releases/v0.8.0.md:L15)
 
-### New Hooks
+- BREAKING: `fontless` package integration — v0.12 extracts core utilities into separate `fontless` package. Direct imports from `@nuxt/fonts` may need updating [source](./.skilld/releases/v0.12.0.md#refactors)
 
-- NEW: `fonts:public-asset-context` hook — Added in v0.13.0 for customising public asset paths during font resolution [source](./.skilld/releases/v0.13.0.md#enhancements)
-
-### Stable APIs
-
-- STABLE: `useFlatConfig` — Moved out of experimental in v0.11.0. Safe for production use in linting and config workflows [source](./.skilld/releases/v0.11.0.md:L34:L35)
-
-### CSS Variables Processing (v0.11.0)
-
-- NEW: CSS variables prefixed with `--font` are now processed by default — No explicit opt-in required. Variables matching `--font*` are recognised and inlined during font resolution [source](./.skilld/releases/v0.11.0.md:L14)
-
-### Fixes & Improvements (v0.14.0)
-
-- FIXED: Font flashes in development — Dev font proxy now returns `Cache-Control: public, max-age=31536000, immutable` headers, preventing flashes during HMR on SSR frameworks [source](./.skilld/releases/v0.14.0.md#fixes)
-
-- FIXED: Font format prioritisation — woff2 subsets are now correctly prioritised over full ttf files when both are available [source](./.skilld/releases/v0.14.0.md#fixes)
-
-**Also changed:** `devtools font file size display` · `Bunny provider subset filtering fixed` · `Adobe provider race condition fixed` · `Emit .cjs version of @nuxt/fonts/utils` · `Scan font families in font: CSS property`
+**Also changed:** `devtools` font file size display new v0.11 · `$fetch` proxy support new v0.13 · relative font URL injection v0.9 · devtools UI improvements v0.8
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Only load font weights and styles you actually use in your design—configure `defaults.weights` and `defaults.styles` in `nuxt.config` to exclude 400/700 or italic if not needed. This directly reduces CSS size and download volume [source](./.skilld/docs/content/1.get-started/2.configuration.md#weights)
+- **Declare font weights explicitly when using multiple weights** — By default @nuxt/fonts only loads 400 and 700. If your design system uses additional weights (300, 500, 600, etc.), explicitly configure them in defaults or per-family to avoid bold text rendering in the wrong weight [source](./.skilld/docs/content/1.get-started/2.configuration.md:L48:58)
 
-- Use pure CSS `font-family` declarations in stylesheets rather than inline styles—Nuxt Fonts processes CSS files to auto-detect and resolve fonts, but inline `style` attributes are not processed [source](./.skilld/docs/content/1.get-started/3.usage.md#pure-css)
+- **Leave default format as woff2-only for production** — The v0.14 default only resolves woff2 fonts, which are universally supported in modern browsers. This reduces CSS size with no user impact in most cases. Only add additional formats if you need to support legacy browsers [source](./.skilld/docs/content/1.get-started/5.upgrade.md:L10:26)
 
-- Customise `subsets` to include only the character ranges needed for your audience—default includes all major subsets (cyrillic, greek, vietnamese, latin, etc.), but a Latin-only site can reduce downloads by 70%+ [source](./.skilld/docs/content/1.get-started/2.configuration.md#subsets)
+- **Use `defaults` configuration for consistent font options across all fonts** — Rather than repeating weights, styles, and subsets per-family, define them once in `defaults` to ensure consistent behaviour and reduce config duplication [source](./.skilld/docs/content/1.get-started/2.configuration.md:L21:46)
 
-- Specify a single explicit `provider` when ambiguity exists across multiple font sources—use `provider: 'google'` (or `local`, `npm`, etc.) in family config to ensure deterministic resolution and avoid fallback chains [source](./.skilld/docs/content/1.get-started/2.configuration.md#provider)
+- **Customize `fallbacks` map to match your design system** — The default fallback fonts (Arial, Times New Roman, etc.) are generic system fonts. Adjust the `fallbacks` config to use fonts from your actual design system for better metric matching and reduced layout shift [source](./.skilld/docs/content/1.get-started/2.configuration.md:L70:99)
 
-- Name local fonts by weight and style in the filename to match detection conventions—e.g. `roboto.woff2` (400/normal), `roboto-700-italic.woff2` (700/italic), or use keywords like `bold` instead of numeric weight [source](./.skilld/docs/content/1.get-started/4.providers.md#local)
+- **Explicitly specify provider for critical fonts instead of relying on provider order** — Use the `provider` property on individual font families to guarantee a font is resolved from a specific source, rather than depending on provider priority. This prevents font selection from varying if providers are unavailable [source](./.skilld/docs/content/1.get-started/2.configuration.md:L135:139)
 
-- Leverage the npm provider for `@fontsource/*` packages instead of CDN providers—fonts resolve at build time from `node_modules`, eliminating external requests and guaranteeing offline-first builds (v0.14.0+) [source](./.skilld/releases/v0.14.0.md#resolve-fonts-from-node_modules)
+- **Use priority to control provider resolution order when using multiple providers** — If you want some fonts from Google and others from Bunny for privacy reasons, explicitly set `priority: ['bunny', 'google']` rather than relying on defaults [source](./.skilld/docs/content/1.get-started/2.configuration.md:L200:211)
 
-- Set `formats: ['woff2']` (or omit it—this is now the default in v0.14.0)—woff2 is universally supported in modern browsers and reduces CSS by eliminating redundant format fallbacks [source](./.skilld/releases/v0.14.0.md#default-font-format-is-now-woff2-only)
+- **Leverage the npm provider for @fontsource packages** — If you have @fontsource fonts installed as npm dependencies, @nuxt/fonts will auto-detect and resolve them locally. No CDN requests are made, making this ideal for self-hosted fonts [source](./.skilld/docs/content/1.get-started/4.providers.md:L44:62)
 
-- Configure `priority: ['bunny', 'google']` to control which provider is checked first for each font family—prioritise privacy-focused or self-hosted options before public CDNs [source](./.skilld/docs/content/1.get-started/2.configuration.md#priority)
+- **Use Tailwind v4 `@theme` block syntax for font-family declarations** — In Tailwind v4, define fonts via CSS variables in the `@theme` block instead of the fontFamily config object. Setting `processCSSVariables: true` is no longer needed for v0.11.0+ [source](./.skilld/docs/content/1.get-started/3.usage.md:L44:56)
 
-- Customise fallback font families via the `fallbacks` config option to align system fonts with your web font metrics—default fallbacks are generic (Arial for sans-serif, Times New Roman for serif) but can be tailored by generic family [source](./.skilld/docs/content/1.get-started/2.configuration.md#fallbacks)
+- **Understand that font-family declarations work only in CSS stylesheets** — Inline styles with `font-family` in templates do not get processed by @nuxt/fonts; always declare fonts in separate CSS files or `<style>` blocks [source](./.skilld/docs/content/1.get-started/3.usage.md:L19:21)
 
-- Avoid setting `global: true` on every font family—use it only for fonts actually used site-wide; injecting unused `@font-face` rules adds CSS bloat [source](./.skilld/docs/content/1.get-started/2.configuration.md#global)
+- **Only use `global: true` for fonts that must be injected regardless of usage** — By default @nuxt/fonts only injects `@font-face` for fonts actually referenced in your CSS. Set `global: true` only when you want a font injected unconditionally (e.g., custom icon fonts) [source](./.skilld/docs/content/1.get-started/2.configuration.md:L129:133)
 
-- For Tailwind v4, define fonts as CSS variables in `@theme` without needing `processCSSVariables: true`—the module now handles this automatically (v0.11.0+) [source](./.skilld/docs/content/1.get-started/2.configuration.md#processcss-variables)
+- **Use provider-specific options for fine-grained per-family control** — The new `providerOptions` field allows passing provider-specific settings to individual font families without affecting global provider config, useful for variable font axes or subset filtering [source](./.skilld/docs/content/1.get-started/5.upgrade.md:L46:70)
 
-- Pass provider-specific options per font family using `providerOptions` (v0.14.0+)—e.g. Google Fonts variable weight ranges or Adobe Fonts subset filtering without global config changes [source](./.skilld/releases/v0.14.0.md#provider-specific-font-family-options)
+- **Rely on automatic font metric optimization to reduce layout shift** — @nuxt/fonts generates fallback `@font-face` declarations that morph system fonts to match web font metrics, dramatically reducing Cumulative Layout Shift. This happens automatically; no configuration needed [source](./.skilld/docs/content/2.advanced.md:L35:43)
 
-- Use `provider: 'none'` to fully self-host or reference external CDN fonts with a manual `src` URL, bypassing all automatic resolution logic [source](./.skilld/docs/content/1.get-started/2.configuration.md#provider)
+- **Configure `throwOnError: true` in production for early detection** — By default font resolution errors only warn. Set `throwOnError: true` in production builds to catch misconfigured font families before they silently fail on users' machines [source](./.skilld/docs/content/1.get-started/5.upgrade.md:L72:82)
 
-- Enable `throwOnError: true` in CI/build environments to catch font resolution failures early—defaults to `false` (warn only) to avoid blocking dev, but production builds should fail fast [source](./.skilld/releases/v0.14.0.md#throwonerror-option)
+- **Use provider 'none' to opt out of resolution for custom fonts** — If you are manually providing a font via `src`, set `provider: 'none'` to skip provider resolution and use only the URL you specify [source](./.skilld/docs/content/1.get-started/2.configuration.md:L112:113)
 
-- Hooks into `fonts:providers` to add or replace providers via module authors, and `fonts:public-asset-context` for prerender access to resolved font URLs (e.g., OG image generation) [source](./.skilld/docs/content/2.advanced.md#module-hooks)
+- **Apply `processCSSVariables: 'font-prefixed-only'` for optimal performance** — This is the recommended default in v0.11.0+. It processes only CSS variables prefixed with `font-`, avoiding performance impacts from processing all variables [source](./.skilld/docs/content/1.get-started/2.configuration.md:L240:258)
 
-- The dev server now returns immutable cache headers (`max-age=31536000`) for font proxies (v0.14.0+)—prevents font flashes during HMR on SSR frameworks without requiring additional configuration [source](./.skilld/releases/v0.14.0.md#prevent-font-flashes-in-development)
+- **Verify variable font weight specifications when using weight ranges** — Variable fonts require explicit weight ranges (e.g., `'100 900'`) to be downloaded. Simply naming a font "Inter Variable" without specifying the range may not load the variable font file [source](./.skilld/docs/content/1.get-started/2.configuration.md:L54:56)
 
-- Expect font metadata caches (`node_modules/.cache/nuxt/fonts/`) to invalidate and refetch fonts after major version upgrades—this is intentional to ensure correct subset/format resolution with new provider logic [source](./.skilld/releases/v0.14.0.md#cache-invalidation)
+- **Cache invalidation on upgrade — v0.14 invalidates font metadata caches per provider** — After upgrading to v0.14, the cache at `node_modules/.cache/nuxt/fonts/` is invalidated automatically. Fonts will be re-fetched on the next build; this is a one-time occurrence [source](./.skilld/docs/content/1.get-started/5.upgrade.md:L33:35)
 
 <!-- /skilld:best-practices -->
