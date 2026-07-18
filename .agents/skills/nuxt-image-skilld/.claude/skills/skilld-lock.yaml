@@ -1,0 +1,8 @@
+skills:
+  nuxt-image-skilld:
+    packageName: "@nuxt/image"
+    version: 2.0.0
+    repo: nuxt/image
+    source: "https://image.nuxt.com/llms.txt"
+    syncedAt: 2026-07-18
+    generator: skilld
