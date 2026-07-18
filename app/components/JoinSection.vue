@@ -37,6 +37,7 @@
   display: inline-block;
   max-width: 100%;
   margin-top: clamp(3rem, 6vw, 5rem);
+  text-decoration: none;
   color: var(--mocha-lavender);
   font-family: var(--font-display);
   font-size: clamp(1.4rem, 5vw, 4.5rem);

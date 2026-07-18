@@ -4,10 +4,7 @@
     <h1>BIG QUEER NERDS<br />a manifesto</h1>
     <div class="manifesto__introduction">
       <p>
-        The tech industry runs on queer and neurodivergent labour. It always
-        has. We built the protocols, wrote the compilers, and kept the servers
-        breathing at 3am - and in exchange we've been underpaid, burnt out,
-        talked over, and asked to tone it down for the client call.
+        <strong>The tech industry runs on queer and neurodivergent labour.</strong> It always has. We built the protocols, wrote the compilers, and kept the servers breathing at 3am - and in exchange we've been underpaid, burnt out, talked over, and asked to tone it down for the client call.
       </p>
       <p>
         Every consultancy you've ever worked for exists to do one thing: widen

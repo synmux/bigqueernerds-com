@@ -50,7 +50,12 @@ p {
   margin-top: 0;
 }
 
+h1 {
+  color: var(--mocha-pink);
+}
+
 h2 {
+  color: var(--mocha-pink);
   margin-bottom: clamp(1.5rem, 3vw, 2.5rem);
   font-family: var(--font-display);
   font-size: clamp(2.25rem, 5vw, 4.5rem);
