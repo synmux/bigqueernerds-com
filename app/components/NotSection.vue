@@ -13,8 +13,8 @@
       </li>
       <li>
         <strong>Not a family.</strong> Families don't pay you. Companies call
-        themselves families in order to stiff you out of what you deserve.
-        We're colleagues who have your back, which is considerably more useful.
+        themselves families in order to stiff you out of what you deserve. We're
+        colleagues who have your back, which is considerably more useful.
       </li>
       <li>
         <strong>Not chasing a culture fit.</strong> We <em>are</em> the misfits.

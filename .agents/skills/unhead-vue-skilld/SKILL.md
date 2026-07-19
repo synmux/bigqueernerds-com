@@ -2,12 +2,12 @@
 name: unhead-vue-skilld
 description: 'ALWAYS use when writing code importing "@unhead/vue". Consult for debugging, best practices, or modifying @unhead/vue, unhead/vue, unhead vue, unhead.'
 metadata:
-  version: 3.1.8
+  version: 3.2.1
   generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  generated_at: 2026-07-19
 ---
 
-# unjs/unhead `@unhead/vue@3.1.8`
+# unjs/unhead `@unhead/vue@3.2.1`
 
 **Tags:** next: 3.0.0-beta.9, beta: 3.0.0-beta.12, rc: 3.0.0-rc.4
 
@@ -21,115 +21,115 @@ Use `skilld search "query" -p @unhead/vue` instead of grepping `.skilld/` direct
 
 ## API Changes
 
-This section documents version-specific API changes — prioritise recent major/minor releases.
+This section documents version-specific API changes between v2.x and v3.x, and within the v3.x release series. Focus on recent major/minor releases that introduce breaking changes and new APIs.
 
-### Breaking Changes & Critical Migrations
+### Breaking Changes from v2 to v3
 
-- BREAKING: `renderDOMHead()` and `renderSSRHead()` — v3.0.0 changed from async (returning promises) to fully synchronous single-pass execution. Remove all `await` calls. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L200:201)
+- BREAKING: `renderDOMHead()` and `renderSSRHead()` now synchronous — remove `await` keyword, these functions no longer return promises [source](./.skilld/releases/v3.0.0.md:L200:L201)
 
-- BREAKING: `@unhead/addons` → `@unhead/bundler` — package renamed in v3.0.0. Old name deprecated with runtime warning. Update import statements and default `unhead()` export to named `Unhead()` export. [source](./.skilld/docs/6.migration-guide/1.v3.md#@unhead/addons-%E2%86%92-@unhead/bundler:L46:97)
+- BREAKING: Import Vite plugin from framework `/vite` subpath with named export — `import { Unhead } from '@unhead/vue/vite'` instead of `import unhead from '@unhead/addons/vite'` [source](./.skilld/releases/v3.0.0.md:L206:L215)
 
-- BREAKING: Framework Vite plugins — v3.0.0 changed from default export to named `Unhead` export. Update `import unhead from '@unhead/vue/vite'` to `import { Unhead } from '@unhead/vue/vite'` and call as `Unhead()` not `unhead()`. [source](./.skilld/docs/6.migration-guide/1.v3.md#framework-vite-plugins:-named-`unhead`-export:L102:129)
+- BREAKING: `Link` and `Script` types no longer accept fallback to `GenericLink` / `GenericScript` — type system now enforces strict per-tag constraints (e.g., `preload + as: 'font'` requires `crossorigin`) [source](./.skilld/releases/v3.0.0.md:L217:L219)
 
-- BREAKING: Strict type narrowing for `Link` and `Script` — v3.0.0 removed fallback to generic union types. `Link` and `Script` now enforce per-tag constraints (e.g. preload links require `as` attribute and `crossorigin`). Meta `content` is now required; use `content: null` to remove. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L217:219)
+- BREAKING: `Meta` tag `content` is now required — use `content: null` explicitly to remove a meta tag instead of omitting it [source](./.skilld/releases/v3.0.0.md:L217:L219)
 
-- BREAKING: Legacy property names removed — v3.0.0 dropped automatic conversion. Replace `children` → `innerHTML`, `hid`/`vmid` → `key`, `body: true` → `tagPosition: 'bodyClose'`, `useServerHead` → `useHead`, `useServerHeadSafe` → `useHeadSafe`, `useServerSeoMeta` → `useSeoMeta`. [source](./.skilld/docs/6.migration-guide/1.v3.md#legacy-property-names:L135:196)
+- BREAKING: Deprecated properties permanently removed — `children` → use `innerHTML` instead, `hid`/`vmid` → use `key`, `body: true` → use `tagPosition: 'bodyClose'` [source](./.skilld/releases/v3.0.0.md:L221:L232)
 
-- BREAKING: `createHeadCore()` → `createUnhead()` — v3.0.0 renamed core factory function. [source](./.skilld/docs/6.migration-guide/1.v3.md#core-api-changes:L278:285)
+- BREAKING: `useServerHead()`, `useServerHeadSafe()`, `useServerSeoMeta()` removed — use `useHead()`, `useHeadSafe()`, `useSeoMeta()` directly [source](./.skilld/releases/v3.0.0.md:L226:L228)
 
-- BREAKING: Plugins now opt-in — v3.0.0 made `TemplateParamsPlugin` and `AliasSortingPlugin` opt-in; import and register explicitly if needed. Template params like `%siteName` appear literally without the plugin. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L237:239)
+- BREAKING: CJS builds removed — all packages ESM-only, CommonJS imports will fail [source](./.skilld/releases/v3.0.0.md:L233)
 
-- BREAKING: Schema.org plugin exports — v3.0.0 removed `PluginSchemaOrg` and `SchemaOrgUnheadPlugin`. Use `UnheadSchemaOrg()` instead. [source](./.skilld/docs/6.migration-guide/1.v3.md#schema.org-plugin:L199:222)
+- BREAKING: Type exports changed — `Head` → `HeadTag`, `MetaFlatInput` → `MetaFlat`, remove imports from `@unhead/schema` and `@unhead/shared` (use `unhead/types` and `unhead` instead) [source](./.skilld/releases/v3.0.0.md:L248:L256)
 
-- BREAKING: Schema.org config options — v3.0.0 changed `canonicalHost` → `host`, `canonicalUrl` → `host` + `path`. Removed `position`, `defaultLanguage`, `defaultCurrency`. [source](./.skilld/docs/6.migration-guide/1.v3.md#schema.org-config-options:L224:243)
+- BREAKING: `createHeadCore()` removed — use `createUnhead()` instead [source](./.skilld/releases/v3.0.0.md:L229)
 
-- BREAKING: Hooks removed — v3.0.0 dropped `init` hook entirely. `dom:renderTag` and `dom:rendered` hooks deprecated (removed in v4). `dom:beforeRender` now synchronous. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L241:245)
+- BREAKING: `@unhead/vue/legacy` removed — use `@unhead/vue/client` or `@unhead/vue/server` (legacy path still works with deprecation warning) [source](./.skilld/releases/v3.0.0.md:L230)
 
-- BREAKING: CJS removed — v3.0.0 ESM-only; all `.cjs` exports gone. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L233:235)
+- BREAKING: `TemplateParamsPlugin` and `AliasSortingPlugin` now opt-in — import and register explicitly if you need template variable substitution or alias sorting [source](./.skilld/releases/v3.0.0.md:L237:L239)
 
-- BREAKING: Type name changes — v3.0.0 renamed `Head` → `HeadTag`, `MetaFlatInput` → `MetaFlat`, removed `RuntimeMode`. Package aliases removed: `@unhead/schema` → `unhead/types`, `@unhead/shared` → `unhead`. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L247:255)
+- BREAKING: Hooks removed — `init` hook removed, `dom:renderTag` and `dom:rendered` hooks deprecated (will be removed in v4), `dom:beforeRender` is now synchronous (no async handlers) [source](./.skilld/releases/v3.0.0.md:L241:L245)
 
-### New Features Added in v3.x
+- BREAKING: Schema.org type changes — `PluginSchemaOrg` / `SchemaOrgUnheadPlugin` replaced with `UnheadSchemaOrg`, `canonicalHost` replaced with `host`, `canonicalUrl` replaced with `host` + `path` [source](./.skilld/releases/v3.0.0.md:L257:L260)
 
-- NEW: `createStreamableHead()` — v3.0.0 added streaming SSR support. Import from `@unhead/vue/stream/server` (server) or `@unhead/vue/stream/client` (client). Head tags update dynamically as suspense boundaries resolve. [source](./.skilld/releases/v3.0.0.md#streaming-ssr:L13:36)
+### New Features in v3.0+
 
-- NEW: Unified Vite Plugin with DevTools — v3.0.0 single `Unhead()` import replaces old manual composition. Provides tree-shaking, `useSeoMeta` transform, inline minification, streaming, auto-injected `ValidatePlugin`, and Vite DevTools integration. [source](./.skilld/releases/v3.0.0.md#unified-vite-plugin-+-devtools:L40:58)
+- NEW: Streaming SSR support with automatic head tag updates as suspense boundaries resolve — use `createStreamableHead()` from `@unhead/vue/stream/server` and client endpoints [source](./.skilld/releases/v3.0.0.md:L13:L37)
 
-- NEW: `ValidatePlugin()` — v3.0.0 added optional validation that warns about missing titles, duplicate meta tags, contradictory preload priorities, missing plugins, deprecated properties, and render-blocking scripts. Auto-injected in dev by unified Vite plugin. [source](./.skilld/releases/v3.0.0.md#validateplugin:L83:101)
+- NEW: Unified Vite plugin with DevTools integration — single `import { Unhead } from '@unhead/vue/vite'` replaces manual composition of addons + streaming + framework glue [source](./.skilld/releases/v3.0.0.md:L40:L58)
 
-- NEW: `CanonicalPlugin()` — v3.0.0 added auto-generation of `<link rel="canonical">` tags with query parameter filtering, trailing slash normalization, and automatic hash stripping. [source](./.skilld/releases/v3.0.0.md#canonical-plugin:L103:121)
+- NEW: `ValidatePlugin` detects common mistakes at runtime — missing titles, duplicate meta tags, contradictory preload priorities, render-blocking scripts, late charset, excessive fetchpriority hints, preconnect without crossorigin, and v2 migration issues [source](./.skilld/releases/v3.0.0.md:L83:L102)
 
-- NEW: `MinifyPlugin()` — v3.0.0 added minification of inline `<script>` and `<style>` content during SSR using pure-JS minifiers safe for edge/serverless. Companion `MinifyTransform` available in `@unhead/bundler`. [source](./.skilld/releases/v3.0.0.md#minifyplugin:L123:135)
+- NEW: `CanonicalPlugin` auto-generates canonical links and resolves relative URLs in OG/Twitter tags — includes query parameter filtering (strips `utm_source`, `fbclid`, `gclid` by default), trailing slash normalization, and hash fragment stripping [source](./.skilld/releases/v3.0.0.md:L103:L120)
 
-- NEW: `onRendered()` callback — v3.0.0 added callback option on `useHead()` to synchronise with DOM head updates and access resolved head output. [source](./.skilld/releases/v3.0.0.md#other-changes:L178)
+- NEW: `MinifyPlugin` minifies inline script/style tag content during SSR — uses pure-JS minifiers safe for edge/serverless, companion `MinifyTransform` pre-minifies at build-time [source](./.skilld/releases/v3.0.0.md:L123:L135)
 
-- NEW: `tagWeight` option — v3.0.0 added customisable `tagWeight` option on `createHead()` to override default CAPO tag weight function. [source](./.skilld/releases/v3.0.0.md#other-changes:L179)
+- NEW: `useHead()` type narrowing — tag types now narrow based on input (e.g., `rel: 'stylesheet'` narrows to `StylesheetLink` with media/integrity attributes) [source](./.skilld/releases/v3.0.0.md:L60:L80)
 
-- NEW: `@unhead/cli` — v3.1.0 added command-line interface with `audit`, `migrate`, `validate-html`, and `validate-url` commands. Run via `npx -y @unhead/cli`. [source](./.skilld/releases/v3.1.0.md#unhead-cli:L9:26)
+- NEW: `onRendered` callback option on `useHead()` — synchronizes with DOM head updates [source](./.skilld/releases/v3.0.0.md:L178)
 
-- NEW: `@unhead/eslint-plugin` — v3.1.0 added ESLint flat-config plugin for validating `useHead()` and `useSeoMeta()` code with rules from runtime `ValidatePlugin`. Install via `npm i -D @unhead/eslint-plugin`. [source](./.skilld/releases/v3.1.0.md#unhead-eslint:L28:47)
+- NEW: `tagWeight` option on `createHead()` — override default CAPO tag weight function for custom tag ordering [source](./.skilld/releases/v3.0.0.md:L179)
 
-- NEW: Streaming bundler-agnostic factory — v3.1.0 moved streaming plugin from `unhead/stream/vite` to bundler-agnostic `unplugin` factory. Framework packages compose it via `Unhead({ streaming: true })` with first-class Webpack and Vite entries. Streaming gains `nonce` option for CSP, fixed `async` mode for production Vite builds, dev warning on empty server queue, and `StreamingGlobal` type. Default mode changed from `async` to `inline` for smaller TTFB. [source](./.skilld/releases/v3.1.0.md#streaming-ssr-non-vite-support:L49:63)
+- NEW: Support for `blocking` attribute on scripts and stylesheets — native browser behavior for render-blocking resources [source](./.skilld/releases/v3.0.0.md:L170)
 
-- NEW: `@unhead/react/helmet` — v3.0.0 added drop-in compatibility export for users migrating from `react-helmet`. [source](./.skilld/releases/v3.0.0.md#other-changes:L168)
+- NEW: `useHeadSafe()` whitelists CSS styles — now allows safe inline stylesheet definitions [source](./.skilld/releases/v3.0.0.md:L169)
 
-### Enhanced Type Safety & Validation
+- NEW: `fediverse:creator` meta tag support — new social metadata for Fediverse platforms [source](./.skilld/releases/v3.0.0.md:L172)
 
-- ENHANCED: `useHead()` type narrowing — v3.0.0 narrows types based on input. Link, script, and meta tags resolve to specific subtypes (e.g. `StylesheetLink`, `PreloadLink`, `ModuleScript`, `JsonLdScript`) instead of generic union, so autocomplete and type errors are precise. [source](<./.skilld/releases/v3.0.0.md#`usehead()`-type-narrowing:L60:80>)
+- NEW: `@unhead/cli` provides audit, migrate, validate-html, and validate-url commands — automates v2→v3 migration and SEO/performance validation [source](./.skilld/releases/v3.1.0.md:L9:L26)
 
-- ENHANCED: `useHeadSafe()` CSS styles — v3.0.0 now whitelists CSS styles in addition to other safe properties. [source](./.skilld/releases/v3.0.0.md#other-changes:L169)
+- NEW: `@unhead/eslint-plugin` with flat-config rules shared from `ValidatePlugin` — catches type-narrowing issues at lint-time with v2→v3 migration autofixes [source](./.skilld/releases/v3.1.0.md:L28:L47)
 
-- ENHANCED: `blocking` attribute support — v3.0.0 added support for `blocking` attribute on scripts and stylesheets. [source](./.skilld/releases/v3.0.0.md#other-changes:L170)
+- NEW: Streaming SSR non-Vite support via bundler-agnostic unplugin factory — `Unhead({ streaming: true })` works with webpack and Vite via bundler-specific entries [source](./.skilld/releases/v3.1.0.md:L49:L61)
 
-- ENHANCED: Union rel/type in helpers — v3.1.1 added support for union `rel`/`type` in `defineLink` and `defineScript` helpers. [source](./.skilld/releases/v3.1.1.md#bug-fixes:L12)
+- NEW: `nonce` option for streaming — forwards CSP nonce on every injected script during streaming [source](./.skilld/releases/v3.1.0.md:L63)
 
-### Minor Updates & Fixes
+- NEW: `StreamingGlobal` type ensures server bootstrap, client, and injected IIFE agree on `window.__unhead__` shape [source](./.skilld/releases/v3.1.0.md:L63)
 
-- ENHANCED: `fediverse:creator` meta tag — v3.0.0 added built-in support for `fediverse:creator` meta tag. [source](./.skilld/releases/v3.0.0.md#other-changes:L172)
+- NEW: Union rel/type support in `defineLink()` and `defineScript()` — type definitions now accept union types for custom link/script relations [source](./.skilld/releases/v3.1.1.md:L12)
 
-- ENHANCED: Schema.org nodes — v3.0.0 added 12 new schema.org nodes (`Dataset`, `MusicAlbum`, `MusicGroup`, `MusicPlaylist`, `MusicRecording`, `PodcastEpisode`, `PodcastSeason`, `PodcastSeries`, `Service`, `TVEpisode`, `TVSeason`, `TVSeries`) and rewrote graph resolution for correctness. [source](./.skilld/releases/v3.0.0.md:L159:164)
+- NEW: Open Graph meta types expanded — added `music.radio_station` and `payment.link` OG tags [source](./.skilld/releases/v3.1.4.md:L16)
 
-- ENHANCED: `HookableCore` — v3.0.0 switched from `hookable` to lighter `HookableCore` with sync-only hooks. [source](./.skilld/releases/v3.0.0.md#other-changes:L173)
-
-- ENHANCED: `templateParams` extensible — v3.0.0 made `templateParams` extensible via TypeScript module augmentation. [source](./.skilld/releases/v3.0.0.md#other-changes:L175)
-
-- FIX: `useScript()` consolidation — v3.0.0 consolidated `useScript()` back into core; legacy support removed and full integration with Vue lifecycle. [source](./.skilld/releases/v3.0.0.md#other-changes:L171)
-
-- DEPRECATED: DOM hooks — v3.0.0 deprecated `dom:renderTag` and `dom:rendered` hooks (will be removed in v4). Use plugin system or `onRendered` callback instead. [source](./.skilld/releases/v3.0.0.md#breaking-changes:L241:245)
-
-Also changed: `resolveTags()` composable pipeline · Synchronous `transformHtmlTemplate` · Pure tree-shakeable core · Removed `ohash` and `defu` dependencies · Removed `unhead:payload` mechanism · Streaming `nonce` option for CSP · `@unhead/vue/stream/iife` exports · Schema.org `null` opt-out · Performance improvements (32% faster @unhead/vue, 17% faster core)
+**Also changed:** 12 new Schema.org nodes (Dataset, MusicAlbum, MusicGroup, etc.) · pure sync rendering engine (resolveTags pipeline) · removed ohash/defu dependencies · HookableCore replaces full hookable · `renderDOMHead()` single-pass composable pipeline · `@unhead/react/helmet` compat export · streaming IIFE mode changed from `async` to `inline` for smaller TTFB · stricter preload link enforcement (requires `as` attribute) · icon links support `media` attribute
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Use `useHead()` over direct `document.title` manipulation for SSR compatibility — framework-agnostic head tag management works in both server and client contexts, whereas direct DOM manipulation fails during server-side rendering [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/1.core-concepts/1.titles.md#what-is-the-title-tag)
+- Use reactive state (refs/computed) with `useHead()` rather than calling `useHead()` inside watchers — watchers create new entries on each update, whereas reactive refs update existing entries automatically [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#should-i-use-refs-or-computed-getters)
 
-- Leverage `titleTemplate` with `templateParams` for consistent branding across pages — centralises branding logic and improves SEO through brand recognition [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/1.core-concepts/1.titles.md#how-do-i-add-a-site-name-to-all-titles)
+- Prefer `useSeoMeta()` composable for SEO meta tags instead of manually building `useHead()` calls with raw meta arrays — more ergonomic and the Vite transform automatically rewrites calls to `useHead()` at build time, saving ~3kb from client bundle [source](./.skilld/docs/head/1.guides/build-plugins/2.seo-meta-transform.md)
 
-- Use reactive state (refs, computed, or store selections) with `useHead()` for async updates instead of calling `useHead()` inside watchers — avoids creating duplicate head entries on each watcher trigger [source](./.skilld/references/@unhead/vue@3.1.8/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#should-i-use-refs-or-computed-getters)
+- Register the unified Unhead Vite plugin in your build configuration to enable automatic tree-shaking, useSeoMeta transforms, minification, and dev validation [source](./.skilld/docs/head/1.guides/build-plugins/0.overview.md#setup)
 
-- Apply `useHeadSafe()` for untrusted user input (user profiles, third-party data) instead of `useHead()` — implements a strict whitelist of allowed tags and attributes, preventing XSS attacks [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/7.api/composables/1.use-head-safe.md#how-it-works)
+```ts
+import { Unhead } from "@unhead/vue/vite";
 
-- Call `injectHead()` at component setup time before any async operations for reliable async context handling — captures the head instance early, allowing safe updates in lifecycle hooks and event handlers [source](./.skilld/references/@unhead/vue@3.1.8/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#solution-3-using-injecthead)
+export default defineConfig({
+  plugins: [vue(), Unhead()],
+});
+```
 
-- Position analytics and non-critical scripts at `'bodyClose'` using `tagPosition` to avoid blocking initial page render — improves Core Web Vitals and perceived performance [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/1.core-concepts/2.positions.md#common-use-cases)
+- Use `useScript()` for external script loading with automatic singleton deduplication, proxy pattern for safe early calls, and configurable loading triggers [source](./.skilld/docs/head/1.guides/1.core-concepts/9.loading-scripts.md#introduction)
 
-- Register the Canonical plugin with `canonicalHost` to automatically convert relative URLs to absolute for meta tags — required for proper Open Graph, Twitter Card, and SEO canonical link handling [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/plugins/canonical.md#why-do-i-need-absolute-urls-in-meta-tags)
+- Encapsulate script initialization in dedicated composables for better organization and reuse across components [source](./.skilld/docs/head/1.guides/1.core-concepts/9.loading-scripts.md#creating-reusable-script-composables)
 
-- Leverage the singleton pattern in `useScript()` by matching `src` or `key` to prevent duplicate script loads globally — scripts with identical identifiers load only once, reducing network overhead [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/7.api/composables/4.use-script.md#smart-defaults)
+- Always add `.onError()` handlers for critical scripts — the proxy pattern silently drops failed calls, masking loading failures without error handlers [source](./.skilld/docs/head/1.guides/1.core-concepts/9.loading-scripts.md#benefits-of-the-proxy-pattern)
 
-- Register the ValidatePlugin in development to catch SEO and head tag mistakes early — detects non-absolute URLs, missing OG tags, typos in meta properties, and conflicting robots directives before production [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/plugins/validate.md#what-does-this-plugin-do)
+- Use `useHeadSafe()` when working with untrusted or user-provided input to prevent XSS attacks — implements a strict whitelist of allowed tags and attributes [source](./.skilld/docs/head/7.api/composables/1.use-head-safe.md#how-it-works)
 
-- Use content arrays in meta tags for multiple verification tags with the same name instead of separate entries — prevents deduplication when you legitimately need multiple values [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/1.core-concepts/6.handling-duplicates.md#using-content-arrays)
+- Place non-critical scripts at `tagPosition: 'bodyClose'` to improve page load performance — scripts at the end of the body won't block initial render [source](./.skilld/docs/head/1.guides/1.core-concepts/2.positions.md#common-use-cases)
 
-- Enable `transformSeoMeta: true` in the Vite build plugin (default) to save ~3kb of bundle size — the transform rewrites `useSeoMeta()` calls to `useHead()` at build time, removing runtime meta-key resolution code [source](./.skilld/references/@unhead/vue@3.1.8/docs/head/1.guides/build-plugins/2.seo-meta-transform.md#what-does-it-do)
+- Use `tagPriority` string aliases (`'critical'`, `'high'`, `'low'`) instead of numeric values for clearer intent and to preserve Capo.js performance optimizations [source](./.skilld/docs/head/1.guides/1.core-concepts/2.positions.md#sorting-with-aliases)
 
-- Use `effectScope()` or `injectHead()` when `useHead()` must be called inside `onMounted`, `onUpdated`, or other lifecycle hooks — preserves component context for proper entry cleanup on unmount [source](./.skilld/references/@unhead/vue@3.1.8/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#solution-2-using-effectscope)
+- Use the `key` attribute for explicit tag deduplication control when you need multiple similar tags or want to override tags from parent components [source](./.skilld/docs/head/1.guides/1.core-concepts/6.handling-duplicates.md#how-do-i-use-custom-keys-for-deduplication)
 
-- Choose `<Head>` component over `useHead()` composable for template-based head management when your project prefers declarative template syntax — both APIs work equally well; choose based on code style preference [source](./.skilld/references/@unhead/vue@3.1.8/docs/0.vue/head/guides/1.core-concepts/1.components.md#what-is-the-head-component)
+- Enable the `ValidatePlugin` at runtime to catch common SEO, performance, and head tag mistakes — detects non-absolute URLs, missing tags, conflicting directives, typos, and performance anti-patterns [source](./.skilld/docs/head/1.guides/plugins/validate.md#what-does-this-plugin-do)
 
-- Set up streaming SSR with `createStreamableHead()` in server/client entries to support async components in the `<head>` — enables head tags from suspended components to stream as Suspense boundaries resolve, matching modern SSR patterns [source](./.skilld/references/@unhead/vue@3.1.8/docs/0.vue/head/guides/1.core-concepts/5.streaming.md#setup)
+- Set up the `@unhead/eslint-plugin` to catch linting issues at build time that TypeScript can't detect — includes 13 rules covering deprecated v2 props, empty content, typos, and performance issues [source](./.skilld/docs/head/1.guides/eslint-plugin.md#how-do-i-set-up-the-plugin)
+
+- Use the `InferSeoMetaPlugin` to automatically generate `og:title`, `og:description`, and `twitter:card` from existing title and description tags — reduces duplicate meta tag definitions [source](./.skilld/docs/head/1.guides/plugins/infer-seo-meta-tags.md#what-does-this-plugin-do)
+
+- Prefer `useHead()` composable over `<Head>` components for better TypeScript support and flexibility, though template-based components are still available when needed [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/1.components.md)
 
 <!-- /skilld:best-practices -->

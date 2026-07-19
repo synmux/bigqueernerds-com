@@ -4,8 +4,8 @@
       <h2>What we do</h2>
       <p>
         The unglamorous, load-bearing work: infrastructure, cloud, networking,
-        development, and the support that keeps businesses actually running.
-        The stuff that pages someone at 3am - done by people rested, paid, and
+        development, and the support that keeps businesses actually running. The
+        stuff that pages someone at 3am - done by people rested, paid, and
         respected enough to care that it doesn't.
       </p>
       <p>

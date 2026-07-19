@@ -8,10 +8,10 @@
         with radical transparency about how and why.
       </li>
       <li>
-        <strong>When we win, everyone wins.</strong> Profits are shared among all
-        of us - weighted by seniority, because we're radical, not naive - but
-        reaching <em>everyone</em>, down to the newest and least glamorous role.
-        When the company does better, so does every single person in it.
+        <strong>When we win, everyone wins.</strong> Profits are shared among
+        all of us - weighted by seniority, because we're radical, not naive -
+        but reaching <em>everyone</em>, down to the newest and least glamorous
+        role. When the company does better, so does every single person in it.
       </li>
       <li>
         <strong>A floor below which nobody falls.</strong> A dependable base
@@ -31,15 +31,17 @@
         answered with "yes" wherever humanly possible.
       </li>
       <li>
-        <strong>Engineered for brains that don't run corporate firmware.</strong>
+        <strong
+          >Engineered for brains that don't run corporate firmware.</strong
+        >
         We staff every job with more people than strictly necessary, because
         redundancy isn't waste - ask any SRE. When someone's brain checks out
         for a day (and someone's will; that's the whole point), the work doesn't
         collapse and neither do they. n+1, but for humans.
       </li>
       <li>
-        <strong>Remote-first, permanently.</strong> No office, no commute, and an
-        allowance to build a workspace that actually works for you. Meet-ups
+        <strong>Remote-first, permanently.</strong> No office, no commute, and
+        an allowance to build a workspace that actually works for you. Meet-ups
         once or twice a year, genuinely optional - where "optional" means
         <em>optional</em>, not "career-limiting to skip".
       </li>

@@ -22,7 +22,11 @@
         only going to evolve through exposure to reality.
       </li>
     </ul>
-    <iframe src="https://synmux.notion.site/ebd/27f00007078f4513a12783384d6aeb93" frameborder="0" allowfullscreen />
+    <iframe
+      src="https://synmux.notion.site/ebd/27f00007078f4513a12783384d6aeb93"
+      frameborder="0"
+      allowfullscreen
+    />
   </section>
 </template>
 
@@ -56,5 +60,4 @@ section.manifesto__section iframe {
   height: 1000px;
   width: 100%;
 }
-
 </style>

@@ -18,8 +18,9 @@
         people here can live well. We do not exist so the money can.
       </li>
       <li>
-        <strong>Growth is a choice, not a commandment.</strong> We expand when it
-        makes life better for the people already here - and not one hire sooner.
+        <strong>Growth is a choice, not a commandment.</strong> We expand when
+        it makes life better for the people already here - and not one hire
+        sooner.
       </li>
     </ul>
   </section>

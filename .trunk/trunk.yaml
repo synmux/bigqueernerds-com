@@ -21,6 +21,8 @@ runtimes:
 # (https://docs.trunk.io/check/configuration)
 lint:
   enabled:
+    - eslint@10.7.0
+    - taplo@0.10.0
     - actionlint@1.7.12
     - pinact@4.1.0
     - svgo@4.0.2

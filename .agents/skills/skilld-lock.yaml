@@ -107,10 +107,11 @@ skills:
     generator: skilld
   unhead-vue-skilld:
     packageName: "@unhead/vue"
-    version: 3.1.8
+    version: 3.2.1
+    packages: "@unhead/vue@3.2.1"
     repo: unjs/unhead
-    source: "https://github.com/unjs/unhead/tree/v3.1.8/docs"
-    syncedAt: 2026-07-18
+    source: "https://github.com/unjs/unhead/tree/v3.2.1/docs"
+    syncedAt: 2026-07-19
     generator: skilld
   eslint-skilld:
     packageName: eslint
@@ -141,10 +142,11 @@ skills:
     generator: skilld
   anthropic-ai-claude-code-skilld:
     packageName: "@anthropic-ai/claude-code"
-    version: 2.1.214
+    version: 2.1.215
+    packages: "@anthropic-ai/claude-code@2.1.215"
     repo: Exhen/claude-code-2.1.88
     source: "ungh://Exhen/claude-code-2.1.88"
-    syncedAt: 2026-07-18
+    syncedAt: 2026-07-19
     generator: skilld
   npm-run-all2-skilld:
     packageName: npm-run-all2
