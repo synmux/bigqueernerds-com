@@ -38,8 +38,7 @@ lint:
     - linters:
         - ALL
       paths:
-        - .agents/
-        - bun.lock
+        - /.agents/
 actions:
   enabled:
     - trunk-announce
