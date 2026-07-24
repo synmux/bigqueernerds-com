@@ -38,6 +38,7 @@ lint:
     - linters:
         - ALL
       paths:
+        - /_AMBIO/
         - /.agents/
 actions:
   enabled:
