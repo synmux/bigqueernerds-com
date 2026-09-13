@@ -1,15 +1,14 @@
 ---
 name: nuxt-eslint-skilld
-description: 'ALWAYS use when writing code importing "@nuxt/eslint". Consult for debugging, best practices, or modifying @nuxt/eslint, nuxt/eslint, nuxt eslint, eslint.'
+description: "ALWAYS use when writing code importing \"@nuxt/eslint\". Consult for debugging, best practices, or modifying @nuxt/eslint, nuxt/eslint, nuxt eslint, eslint."
 metadata:
-  version: 1.16.0
+  version: 1.17.0
   generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  generated_at: 2026-09-13
 ---
 
-# nuxt/eslint `@nuxt/eslint@1.16.0`
-
-**Tags:** next: 0.3.0-beta.10, latest: 1.16.0
+# nuxt/eslint `@nuxt/eslint@1.17.0`
+**Tags:** next: 0.3.0-beta.10, latest: 1.17.0
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md)
 
@@ -18,62 +17,96 @@ metadata:
 Use `skilld search "query" -p @nuxt/eslint` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/eslint` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+## API Changes — @nuxt/eslint v1.17.0
 
-## @nuxt/eslint v1.16.0 — API Changes
+## Note
 
-This section documents APIs in v1.16.0 — the current stable release of the ESLint module for Nuxt.
+This reference documents v1.17.0 in isolation. Without access to release notes, changelogs, or documentation for previous versions (v1.16, v1.15, etc.), version-specific changes cannot be reliably identified. The items below reflect the public API of v1.17.0 as documented.
+
+To identify which APIs are new in v1.17.0 versus which existed in earlier versions, consult the GitHub releases page.
 
 ## API Changes
 
-- NEW: `eslint:config:addons` Nuxt hook — allows custom ESLint config integrations via `ESLintConfigGenAddon` interface [source](./module.d.mts:L8:L14)
+### Module API (`@nuxt/eslint`)
 
-- NEW: `ESLintConfigGenAddon` type — for third-party modules to extend ESLint config with custom imports and flat config items [source](./module.d.mts:L144:L147)
+The primary export is a Nuxt module that generates ESLint flat configuration:
 
-- NEW: `CheckerOptions.vite` — Vite-specific options passed to `vite-plugin-eslint2` when running checker [source](./module.d.mts:L112:L113)
+- `export default` — Nuxt module for all-in-one ESLint integration [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md#quick-setup)
+- `ModuleOptions` — Configuration interface with `config` and `checker` options [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L83)
+- `ESLintConfigGenAddon` — Hook type for `eslint:config:addons` [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L8)
 
-- NEW: `CheckerOptions.webpack` — Webpack-specific options passed to `eslint-webpack-plugin` when running checker [source](./module.d.mts:L118)
+### ESLint Config API (`@nuxt/eslint-config`)
 
-- NEW: `ConfigGenOptions.devtools` — object to configure ESLint Config Inspector integration in Nuxt DevTools with `enabled` and `port` options [source](./module.d.mts:L38:L49)
+- `createConfigForNuxt(options)` — Factory function returning `FlatConfigComposer` instance, used to generate project-aware ESLint flat configuration [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/1.config.md:L42)
+- `features.stylistic` — Enable ESLint Stylistic formatting rules, accepts boolean or options object [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/1.config.md:L121)
+- `features.typescript` — Enable type-aware TypeScript rules with `tsconfigPath` option [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/1.config.md:L138)
+- `features.tooling` — Module author rules (`unicorn`, `regexp`, `jsdoc`) (experimental) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/1.config.md:L89)
 
-- NEW: `ImportPluginOptions` — allows selection between `eslint-plugin-import-x` (default) and `eslint-plugin-import-lite` [source](./PROMPT_api-changes.md) (v1.x adds support for import plugin selection)
+### ESLint Plugin API (`@nuxt/eslint-plugin`)
 
-- NEW: `NuxtESLintFeaturesOptions.formatters` — support for ESLint formatters plugin with CSS, HTML, XML, SVG, Markdown, and GraphQL formatting via Prettier or dprint [source](./module.d.mts:L70)
+- `nuxt/prefer-import-meta` — Rule enforcing `import.meta.client` / `import.meta.server` instead of `process.client` / `process.server` [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/2.plugin.md:L22)
 
-- NEW: `defineFlatConfigs()` — type definition utility for constructing ESLint flat config items from `@nuxt/eslint-config` [source](./eslint-config-skilld package) (new in v1.x)
+### Dev Server Checker API
 
-**Also changed:** `ModuleOptions` structure with explicit `config` and `checker` options · `ConfigGenOptions.rootDir` for override · `CheckerOptions.configType` for flat/eslintrc mode · `CheckerOptions.lintOnStart` · ESLint 9 and 10 support · flat config as default format · Nuxt module hook system integration
+- `checker` option — Boolean or `CheckerOptions` object to enable ESLint checking alongside dev server [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L216)
+- `checker.configType` — Supports `flat` (default) or `eslintrc` for legacy mode [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L245)
+- `checker.cache` — ESLint cache flag (default: true) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md#dev-server-checker)
+- `checker.lintOnStart` — Run lint on dev server start (default: true) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md#dev-server-checker)
+- `checker.fix` — Auto-fix issues (default: false) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md#dev-server-checker)
+
+### Configuration Features
+
+- `config.standalone` — Disable default JS, TS, Vue plugin setup for custom presets (default: true) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L260)
+- `config.autoInit` — Auto-generate `eslint.config.*` on server start (default: true) [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L294)
+- `devtools.enabled` — ESLint Config Inspector integration in Nuxt DevTools (default: 'lazy') [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md#config-inspector)
+
+### Config Composition
+
+- `FlatConfigComposer` — Chainable instance returned by `createConfigForNuxt()` and `withNuxt()` with methods `.prepend()`, `.override()`, and `.append()` [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/1.config.md:L64)
+- `withNuxt(...)` — Module function called in `eslint.config.mjs` to compose custom flat configs after Nuxt's defaults [source](./.skilld/references/@nuxt/eslint@1.17.0/docs/content/1.packages/0.module.md:L91)
+
+**Also changed:** `eslint:config:addons` hook · `features.tooling` (experimental) · Nuxt DevTools ESLint Config Inspector
+
+## Known Issues or Gaps
+
+- **`import/order` support** — Discussion [#593](../../repos/nuxt/eslint/discussions/discussion-593.md) indicates that `import/order` rule no longer works without explicitly installing the `eslint-plugin-import` package, suggesting a change in how import rules are handled
+- **Version history unavailable** — No changelog or release notes data is available locally to document changes from v1.16, v1.15, or earlier versions
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
-
 ## Best Practices
 
-- Migrate to flat config format exclusively — the module requires ESLint v8.45.0+ and is designed only for flat config, not legacy `.eslintrc` files. This is future-proof and recommended over legacy configs [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L1:11)
+- Use the ESLint Module for new Nuxt projects rather than manual setup via `@nuxt/eslint-config` — it auto-generates project-aware flat config, integrates with Nuxt DevTools, and includes Config Inspector for debugging [source](./.skilld/docs/content/1.packages/0.module.md#features)
 
-- Use the ESLint Module for new projects — it provides project-aware ESLint flat config generation, Nuxt DevTools integration, and optional dev server checking; simpler and more maintainable than manual `@nuxt/eslint-config` setup [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/2.guide/0.faq.md:L8:14)
+- Enable `stylistic` rules explicitly via module options to use ESLint for formatting — the module intentionally leaves this opt-in by default to avoid conflicts with Prettier [source](./.skilld/docs/content/1.packages/0.module.md#eslint-stylistic)
 
-- Install TypeScript as a dev dependency when using the module — the module requires TypeScript to function correctly; it generates typed configuration helpers and enables type-aware linting [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L40:58)
+  ```ts
+  eslint: {
+    config: { stylistic: true }
+  }
+  ```
 
-- Compose config with `FlatConfigComposer` methods for chainable customisation — use `.prepend()`, `.override()`, and `.append()` to manipulate ESLint flat config programmatically rather than manual merging; this returns a composable instance with full chaining support [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L183:208)
+- Use `FlatConfigComposer` chainable methods (`.prepend()`, `.append()`, `.override()`, `.remove()`) when modifying Nuxt's auto-generated config — they provide type-safe name-based targeting rather than manual array manipulation [source](./.skilld/docs/content/1.packages/0.module.md#config-customizations)
 
-- Enable type-aware linting by providing `tsconfigPath` — when using type-checking rules like `@typescript-eslint/no-floating-promises`, configure `features.typescript` with the path to your `tsconfig.json` to avoid "rule requires type information" errors [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/1.config.md:L137:150)
+- Wrap third-party ESLint configs in an array when passing to `withNuxt()` if they export a single config object — `withNuxt()` expects iterable flat config arrays, so non-iterable objects cause Symbol.iterator errors [source](./.skilld/discussions/discussion-409.md)
 
-- Set `languageOptions.parserOptions.project` when enabling typed ESLint rules — this forwards the type information to `@typescript-eslint/parser` and is required for type-aware rules to work correctly in the ESLint config [source](/Users/syn/.skilld/repos/nuxt/eslint/discussions/discussion-544.md:L58:76)
+- Disable `standalone: false` when combining Nuxt ESLint with other preset configs like `@antfu/eslint-config` — standalone mode includes JS, TS and Vue plugins by default which may conflict with your presets [source](./.skilld/docs/content/1.packages/0.module.md#custom-config-presets)
 
-- Opt-in to ESLint Stylistic for formatting rules — by default the module does not enable formatting rules; set `config.stylistic: true` if you prefer ESLint for formatting instead of Prettier [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L145:180)
+- Use `.remove('gitignore')` to override Nuxt's default gitignore handling for edge cases like git submodules — this is cleaner than trying to override the internal config name [source](./.skilld/discussions/discussion-600.md)
 
-- Avoid `standalone: false` unless merging custom presets — setting `standalone: false` disables default JS, TS, and Vue rule setup; only use this when combining with external config presets like `@antfu/eslint-config` [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L260:292)
+- Separate ESLint configs for monorepo Nuxt apps vs utility packages — create one config with `withNuxt()` for Nuxt-specific projects and another with `createConfigForNuxt()` for packages, allowing both to inherit base rules even if some don't apply [source](./.skilld/discussions/discussion-420.md)
 
-- Enable dev server checker only for multi-IDE team environments — the optional `checker: true` setting provides inline ESLint feedback in the dev server, but has a performance cost; rely on IDE ESLint integrations or pre-commit hooks instead for single-developer workflows [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L216:243)
+- Enable type-aware TypeScript rules by setting `features.typescript.tsconfigPath` in `createConfigForNuxt()` — this unlocks stricter type-checking rules like `@typescript-eslint/await-thenable` [source](./.skilld/docs/content/1.packages/1.config.md#type-aware-rules)
 
-- Update VS Code ESLint extension to v3.0.10+ for native flat config support — older versions require `"eslint.useFlatConfig": true` in settings; upgrading eliminates this manual configuration step [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L112:122)
+- Set `autoInit: false` if you manage `eslint.config.mjs` in version control — the module auto-generates the file on server start by default, which can cause unwanted re-creation after manual edits [source](./.skilld/docs/content/1.packages/0.module.md#auto-init)
 
-- Use `createConfigForNuxt()` at monorepo root for non-Nuxt packages — monorepos can export both a Nuxt-aware config via `withNuxt()` inside Nuxt apps and a generic config via `createConfigForNuxt()` at the root for utility packages, enabling consistent rule inheritance across the workspace [source](/Users/syn/.skilld/repos/nuxt/eslint/discussions/discussion-420.md:L49:60)
+- Use the `checker` option to run ESLint alongside dev server in teams with mixed IDE setups — most IDEs handle ESLint natively, but this ensures consistency when some developers don't configure it [source](./.skilld/docs/content/1.packages/0.module.md#dev-server-checker)
 
-- Configure the ESLint Config Inspector via Nuxt DevTools — the module ships an interactive inspector integrated into Nuxt DevTools; use it to debug and validate your resolved ESLint flat config instead of manually running `@eslint/config-inspector` [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L210:214)
+- Prepend ignore configs rather than append them when using flat config arrays — ESLint processes ignores in order, so prepending ensures they apply to all following rules [source](./.skilld/discussions/discussion-413.md)
 
-- Disable `autoInit: false` only when managing `eslint.config.*` manually — the module automatically generates an `eslint.config.mjs` on server startup; disable only if you need explicit control over when the file is created [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/0.module.md:L294:309)
+- Enable `features.tooling` (experimental) for library/module authors to enforce code quality rules via `unicorn`, `regexp` and `jsdoc` plugins — this catches common pitfalls in public APIs [source](./.skilld/docs/content/1.packages/1.config.md#module-authors)
 
-- Enforce `import.meta.client/server` over `process.client/server` via `nuxt/prefer-import-meta` rule — this rule is included in the module and marks `process.*` checks as errors, ensuring Nuxt 3+ compatibility and proper tree-shaking behavior [source](../../../.skilld/references/@nuxt/eslint@1.16.0/docs/content/1.packages/2.plugin.md:L22:32)
+- Use type casting with `@ts-ignore` when mixing `@nuxt/eslint` types with `typescript-eslint` configs due to upstream type incompatibilities — the error messages are misleading as both are valid configs at runtime [source](./.skilld/issues/issue-497.md)
 
+- Prefer `import.meta.client` and `import.meta.server` over legacy `process.client`/`process.server` — the `nuxt/prefer-import-meta` ESLint rule enforces this pattern which is the modern Nuxt standard [source](./.skilld/docs/content/1.packages/2.plugin.md#nuxtprefer-import-meta)
 <!-- /skilld:best-practices -->

@@ -1,17 +1,17 @@
 ---
 name: npm-run-all2-skilld
-description: 'ALWAYS use when writing code importing "npm-run-all2". Consult for debugging, best practices, or modifying npm-run-all2, npm run all2.'
+description: 'A CLI tool to run multiple npm-scripts in parallel or sequential. (Maintenance fork). ALWAYS use when writing code importing "npm-run-all2". Consult for debugging, best practices, or modifying npm-run-all2, npm run all2.'
 metadata:
-  version: 9.0.2
-  generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  version: 9.0.3
+  generated_by: cached
+  generated_at: 2026-09-13
 ---
 
-# bcomnes/npm-run-all2 `npm-run-all2@9.0.2`
+# bcomnes/npm-run-all2 `npm-run-all2@9.0.3`
 
-**Tags:** beta: 8.1.0-beta.0, latest: 9.0.2
+**Tags:** beta: 8.1.0-beta.0, latest: 9.0.3
 
-**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
+**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
 ## Search
 
@@ -21,68 +21,51 @@ Use `skilld search "query" -p npm-run-all2` instead of grepping `.skilld/` direc
 
 ## API Changes
 
-This section documents version-specific API changes — prioritise recent major/minor releases.
+This section documents version-specific API changes for npm-run-all2 v9.0.3, focusing on breaking changes, new APIs, and deprecations.
 
-### Breaking Changes
+- BREAKING: ESM only — v9.0.0 removed CommonJS support. Code using `require("npm-run-all2")` will fail; use `import` instead [source](./.skilld/releases/v9.0.0.md#breaking-changes)
 
-- BREAKING: ESM only — v9.0.0 requires ESM modules; CommonJS support removed [source](./.skilld/releases/v9.0.0.md#breaking-changes)
-- BREAKING: Node.js version requirement — v9.0.0 requires `^22.22.2 || ^24.15.0 || >=26.0.0`; v8.0.0 required `>= Node 20` [source](./.skilld/releases/v9.0.0.md#breaking-changes)
-- BREAKING: Empty glob patterns — Glob patterns matching no tasks now succeed silently instead of throwing errors [source](./.skilld/releases/v9.0.0.md#breaking-changes)
-- BREAKING: Node.js 20 floor — v8.0.0 raised engine floor from Node 18 to `>= Node 20` [source](./.skilld/releases/v8.0.0.md)
+- BREAKING: Node.js engine requirements — v9.0.0 changed minimum version from Node >=20 to ^22.22.2 || ^24.15.0 || >=26.0.0. Projects using Node 20 or 21 cannot use v9.x [source](./.skilld/releases/v9.0.0.md#breaking-changes)
 
-### New Features
+- BREAKING: Empty glob patterns behavior — v9.0.0 changed empty glob patterns from throwing an error to succeeding silently. Code that relied on error thrown for non-matching patterns will change behavior [source](./.skilld/releases/v9.0.0.md:L13)
 
-- NEW: `nodeRun` option / `--node-run` flag — v9.0.0 adds `-x / --node-run` flag to bypass package manager and use `node --run` instead [source](./.skilld/releases/v9.0.0.md#new-features)
-- NEW: Enhanced colour support — v9.0.0 adds more colours based on terminal capabilities via improved `ColorMode` handling [source](./.skilld/releases/v9.0.0.md#new-features)
-- NEW: Published TypeScript types — v9.0.0 ships with fully type-checked JSDoc types and published `.d.ts` files [source](./.skilld/releases/v9.0.0.md#breaking-changes)
+- NEW: `nodeRun` option (Node API) and `--node-run` / `-x` CLI flag — v9.0.0 added support for Node.js native `node --run` execution mode, bypassing the package manager. Option is boolean; enables via API `{ nodeRun: true }` or CLI `--node-run` / `-x`. Omits pre/post lifecycle hooks and npm_* environment variables; sets `NODE_RUN_SCRIPT_NAME` and `NODE_RUN_PACKAGE_JSON_PATH` instead. Can also be enabled project-wide in package.json as `"npm-run-all2": { "nodeRun": true }` [source](./.skilld/releases/v9.0.0.md:L19)
 
-### Type System Changes
+- NEW: `colorMode` option — v9.0.0 added explicit color palette override option. Accepts `"auto"` (detects from terminal, default), `"none"` (disables colors), `"16"` (forces 16-color palette), or `"256"` (forces ANSI 256-color palette). CLI equivalent is `--color-mode <mode>` [source](./.skilld/docs/npm-run-all.md:L18-L23)
 
-- `NpmRunAllOptions.nodeRun?: boolean` — new in v9.0.0, controls whether to bypass package manager with `node --run` [source](./.skilld/pkg/./lib/index.d.ts:L26)
-- `ColorMode` type — new in v9.0.0, exported from `run-task.js` for colour terminal capability control [source](./.skilld/pkg/./lib/index.d.ts:L39)
-
-### Migration Guide
-
-When upgrading from v8 to v9:
-
-1. Ensure your project uses Node.js 22.22.2 or later, OR 24.15.0 or later, OR 26.0.0 or later
-2. Convert any CommonJS files to ESM (`.cjs` → `.mjs` or update `package.json` `"type": "module"`)
-3. Remove any error handling for empty glob patterns — they now succeed silently instead of throwing
-4. Optionally use `--node-run` flag if running on Node.js 22.9.0+ to bypass npm/yarn/pnpm entirely
-
-**Also changed:** rimraf removed v7.0.0 · minimatch → picomatch (experimental, reverted to minimatch) v8.0.2 · p-queue upgraded v6.2.1 · read-package-json-fast adopted v6.1.2
+**Also changed:** Fully type-checked with published types · More colors based on terminal capabilities
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## npm-run-all2 Best Practices
 
-- Prefer `--node-run` flag (or `nodeRun` in package.json config) for sequential-only workflows to bypass npm and improve performance — Node's native execution is significantly faster, though it intentionally omits npm lifecycle hooks and npm_* environment variables [source](./.skilld/docs/npm-run-all.md#L51:L59)
+- Combine `--max-parallel` with CI environment variables to prevent resource exhaustion — parallelism defaults to unlimited, which can overwhelm CI systems with restricted CPU/memory budgets [source](./.skilld/docs/npm-run-all.md#L28:29)
 
-- When using `--print-label` with tools like ESLint that detect TTY status, set `FORCE_COLOR=1` to preserve colored output — `npm-run-all` pipes stdout to add task prefixes, which breaks TTY detection in chalk-based colourers [source](./.skilld/docs/npm-run-all.md#L213:L222)
+- Use `--aggregate-output` when running parallel tasks to prevent output interleaving and improve readability of logs [source](./.skilld/docs/node-api.md#L38:41)
 
-- Limit parallelism on CI systems using `--max-parallel <number>` to match available resources — CI environments have constrained CPU and memory, so unbounded parallelism can cause timeouts or failures [source](./.skilld/docs/npm-run-all.md#L28:L29)
+- Combine `--print-label` with `--aggregate-output` for production-grade output — labels clarify which script produced which output, and aggregation prevents interleaving [source](./.skilld/docs/node-api.md#L69:72)
 
-- Use `--aggregate-output` in parallel mode to prevent interleaved output when debugging task failures — this delays printing of each task's output until completion, making logs readable [source](./.skilld/docs/npm-run-all.md#L16:L17)
+- Set `FORCE_COLOR=1` when using `--print-label` with chalk-based tools (ESLint, etc.) — `--print-label` pipes output which disables TTY-based color detection, but FORCE_COLOR bypasses this check [source](./.skilld/docs/npm-run-all.md#L215:218)
 
-- Apply `--continue-on-error` in CI pipelines to gather all failures before exiting — the process still returns non-zero, but all tasks complete, revealing multiple issues at once instead of stopping at the first error [source](./.skilld/docs/npm-run-all.md#L24:L27)
+- Use `--continue-on-error` in CI workflows to run all scripts even if one fails, enabling comprehensive error reporting instead of fail-fast behaviour [source](./.skilld/docs/npm-run-all.md#L24:27)
 
-- Enclose glob patterns or script names in quotes when passing arguments to preserve the `--` separator — without quotes, the shell parses flags incorrectly [source](./.skilld/docs/npm-run-all.md#L162:L173)
+- Organize scripts hierarchically using colons as separators (e.g. `build:css`, `build:js`) and match them with glob patterns like `build:**` for deeper nesting — colon-based patterns are more readable than filesystem paths [source](./.skilld/docs/npm-run-all.md#L133:150)
 
-- Use globstar `**` patterns to match nested script hierarchies, not single-level `*` — `watch:*` matches `watch:html` but not `watch:js:index`, whereas `watch:**` matches both [source](./.skilld/docs/npm-run-all.md#L133:L151)
+- Rely on guaranteed execution order when using glob patterns with `run-s` — matched scripts execute in the order they appear in `package.json` per ECMAScript spec [source](./.skilld/docs/run-s.md#L108:115)
 
-- Prefix script names with numbers (e.g. `build:1:html`, `build:2:js`) to guarantee execution order if formatters may reorder `package.json` alphabetically — script ordering in sequential runs is guaranteed by ECMAScript property iteration order, but tools that rewrite the file can break this [source](./.skilld/docs/run-s.md#L108:L116)
+- Prefix script names with numbers (e.g. `build:1:html`, `build:2:js`) to ensure correct ordering if formatters alphabetically reorder `package.json` [source](./.skilld/docs/npm-run-all.md#L153:161)
 
-- Apply `--race` flag in parallel mode to terminate all tasks as soon as one completes successfully — useful for "first to finish" patterns like running multiple build variants to find the fastest [source](./.skilld/docs/npm-run-all.md#L43:L45)
+- Pass arguments through scripts using placeholder syntax `{1}`, `{2}`, `{@}` (all args) or `{*}` (combined args) — these are automatically quoted and work consistently across platforms [source](./.skilld/docs/npm-run-all.md#L174:211)
 
-- Use argument placeholders `{1}`, `{2}`, `{@}`, `{*}` to forward CLI arguments to scripts — for example, `run-p "build:* -- --watch"` passes `--watch` to every matched script, or `npm-run-all build "start -- --port {1}" --` forwards the port argument [source](./.skilld/docs/npm-run-all.md#L174:L211)
+- Enable `--node-run` (`-x` flag) or set `"npm-run-all2": { "nodeRun": true }` in `package.json` for faster script execution when pre/post lifecycle hooks are not needed — uses Node's faster `node --run` instead of npm [source](./.skilld/docs/npm-run-all.md#L51:59)
 
-- Configure per-project `nodeRun` setting in `package.json` for scripts that only need sequential execution — add `"npm-run-all2": { "nodeRun": true }` to enable Node's `--run` mode globally, avoiding the need to specify `-x` on every invocation [source](./.skilld/docs/npm-run-all.md#L57:L59)
+- Configure `maxListenersExceeded` warnings when using custom streams (`stdin`, `stdout`, `stderr`) in parallel mode — npm-run-all uses piping internally, which can exceed Node's default listener limits [source](./.skilld/docs/node-api.md#L117:122)
 
-- Empty glob patterns now succeed silently in v9.0.0+ instead of throwing an error — this allows safer script composition where some patterns may not match any tasks; remove workarounds like creating placeholder scripts [source](./.skilld/releases/v9.0.0.md#L26)
+- Use `--silent` flag to suppress npm's verbose logging output — particularly useful in CI to reduce noise while maintaining script output [source](./.skilld/docs/npm-run-all.md#L50)
 
-- Override colour mode explicitly in environments with limited terminal capabilities using `--color-mode <mode>` — use `none` to disable labels entirely, `16` to force the named 16-colour palette on systems that might report higher depth, or `256` for ANSI 256-colour palettes [source](./.skilld/docs/npm-run-all.md#L18:L23)
+- Be aware that glob patterns matching zero tasks now silently succeed (breaking change in v9.0.0) — this prevents CI failures from typos in task names, so validate patterns carefully [source](./.skilld/releases/v9.0.0.md#L13)
 
-- Pass custom task lists to the Node API via `options.taskList` to override automatic `package.json` discovery — this allows programmatic control over which scripts run, useful for dynamic task generation or testing [source](./.skilld/docs/node-api.md#L95:L98)
+- Use `--color-mode` to explicitly control color output in different environments — set to `none` in non-TTY CI, `16` for legacy terminals, or `256` for modern terminals to override auto-detection [source](./.skilld/docs/npm-run-all.md#L18:23)
 
 <!-- /skilld:best-practices -->

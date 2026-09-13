@@ -1,17 +1,17 @@
 ---
 name: types-node-skilld
-description: 'ALWAYS use when writing code importing "@types/node". Consult for debugging, best practices, or modifying @types/node, types/node, types node, DefinitelyTyped.'
+description: 'TypeScript definitions for node. ALWAYS use when writing code importing "@types/node". Consult for debugging, best practices, or modifying @types/node, types/node, types node, DefinitelyTyped.'
 metadata:
-  version: 26.1.1
-  generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  version: 26.4.1
+  generated_by: cached
+  generated_at: 2026-09-13
 ---
 
-# DefinitelyTyped/DefinitelyTyped `@types/node@26.1.1`
+# DefinitelyTyped/DefinitelyTyped `@types/node@26.4.1`
 
-**Tags:** ts2.5: 12.12.6, ts2.6: 12.12.6, ts2.0: 12.12.6
+**Tags:** ts2.4: 12.12.6, ts2.6: 12.12.6, ts2.0: 12.12.6
 
-**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
+**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
 ## Search
 
@@ -19,57 +19,87 @@ Use `skilld search "query" -p @types/node` instead of grepping `.skilld/` direct
 
 <!-- skilld:api-changes -->
 
-## @types/node v26.1.1 API Changes
-
-This section documents version-specific API changes for @types/node v26.1.1 — focusing on recent major/minor releases and migrations.
-
 ## API Changes
 
-- BREAKING: TypeScript < 5.0 support dropped for FFI module — `ffi.d.ts` uses `const` type parameters (TypeScript 5.0+ syntax), causing parse-time errors with TypeScript < 5.0 even with `skipLibCheck: true` [source](./.skilld/discussions/discussion-75225.md)
+This section documents version-specific API changes in @types/node v26.4.1 — prioritizing recent major/minor releases (v25→v26 migration and v26 additions).
 
-- NEW: FFI module (`node:ffi`) for native function interface — enables loading dynamic libraries and calling native functions via `dlopen()`, `dlsym()`, `dlclose()`, with memory helper functions (`readUTF8String()`, `readArrayOf8BitIntegers()`, etc.) and a `suffix` constant for platform-specific shared library extensions [source](./.skilld/pkg/ffi.d.ts:L1-100)
+- NEW: `randomUUIDv7()` in crypto module — generates RFC 4122 UUID v7 with embedded timestamp for database sorting, added v26.1.0 [source](./../node_modules/@types/node/crypto.d.ts:L)
 
-- NEW: `crypto.randomUUIDv7()` — generates RFC 9562 version 7 UUIDs (available since Node v24.16.0); previously only `randomUUID()` (v4) was supported [source](./.skilld/pkg/crypto.d.ts:L3019)
+- NEW: FFI module (Foreign Function Interface) — complete module for calling native functions with `dlopen()`, `dlsym()`, `dlclose()` and native memory manipulation (`toBuffer()`, `toString()`, `toArrayBuffer()`), marked experimental, added v26.1.0 [source](./../node_modules/@types/node/ffi.d.ts:L)
 
-- NEW: Test runner context query — `test.getTestContext()` function returns the active test or suite context, allowing access to test metadata from outside the callback [source](./.skilld/pkg/test.d.ts:L973)
+- NEW: `http.request.signal` property — allows requests obtained from `http.Server` to be aborted via AbortSignal, added v26.1.0 [source](./../node_modules/@types/node/http.d.ts:L)
 
-- NEW: Test randomization — `randomize` boolean option on test runner options to randomize execution order of tests and test files (deterministic via `seed` option) [source](./.skilld/pkg/test.d.ts:L286)
+- NEW: `diagnostics_channel.boundedChannel()` — creates bounded diagnostic channels with scoped store contexts and `withStoreScope()` method for lifecycle management, experimental, added v26.1.0 [source](./../node_modules/@types/node/diagnostics_channel.d.ts:L)
 
-- NEW: Suite introspection — `SuiteContext.passed` property (boolean), `SuiteContext.attempt` property (zero-based attempt number), and `SuiteContext.diagnostic()` method for suite diagnostics [source](./.skilld/pkg/test.d.ts:L1384-1403)
+- NEW: `http.response.writeInformation()` method — sends HTTP/1xx informational responses (excluding 101 Switching Protocols), added v26.2.0 [source](./../node_modules/@types/node/http.d.ts:L)
 
-- NEW: V8 synchronous heap profiling — `v8.startHeapProfiling()` with `SyncHeapProfileHandle` interface containing `stop()` and `cancel()` methods for collecting synchronous heap profiles [source](./.skilld/pkg/v8.d.ts:L26)
+- NEW: QUIC module enhancements — `OnNewTokenCallback`, `OnOriginCallback`, `OnKeylogCallback`, `OnQlogCallback` types; `enableEarlyData` and `datagramDropPolicy` options; `maxHeaderPairs` in ApplicationOptions, added v26.2.0–v26.3.0 [source](./../node_modules/@types/node/quic.d.ts:L)
 
-**Also changed:** `ReadableStreamReadDoneResult` type compatibility with `lib.dom.d.ts` (v25 migration) · `crypto.randomUUIDV7Options` interface · FFI memory API (`readBigInt64LE`, `readBigUInt64LE`, `readPointer`, `writePointer`, etc.)
+- NEW: `http.ServerResponse.httpValidation` option — controls HTTP header validation mode (`'strict'` | `'relaxed'` | `'insecure'`), allows relaxed parsing of non-compliant headers, added v26.3.0 [source](./../node_modules/@types/node/http.d.ts:L)
+
+- NEW: `process.permission.drop()` — revoke POSIX capabilities and deny access to specific resources at runtime, experimental, added v26.3.0 [source](./../node_modules/@types/node/process.d.ts:L)
+
+- NEW: `net.Socket.setKeepAlive(options)` — new overload accepting object with `enable`, `initialDelay`, `interval`, `count` properties instead of positional arguments, added v26.4.0 [source](./../node_modules/@types/node/net.d.ts:L)
+
+- NEW: `net.BoundSocket` class — holds a bound socket before adoption by `net.Server` or `net.Socket`; methods `address()`, `fd()`, `close()` and `[Symbol.dispose]()` for automatic cleanup, added v26.4.0 [source](./../node_modules/@types/node/net.d.ts:L)
+
+- NEW: `dgram.Socket.bindSync()` — synchronously binds UDP socket (no cluster handle sharing), added v26.4.0 [source](./../node_modules/@types/node/dgram.d.ts:L)
+
+- NEW: `dgram.Socket.connectSync()` — synchronously connects UDP socket to a remote address with no DNS resolution, added v26.4.0 [source](./../node_modules/@types/node/dgram.d.ts:L)
+
+**Also changed:** sqlite `defensive` flag and `enableDefensive()` method v25.1 · async_hooks enhancements v25.9 · module compile cache v25.0 · http CONNECT method updates v25.4 · inspector protocol additions v25.5 · perf_hooks additions v25.2 · test framework upgrades v25.5–v25.8
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
-## Best Practices
+## Best Practices for @types/node
 
-- Use `node:` prefix when importing Node.js modules to ensure ESM compatibility and clarity — both `import fs from 'node:fs'` and `import { open } from 'node:fs/promises'` are standard patterns [source](./.skilld/pkg/fs/promises.d.ts#L201)
+## Type Safety and Module Imports
 
-- Prefer fs/promises over callback-based fs APIs for all file I/O operations — the promises-based module provides better error handling, cleaner syntax, and integrates well with async/await patterns [source](./.skilld/pkg/fs/promises.d.ts#L1188)
+- Always use the `node:` prefix when importing Node.js built-in modules (`import { EventEmitter } from 'node:events'`) — this is the modern convention that improves clarity and ensures compatibility with bundlers and runtimes that support this syntax [source](./.skilld/pkg/index.d.ts:L28)
 
-- Use `AbortSignal` with async operations to enable cancellation without requiring manual cleanup — pass an `AbortSignal` to functions like `readFile()` and `watch()` to support timeouts and user-initiated cancellations [source](./.skilld/pkg/fs/promises.d.ts#L1198:L1210)
+- Use `import type` syntax for type-only imports to reduce bundle size and avoid circular dependencies — TypeScript will strip these at compilation time without affecting runtime [source](./.skilld/pkg/events.d.ts:L1)
 
-- Prefer WHATWG URL API (the `URL` class) over deprecated `url.parse()` — the modern API is standard across JavaScript environments and avoids security issues related to host name spoofing and incorrect credential handling [source](./.skilld/pkg/url.d.ts#L68:L88)
+- Use promise-based APIs from `node:timers/promises`, `node:fs/promises`, and `node:readline/promises` for modern async/await patterns rather than callback-based alternatives — promises are more composable and integrate better with async generators [source](./.skilld/pkg/timers/promises.d.ts:L18:32)
 
-- Use `stream/promises` for promise-based stream pipelines and `stream/iter` for modern iterator-based consumption — these provide composable, chainable APIs for stream transformation without callback nesting [source](./.skilld/pkg/index.d.ts#L95:L98)
+## EventEmitter and Event Handling
 
-- Use `dns/promises` instead of callback-based DNS operations — enables natural async/await syntax and better error propagation in DNS-heavy applications [source](./.skilld/pkg/dns/promises.d.ts#L417)
+- Define event maps as interfaces to enable full type inference on event names and listener arguments — this provides compile-time safety for event-driven code [source](./.skilld/pkg/events.d.ts:L5:27)
 
-- Set `chunkSize` explicitly in file read/write operations to optimise performance for your use case — the default (131072 bytes) suits most scenarios, but adjust based on your streaming characteristics [source](./.skilld/pkg/fs/promises.d.ts#L109,L136)
+- Pass `{ captureRejections: true }` to EventEmitter subclasses when handling promise-based operations to automatically catch unhandled promise rejections within event listeners — implement the `[Symbol.for('nodejs.rejection')]` method to handle captured errors [source](./.skilld/pkg/events.d.ts:L31:35)
 
-- Use `EventEmitter.once()` instead of `.on()` when listening for single events — avoids manual listener cleanup and reduces memory overhead when handling one-time events [source](./.skilld/pkg/events.d.ts#L236:L256)
+- Use `Symbol.for('nodejs.rejection')` (available as `EventEmitter.captureRejectionSymbol`) to intercept and handle promise rejections emitted by listeners — this prevents unhandled rejection crashes [source](./.skilld/pkg/events.d.ts:L59:76)
 
-- Use `import.meta.url` with `new URL()` to construct file paths in ESM code — provides reliable path resolution across different execution contexts without relying on `__dirname` or `__filename` [source](./.skilld/pkg/fs/promises.d.ts#L746,L1276)
+## Async Operations and Cancellation
 
-- Recognise that @types/node only supports the last two years of TypeScript versions — do not expect compatibility with TypeScript versions older than ~2 years; upgrade TypeScript or pin @types/node to an older version if this is a constraint [source](./.skilld/discussions/discussion-75225.md)
+- Pass an `AbortSignal` to any operation that accepts `{ signal }` (file operations, HTTP requests, child processes) to enable proper cancellation and cleanup — this is the standard Node.js pattern for timeout and cancellation [source](./.skilld/pkg/timers/promises.d.ts:L77)
 
-- Import ES builtin definitions from TypeScript's lib (e.g., `es2025.iterator` or `esnext.iterator` in tsconfig), not from @types/node — @types/node provides Node.js-specific APIs only; async iterator helpers and other ES features come from TypeScript's standard library [source](./.skilld/discussions/discussion-74956.md)
+- Use async iterators from `node:timers/promises` (`setInterval`, `setImmediate`) with `for await...of` loops for event-driven iteration — the `ref` option in `setInterval` controls whether the process should stay alive while waiting [source](./.skilld/pkg/timers/promises.d.ts:L57)
 
-- Use `Abortable` mixin when creating custom resource types that support cancellation — this interface integrates with Node.js conventions for signal-based cancellation and works with existing timeout patterns [source](./.skilld/pkg/fs/promises.d.ts#L70:L77)
+- Understand that ES iterator helpers (`.filter()`, `.map()` on async iterables) are provided by TypeScript's lib options, not by @types/node — add `es2025.iterator` (TS 6.0+) or `esnext.iterator` (TS 5.6–5.9) to your `tsconfig.json` `lib` array if using these methods [source](./.skilld/discussions/discussion-74956.md:L34)
 
-- Use `stream/iter` with `pipeTo()` for composition over the callback-based `.pipe()` — provides backpressure handling, error propagation, and chainable transformations without callback pyramid nesting [source](./.skilld/pkg/fs/promises.d.ts#L568:L569)
+## Stream Handling
+
+- Streams accept both callbacks and event-based patterns; prefer event maps with typed listeners for better IDE support and type safety [source](./.skilld/pkg/stream.d.ts:L1)
+
+- When using `fs.promises.open()` with `FileHandle`, the `.writeFile()` method accepts `Buffer`, `Uint8Array`, `string`, `Iterable<Buffer>`, `AsyncIterable<Buffer>`, and `ReadableStream` — leverage this to pipe streams directly without intermediate buffering [source](./.skilld/discussions/discussion-75147.md:L20:23)
+
+## Type System Patterns
+
+- Use typed generics with `setTimeout` and `setImmediate` from `node:timers/promises` to infer the return type automatically — for example, `await setTimeout(1000, 'result')` returns `Promise<string>` without explicit type annotation [source](./.skilld/pkg/timers/promises.d.ts:L18)
+
+- Leverage `EventEmitter<T extends EventMap<T> = any>` as a generic base class when creating event-emitting classes — define the event map interface to unlock full type inference on emit and listener signatures [source](./.skilld/pkg/events.d.ts:L52:54)
+
+## Buffer and Encoding
+
+- Use overloaded function signatures in crypto and fs modules to handle encoding options — the types will automatically narrow return types to `string` when encoding is specified, or `Buffer` when absent [source](./.skilld/pkg/crypto.d.ts:L641:665)
+
+- Import `BufferView` and `NonSharedBuffer` type helpers from `node:buffer` when writing type-safe buffer operations that accept multiple buffer-like types — these enable type inference without listing all buffer variants [source](./.skilld/pkg/fs/promises.d.ts:L2)
+
+## Module Pattern
+
+- Recognize that @types/node does not provide definitions for ES built-in methods (like `Array.prototype.at()` or `String.prototype.replaceAll()`) — these come from TypeScript's `lib` options in `tsconfig.json`, not from @types/node [source](./.skilld/discussions/discussion-74956.md:L34)
+
+- Use `import type { ... }` for Node.js built-in interfaces that appear only in type annotations (e.g., `import type { EventMap } from 'node:events'`) to keep imports explicit and prevent accidental runtime dependencies [source](./.skilld/pkg/events.d.ts:L5)
 
 <!-- /skilld:best-practices -->

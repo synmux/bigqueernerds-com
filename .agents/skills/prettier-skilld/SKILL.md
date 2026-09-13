@@ -1,15 +1,15 @@
 ---
 name: prettier-skilld
-description: 'ALWAYS use when writing code importing "prettier". Consult for debugging, best practices, or modifying prettier.'
+description: 'Prettier is an opinionated code formatter. ALWAYS use when writing code importing "prettier". Consult for debugging, best practices, or modifying prettier.'
 metadata:
-  version: 3.9.5
-  generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  version: 3.9.6
+  generated_by: cached
+  generated_at: 2026-09-13
 ---
 
-# prettier/prettier `prettier@3.9.5`
+# prettier/prettier `prettier@3.9.6`
 
-**Tags:** next: 4.0.0-alpha.13, latest: 3.9.5
+**Tags:** next: 4.0.0-alpha.13, latest: 3.9.6
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
@@ -21,63 +21,55 @@ Use `skilld search "query" -p prettier` instead of grepping `.skilld/` directori
 
 ## API Changes
 
-This section documents version-specific API changes for Prettier v3.x — prioritise recent major/minor releases.
+This section documents version-specific API changes in Prettier v3.9.6 and recent releases — prioritizing new capabilities, signature changes, and deprecated/removed features that LLMs trained on older data may not know about.
 
-- BREAKING: `comment.placement` property undocumented but used by plugins, deleted in v3.9.0 and restored v3.9.5 [source](./.skilld/releases/CHANGELOG.md:L152:L155)
+- NEW: Async support for `preprocess` function in parsers — v3.7.0 added `Promise<string>` return type support alongside sync implementations [source](./.skilld/releases/CHANGELOG.md:L175)
 
-- NEW: Async preprocess support in printer plugins — v3.7.0 added ability for `preprocess` method to return `Promise<AST>` [source](./.skilld/docs/plugins.md:L175)
+- NEW: `@prettier/plugin-yuku` official plugin — v3.9.6 introduced new high-performance parser plugin with two AST formats: `yuku` (JavaScript) and `yuku-ts` (TypeScript), powered by Yuku compiler toolchain. Must be installed separately and added to `plugins` config [source](./.skilld/releases/v3.9.6.md#added-a-new-official-plugin)
 
-- NEW: `canAttachComment(node, ancestors)` — second parameter `ancestors` added in v3.7.0 to identify ancestor nodes during comment attachment [source](./.skilld/docs/plugins.md:L469)
+- FIXED: `prettier.printers` property now included in plugin type declarations — v3.8.1 resolved missing type information for accessing printer objects from plugins (e.g. `prettierPluginEstree.printers.estree`), previously typed as `any` [source](./.skilld/releases/CHANGELOG.md:L581:595)
 
-- NEW: `printPrettierIgnored` printer method — v3.7.0 added optional method to override handling of prettier-ignore'd nodes instead of reprinting raw text [source](./.skilld/docs/plugins.md:L435)
+- NEW: `checkIgnorePragma` option — v3.6.0 added boolean option to respect file-level pragma comments (`@noprettier` or `@noformat`) during formatting checks, disabled by default [source](./.skilld/references/prettier@3.9.6/docs/options.md:L399:423)
 
-- NEW: `printers` property in plugin type declarations — v3.8.1 made `printers` property typed and accessible from imported plugins, previously resolved to `any` [source](./.skilld/releases/CHANGELOG.md:L516:L530)
+- NEW: `mjml` parser — v3.6.0 added support for MJML (Mailjet Markup Language), available as `parser: "mjml"` in configuration [source](./.skilld/references/prettier@3.9.6/docs/options.md:L328)
 
-- BREAKING: `prettier.getFileInfo()` change — v3.7.0 internally refactored and broke VSCode extension plugin loading (fixed v3.7.3) [source](./.skilld/releases/CHANGELOG.md:L602:L604)
+- TypeScript parser enhancement — v3.9.6 added support for `import defer` syntax in TypeScript ([source](./.skilld/releases/v3.9.6.md:L25:L37)); preserved quote handling for methods named `new` to match JavaScript semantics ([source](./.skilld/releases/v3.9.6.md:L5:L23))
 
-- BREAKING: `module-sync` condition removed from `package.json` — v3.5.2 removed ESM/CommonJS interop feature due to incompatibility with mixed plugin imports [source](./.skilld/releases/CHANGELOG.md:L776:L778)
-
-**Also changed:** Support for TypeScript 5.2 `using` / `await using` declaration v3.0.3 · Include `printers` export in plugin type definitions v3.0.1 · TypeScript 5.0 `const` modifiers for type parameters v2.8.5 · Custom Parser API removed (replaced by Plugin API) v3.0.0
+**Also changed:** Angular v21 syntax support in v3.8.2 · Flow `readonly` variance annotation support in v3.8.5 · Performance improvements in doc printer (v3.7.1 regression fix)
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
 ## Best Practices
 
-- Always await Prettier's async APIs — use `@prettier/sync` only when synchronous execution is required [source](./.skilld/docs/api.md#L8:12)
+- Resolve Prettier configuration with `resolveConfig()` before formatting programmatically, then merge it with any API-level options — avoids duplicating config logic and ensures project configuration is respected [source](./.skilld/docs/api.md#resolveconfigfileurlorpath-options)
 
-- Use `prettier.resolveConfig()` with spread syntax to apply discovered config alongside parsed options, enabling consistent formatting across programmatic and CLI usage [source](./.skilld/docs/api.md#prettier-resolveconfig)
+- Use `prettier.check()` instead of comparing formatted output in CI pipelines — returns a boolean to easily integrate with exit codes and avoids generating unnecessary diffs [source](./.skilld/docs/api.md#prettiercheck-source-options)
 
-```js
-const options = await prettier.resolveConfig(filePath);
-const formatted = await prettier.format(text, {
-  ...options,
-  filepath: filePath,
-});
-```
+- Always pass TypeScript configuration files with `import { type Config } from "prettier"` for type safety and IDE autocomplete — reveals available options and catches misconfigurations before runtime [source](./.skilld/docs/configuration.md#typescript-configuration-files)
 
-- For editor integrations, use `prettier.formatWithCursor()` instead of `format()` to preserve cursor position and prevent jarring jumps when reformatting [source](./.skilld/docs/api.md#prettier-formatwithcursor)
+- Use configuration overrides for per-file-type options instead of environment-specific configurations — keeps all formatting rules co-located and predictable across different tools and workflows [source](./.skilld/docs/configuration.md#configuration-overrides)
 
-- Validate formatting in CI with `prettier.check()` rather than attempting to parse CLI output — returns a boolean promise matching `--check` semantics [source](./.skilld/docs/api.md#prettier-check)
+- Use `lint-staged` with Prettier for pre-commit hooks when integrating with other code-quality tools (ESLint, Stylelint) — allows fine-grained control over which files are checked and supports partially staged files [source](./.skilld/docs/precommit.md#option-1-lint-staged)
 
-- Never place the `parser` option at the top level of configuration — only use it inside `overrides` blocks to avoid disabling Prettier's automatic parser inference for all file types [source](./.skilld/docs/configuration.md#setting-the-parser-option)
+- Avoid `eslint-plugin-prettier` in favour of running Prettier directly — the plugin is slower, creates visual noise in editors, and adds an unnecessary layer of indirection [source](./.skilld/docs/integrating-with-linters.md)
 
-- Use TypeScript configuration files (`.prettierrc.ts` or `prettier.config.ts`) with `import { type Config }` for type-safe configuration and IDE autocomplete [source](./.skilld/docs/configuration.md#typescript-configuration-files)
+- Use `eslint-config-prettier` to disable conflicting ESLint style rules — ensures Prettier and ESLint never fight over formatting decisions [source](./.skilld/docs/integrating-with-linters.md)
 
-- Avoid `eslint-plugin-prettier` for linting workflows — instead use `eslint-config-prettier` to disable conflicting ESLint stylistic rules, reducing performance overhead and editor noise [source](./.skilld/docs/integrating-with-linters.md)
+- Pin the exact Prettier version in `package.json` (no `^` caret) for CI consistency — ensures all contributors and CI runners format identically and prevents unexpected changes from minor version updates [source](./.skilld/docs/ci.md#github-actions)
 
-- For pre-commit hooks, choose `lint-staged` when combining Prettier with other code quality tools; use `git-format-staged` when partial-file formatting with strong guarantees is required [source](./.skilld/docs/precommit.md)
+- Use `--cache` flag in CI and large-format operations to skip re-formatting unchanged files — caches are invalidated on version, options, or file content changes and stored in `./node_modules/.cache/prettier/.prettier-cache` [source](./.skilld/docs/cli.md#--cache)
 
-- Create a `.prettierignore` file in your project root to make `prettier --write .` safe across all tools and editors — prevents formatting generated files or build artifacts [source](./.skilld/docs/ignore.md#ignoring-files-prettierignore)
+- Create a `.prettierignore` file and run `prettier --write .` safely — respects ignore patterns across all tools and prevents accidental formatting of build artifacts or generated files [source](./.skilld/docs/ignore.md)
 
-- Use `// prettier-ignore` pragma comments (language-agnostic) to selectively exclude individual AST nodes from formatting, preserving intentional manual layouts within files [source](./.skilld/docs/ignore.md#javascript)
+- Use `prettier-ignore` comments (language-specific: `// prettier-ignore`, `{/* prettier-ignore */}`, `<!-- prettier-ignore -->`) to selectively exclude nodes from formatting — preserves intentional formatting for specific code patterns [source](./.skilld/docs/ignore.md#javascript)
 
-- Share Prettier configurations as scoped npm packages (`@username/prettier-config`) and extend them via spread syntax rather than string references to allow composition and overrides [source](./.skilld/docs/sharing-configurations.md)
+- Use `<!-- prettier-ignore-start -->` and `<!-- prettier-ignore-end -->` blocks in Markdown for auto-generated content (requires blank lines before/after) — prevents formatting tools from destroying tables or content generated by other tools [source](./.skilld/docs/ignore.md#range-ignore)
 
-- Always quote glob patterns with double quotes (`"**/*.js"`) in CLI commands to ensure the shell does not expand them prematurely and to maintain cross-platform compatibility [source](./.skilld/docs/cli.md#file-patterns)
+- Load plugins via configuration file instead of CLI flags for consistency across all contexts (CLI, editors, programmatic) — ensures plugins are discovered by all tools and IDEs in the project [source](./.skilld/docs/plugins.md#using-plugins)
 
-- Use `--check` instead of `--list-different` in CI pipelines for human-friendly output; exits with code 1 and summarises violations, avoiding fragile parsing of file lists [source](./.skilld/docs/cli.md#--check)
+- Understand that `printWidth` is a soft target, not a hard limit — Prettier tries to honour it but makes independent decisions about breaking lines based on AST structure, unlike ESLint's `max-len` [source](./.skilld/docs/options.md#print-width)
 
-- Leverage async preprocessing in plugins (added in v3.7.0) to transform source text before parsing, enabling support for custom template languages and code generation [source](./.skilld/docs/plugins.md#optional-preprocess)
+- Object literal formatting is preserved when there's a linebreak after the opening brace — use `objectWrap: "collapse"` to override this heuristic if you prefer single-line formatting whenever possible [source](./.skilld/docs/rationale.md#multi-line-objects)
 
 <!-- /skilld:best-practices -->

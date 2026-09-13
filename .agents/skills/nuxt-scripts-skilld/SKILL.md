@@ -1,15 +1,14 @@
 ---
 name: nuxt-scripts-skilld
-description: 'ALWAYS use when writing code importing "@nuxt/scripts". Consult for debugging, best practices, or modifying @nuxt/scripts, nuxt/scripts, nuxt scripts, scripts.'
+description: "ALWAYS use when writing code importing \"@nuxt/scripts\". Consult for debugging, best practices, or modifying @nuxt/scripts, nuxt/scripts, nuxt scripts, scripts."
 metadata:
-  version: 1.3.1
+  version: 1.3.8
   generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  generated_at: 2026-09-13
 ---
 
-# nuxt/scripts `@nuxt/scripts@1.3.1`
-
-**Tags:** beta: 1.0.0-beta.32, rc: 1.0.0-rc.11, latest: 1.3.1
+# nuxt/scripts `@nuxt/scripts@1.3.8`
+**Tags:** rc: 1.0.0-rc.11, beta: 2.0.0-beta.6, latest: 1.3.9
 
 **References:** [package.json](./.skilld/pkg/package.json) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
@@ -18,86 +17,109 @@ metadata:
 Use `skilld search "query" -p @nuxt/scripts` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/scripts` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
-
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
 
-### v1.3.0 and later
+### Breaking Changes
 
-- NEW: Proxy path aliases feature to hide third-party hostnames in first-party mode [source](./.skilld/releases/v1.3.0.md#features)
+- BREAKING: Google Maps marker components consolidated — `ScriptGoogleMapsAdvancedMarkerElement` merged into `ScriptGoogleMapsMarker` wrapping `google.maps.marker.AdvancedMarkerElement` instead of `google.maps.Marker`. Old references will fail at runtime. [source](./.skilld/releases/v1.0.0.md:L225)
 
-- BREAKING: PayPal JavaScript SDK upgraded from v5 to v6 in v1.0 — changed configuration structure and method signatures [source](./.skilld/releases/v1.0.0.md:L229:231)
+- BREAKING: `ScriptGoogleMapsPinElement` removed in v1.0.0 — use the `#content` slot on `ScriptGoogleMapsMarker` to customise marker appearance. Code importing the removed component will not compile. [source](./.skilld/releases/v1.0.0.md:L201)
 
-- BREAKING: Google Maps `mapsApi` expose replaces deprecated `googleMaps` — used to access the Google Maps API instance [source](./.skilld/releases/v1.0.0.md:L227:228)
+- BREAKING: Google Maps `center` and `zoom` as top-level props on `ScriptGoogleMaps` — deprecated in v1.0.0, silent failure if still used. Pass to `ScriptGoogleMapsMap` instead or use composable control. [source](./.skilld/releases/v1.0.0.md:L226)
 
-- NEW: Script `.reload()` method to re-execute DOM-scanning scripts after SPA navigation — allows dynamic re-runs without full page reload [source](./.skilld/releases/v1.0.0.md:L234)
+- BREAKING: `ScriptGoogleMaps` expose renamed — `googleMaps` renamed to `mapsApi` in v1.0.0. Template refs still return the wrapper, but TypeScript and composition API references will break. [source](./.skilld/releases/v1.0.0.md:L227)
 
-- NEW: `@nuxt/scripts/stats` subpath export for auditing script privacy, performance, and security characteristics [source](./.skilld/releases/v1.0.0.md:L238)
+- BREAKING: PayPal SDK upgraded to v6 in v1.0.0 — breaking changes in PayPal API shape and method signatures. Consult PayPal v6 migration docs before upgrading @nuxt/scripts. [source](./.skilld/releases/v1.0.0.md:L230)
 
-- NEW: Vendor-native `consent` object on registry script instances with `update()`, `grant()`, `revoke()`, and `hold()` methods — works with `defaultConsent` option [source](./.skilld/releases/v1.0.0.md:L252)
+- BREAKING: First-party proxy mode configuration changed in v1.0.0 — config structure and endpoint registration overhauled. Old config keys will be ignored silently, proxy mode not auto-enabled. [source](./.skilld/releases/v1.0.0.md:L221)
 
-- NEW: Partytown web worker support via `partytown: true` per-script option with auto-configured forward arrays [source](./.skilld/releases/v1.0.0.md:L236)
+- BREAKING: Google Maps `OverlayView` class extraction and reactive position rendering in v1.0.0 — component now requires different prop structure and lifecycle. Position updates now fully reactive instead of requiring manual updates. [source](./.skilld/releases/v1.0.0.md:L228)
 
-- NEW: SSR social media embeds (`ScriptXEmbed`, `ScriptInstagramEmbed`, `ScriptBlueskyEmbed`) with scoped slots for custom rendering — server-side data fetching with domain proxy [source](./.skilld/releases/v1.0.0.md:L235)
+- BREAKING: Config consolidation for v1 in v1.0.0 — `scripts` config structure significantly reorganised. See v0→v1 migration guide for all breaking config changes. [source](./.skilld/releases/v1.0.0.md:L222)
 
-- BREAKING: Google Maps component consolidation — `ScriptGoogleMapsAdvancedMarkerElement` merged into `ScriptGoogleMapsMarker`, custom marker content now via `#content` slot, removed `ScriptGoogleMapsPinElement` [source](./.skilld/releases/v1.0.0.md:L223:224)
+### New APIs
 
-- NEW: `ScriptGoogleMapsStaticMap` extracted as standalone component, serves images through server, reduces API billing [source](./.skilld/releases/v1.0.0.md:L224)
+- NEW: `script.reload()` — added in v1.0.0, re-execute DOM-scanning scripts after SPA navigation. Useful for third-party embeds that scan DOM on load (Twitter widgets, Instagram embeds). [source](./.skilld/releases/v1.0.0.md:L118:L125)
 
-- NEW: `ScriptGoogleMapsOverlayView` component with `v-model:open`, `anchor`, and `offset` props for declarative position-based overlays [source](./.skilld/releases/v1.0.0.md:L265)
+- NEW: `@nuxt/scripts/stats` export — added in v1.0.0, audit script privacy, performance, and security characteristics via `getScriptStats()`. Returns privacy ratings, performance data, CWV estimates, cookie analysis, network behaviour, tracked data types. [source](./.skilld/releases/v1.0.0.md:L143:L151)
 
-- NEW: `ScriptGoogleMapsGeoJson` component for declarative GeoJSON loading and styling [source](./.skilld/releases/v1.0.0.md:L249:250)
+- NEW: SSR social embeds — `ScriptXEmbed`, `ScriptInstagramEmbed`, `ScriptBlueskyEmbed` components added in v1.0.0. Fetch embed data server-side, proxy assets through your domain. Scoped slots expose structured data (text, photos, html) for custom rendering. [source](./.skilld/releases/v1.0.0.md:L60:L80)
 
-- BREAKING: Google Maps `:center` and `:zoom` top-level props deprecated — use composition within `ScriptGoogleMaps` instead [source](./.skilld/releases/v1.0.0.md:L226:228)
+- NEW: First-party proxy mode — added in v1.0.0, acts as reverse proxy for third-party scripts. Bundled at build-time, runtime requests forwarded securely. Auto-anonymises data: IPs (`180.233.124.74` → `180.233.124.0`), browser versions. Enable per-script or globally. [source](./.skilld/releases/v1.0.0.md:L16:L26)
 
-- NEW: YouTube Player isolated instances with `ratio` prop and proper cleanup on unmount [source](./.skilld/releases/v1.0.0.md:L253:254)
+- NEW: Partytown web worker support — added in v1.0.0, set `partytown: true` per-script to load off main thread. Auto-forwarding configured for 14+ registry scripts (GA, Plausible, Segment, TikTok Pixel, etc.). GA4 has known issues with Partytown. [source](./.skilld/releases/v1.0.0.md:L38:L56)
 
-- NEW: Vimeo Player `ratio` prop for aspect ratio control [source](./.skilld/releases/v1.0.0.md:L254)
+- NEW: Consent controls — added in v1.0.0, all consent-aware registry scripts expose vendor-native `consent` object. Use `defaultConsent` option to set initial state, then call `consent.update()`, `consent.grant()`, `consent.revoke()`, `consent.hold()` at runtime. [source](./.skilld/releases/v1.0.0.md:L86:L101)
 
-- NEW: `NUXT_PUBLIC_SCRIPTS_*` environment variables auto-populate `runtimeConfig.public.scripts` without boilerplate config [source](./.skilld/releases/v1.0.0.md:L242)
+- NEW: `useScriptPostHog()` — registry script added in v1.0.0 for PostHog product analytics with feature flags. Supports first-party proxy mode. [source](./.skilld/releases/v1.0.0.md:L105)
 
-- DEPRECATED: Google Maps heatmap component in v1.2.0 — no direct replacement yet [source](./.skilld/releases/v1.2.0.md:L17)
+- NEW: `useScriptGoogleRecaptchaV3()` — registry script added in v1.0.0 for Google reCAPTCHA v3 invisible bot protection. [source](./.skilld/releases/v1.0.0.md:L106)
 
-- NEW: `scripts:globals` hook and runtime disable option for global script flags in v1.2.0 [source](./.skilld/releases/v1.2.0.md:L12)
+- NEW: `useScriptTikTokPixel()` — registry script added in v1.0.0 for TikTok conversion tracking. Accepts `defaultConsent` option. Production hardening: region support, CAPI dedup, advanced matching. [source](./.skilld/releases/v1.0.0.md:L107)
 
-- NEW: `Consent.default()` strict GCMv2 validation for `gtm` and `ga` scripts in v1.1.0 [source](./.skilld/releases/v1.1.0.md:L18)
+- NEW: `useScriptGoogleSignIn()` — registry script added in v1.0.0 for Google one-tap authentication. [source](./.skilld/releases/v1.0.0.md:L108)
 
-- NEW: Build-time debug flag with script-lifecycle tracing for troubleshooting script loading in v1.1.0 [source](./.skilld/releases/v1.1.0.md:L15)
+- NEW: `useScriptRybbit()` — registry script added in v1.0.0 for privacy-focused open-source analytics. [source](./.skilld/releases/v1.0.0.md:L109)
 
-**Also changed:** First-party mode config structure · `ScriptGoogleMapsMarker` position prop and content slot · SpeedCurve LUX (new v1.2) · Unhead v3 peer dependency support (v1.2) · Env-var overrides for scripts.globals (v1.1) · TikTok Pixel production hardening (v1.1) · Multiple new registry scripts in v1.0 and v1.1 · Google Maps interactive map DX overhaul with 11 declarative components
+- NEW: `useScriptBingUet()` — registry script added in v1.0.0 for Microsoft Advertising conversion tracking. Accepts `defaultConsent` option. [source](./.skilld/releases/v1.0.0.md:L111)
+
+- NEW: `useScriptMixpanel()` — registry script added in v1.0.0 for product analytics and user tracking. Accepts `defaultConsent` option. [source](./.skilld/releases/v1.0.0.md:L112)
+
+- NEW: `useScriptVercelAnalytics()` — registry script added in v1.0.0 for Vercel Web Analytics integration. [source](./.skilld/releases/v1.0.0.md:L113)
+
+- NEW: `useScriptGravatar()` — registry script added in v1.0.0 for avatar service with privacy-preserving proxy. [source](./.skilld/releases/v1.0.0.md:L114)
+
+- NEW: `useScriptLinkedinInsightTag()` — registry script added in v1.1.0 for LinkedIn conversion tracking. [source](./.skilld/releases/v1.1.0.md:L11)
+
+- NEW: `useScriptAhrefs()` — registry script added in v1.1.0 for Ahrefs Web Analytics. [source](./.skilld/releases/v1.1.0.md:L12)
+
+- NEW: `useScriptUsercentrics()` — registry script added in v1.1.0 for Usercentrics CMP (Consent Management Platform). [source](./.skilld/releases/v1.1.0.md:L13)
+
+- NEW: `useScriptCalendly()` — registry script added in v1.1.0 for calendar/scheduling integration. [source](./.skilld/releases/v1.1.0.md:L14)
+
+- NEW: Google Maps components overhaul in v1.0.0 — 11 new declarative SFC components replace options-bag API. `ScriptGoogleMapsMarker`, `ScriptGoogleMapsShape`, `ScriptGoogleMapsInfoWindow`, `ScriptGoogleMapsOverlayView`, `ScriptGoogleMapsMarkerClusterer`, `ScriptGoogleMapsPolyline`, `ScriptGoogleMapsPolygon`, `ScriptGoogleMapsCircle`, `ScriptGoogleMapsRectangle`, `ScriptGoogleMapsStaticMap`, `ScriptGoogleMapsGeoJson`. All use Vue injection for parent/child communication, auto-cleanup on unmount. [source](./.skilld/releases/v1.0.0.md:L167:L194)
+
+- NEW: YouTube Player isolated instances in v1.0.0 — multiple `ScriptYouTubePlayer` components work correctly. Added `ratio` prop for aspect ratio control. Players destroyed on unmount, preventing memory leaks. [source](./.skilld/releases/v1.0.0.md:L154:L158)
+
+- NEW: Vimeo Player `ratio` prop in v1.0.0 — control aspect ratio on `ScriptVimeoPlayer`, matching YouTube Player API. [source](./.skilld/releases/v1.0.0.md:L161)
+
+Also changed: `Consent.default()` new in v1.1.0 · `NUXT_PUBLIC_SCRIPTS_*` environment variable overrides for scripts.globals in v1.1.0 · `scripts:globals` runtime hook added in v1.2.0 · Unhead v3 support added in v1.2.0 · `useScriptSpeedCurveLux()` registry script added in v1.2.0 · Proxy path aliases added in v1.3.0
+
+### Deprecated APIs
+
+- DEPRECATED: `ScriptGoogleMapsHeatmap` component — deprecated in v1.2.0, will be removed in v2. Use alternative visualisation libraries instead. [source](./.skilld/releases/v1.2.0.md:L17)
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
-
 ## Best Practices
 
-- Wrap `useScript()` calls in composables to enable easier instantiation and reuse across your application — a script with the same `src` will only load once and subsequent calls return the same instance [source](./.skilld/docs/content/docs/1.guides/0.key-concepts.md#script-singleton)
+- Call `reload()` after SPA navigation instead of manually removing and re-inserting scripts when a vendor's script scans the DOM once and needs to rescan. Alternatively, prefer the vendor's native SPA API when available (e.g. iubenda's `_iub.cs.api.activateSnippets()`). [source](./.skilld/docs/content/docs/3.api/1.use-script.md#L126:L139)
 
-- Use the `onLoaded()` hook to access the script's API directly instead of proxied functions when you need return values or direct control — proxied functions queue calls before the script loads but cannot return values until awaited, blocking rendering [source](./.skilld/docs/content/docs/1.guides/0.key-concepts.md#understanding-proxied-functions)
+- Defer non-critical scripts with `useScriptTriggerIdleTimeout()` to reduce Cumulative Layout Shift and give critical resources time to load first. Measure Core Web Vitals to confirm the delay helps performance. [source](./.skilld/docs/content/docs/3.api/3.use-script-trigger-idle-timeout.md#L128:L134)
 
-- Check the third-party script's native SPA support before using `reload()` — most modern analytics scripts provide their own methods (e.g., `_iub.cs.api.activateSnippets()` for iubenda) which are more efficient than reloading the entire script [source](./.skilld/docs/content/docs/3.api/1.use-script.md:L115-L128)
+- Use element event triggers like `click` over `mouseover` for facade components to avoid losing subsequent interactions whilst the component loads. [source](./.skilld/docs/content/docs/1.guides/5.facade-components.md#L54)
 
-- Prefer specialized triggers (`useScriptTriggerIdleTimeout()`, `useScriptTriggerInteraction()`, `useScriptTriggerElement()`) over the default `onNuxtReady` when a script is only needed in specific user flows — reduces initial bundle impact and improves Core Web Vitals [source](./.skilld/docs/content/docs/1.guides/1.script-triggers.md:L67-L138)
+- Extract the consent trigger into a shared utility function and export it across your app to ensure all scripts use the same consent state. [source](./.skilld/docs/content/docs/1.guides/3.consent.md#L25:L49)
 
-- Use `warmupStrategy: 'preload'` for scripts you load immediately and `'preconnect'` or `'dns-prefetch'` for scripts you expect to load within 10 seconds — optimises the network connection before the script actually loads [source](./.skilld/docs/content/docs/1.guides/1.warmup.md#warmupstrategy)
+- Call each vendor's `consent.*` API explicitly when one banner controls multiple scripts, as vendors do not share a normalized consent model. [source](./.skilld/docs/content/docs/1.guides/3.consent.md#L131:L160)
 
-- Call `script.warmup()` explicitly when you know the user may soon need a manually-loaded script (e.g., when the video container becomes visible) — enables preloading without triggering a load [source](./.skilld/docs/content/docs/1.guides/1.warmup.md#warmup)
+- Set `registry: { scriptName: 'mock' }` in development config to register a typed mock context that skips both the vendor script and option validation. [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#L78:L97)
 
-- Store script configuration in `runtimeConfig` or `.env` files rather than hardcoding IDs and tokens in your codebase — registry scripts automatically validate options during development, catching misconfigurations early [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#runtime-config-integration)
+- When loading multiple instances of the same registry script with different config, assign a unique `key` to each call to prevent deduplication. [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#L99:L113)
 
-- Provide a `mock` value in development config to load a mocked version of registry scripts instead of the real third-party service — prevents side effects during local development while still testing the API surface [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#disabling-in-development)
+- Configure scripts once in `nuxt.config` or `app.vue` and reuse the composable instance across pages without repeating options. [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#L156:L189)
 
-- Use a unique `key` when loading the same registry script multiple times with different configuration — without a key, subsequent calls return the first instance instead of loading a new one [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#loading-multiple-of-the-same-script)
+- Set `warmupStrategy` to `'preload'` (default for `onNuxtReady` and `client` triggers) to improve performance; fall back to `'preconnect'` or `'dns-prefetch'` for lower-priority scripts, or disable it entirely for bundled scripts. [source](./.skilld/docs/content/docs/3.api/5.nuxt-config.md#L185:L199)
 
-- Override `scriptInput.src` when loading self-hosted versions of registry scripts — Nuxt Scripts merges query parameters from the original URL onto your custom source while preserving registry features like first-party mode and consent handling [source](./.skilld/discussions/discussion-387.md#top-comments)
+- Always provide an `#error` slot on facade components with a fallback link or button when script loading fails. [source](./.skilld/docs/content/docs/1.guides/5.facade-components.md#L26:L36)
 
-- Set `bundle: false` when using Google Tag Manager's Tag Assistant Preview Mode — bundling prevents the Tag Assistant debugger from functioning correctly [source](./.skilld/discussions/discussion-745.md#accepted-answer)
+- Enable `assets: { integrity: 'sha384' }` to add Subresource Integrity hashes to bundled scripts, letting browsers verify script authenticity before execution. [source](./.skilld/docs/content/docs/3.api/5.nuxt-config.md#L245:L252)
 
-- Use `useScriptTriggerConsent()` to gate script loading on user consent — returns a reactive trigger and methods to manage the consent state, working alongside per-script `consent` objects for vendor-native consent APIs [source](./.skilld/docs/content/docs/1.guides/3.consent.md#binary-load-gate)
+- Configure environment-backed fields via `.env` and `NUXT_PUBLIC_SCRIPTS_<SCRIPT>_<FIELD>` instead of hardcoding IDs and tokens, allowing the module to auto-populate runtime config. [source](./.skilld/docs/content/docs/1.guides/1.registry-scripts.md#L54:L74)
 
-- Guard access to global scripts that may be disabled per deployment with optional chaining (e.g., `$scripts.awin?.`) — runtime overrides via env vars can disable specific scripts, making them undefined [source](./.skilld/docs/content/docs/1.guides/4.global.md#disabling-a-global-per-deployment)
+- When using full privacy anonymization (all six flags), understand that analytics identifiers like `uid`, `cid`, and `email` are deliberately preserved; the proxy reduces network and fingerprinting data, not user identification. [source](./.skilld/docs/content/docs/1.guides/2.first-party.md#L45:L48)
 
-- Provide error fallback and accessible loading states for Facade Components using slots — trigger script loading on click (not hover) to avoid losing subsequent user interaction events [source](./.skilld/docs/content/docs/1.guides/5.facade-components.md#best-practices-in-using-facade-components)
-
+- Use `proxy: { alias: { 'internal.domain': 'a' } }` to hide internal hostnames in proxy paths from network observers and ad blockers. [source](./.skilld/docs/content/docs/1.guides/2.first-party.md#L160:L192)
 <!-- /skilld:best-practices -->

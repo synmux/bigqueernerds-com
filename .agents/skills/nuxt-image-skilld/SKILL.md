@@ -1,15 +1,14 @@
 ---
 name: nuxt-image-skilld
-description: 'ALWAYS use when writing code importing "@nuxt/image". Consult for debugging, best practices, or modifying @nuxt/image, nuxt/image, nuxt image, image.'
+description: "ALWAYS use when writing code importing \"@nuxt/image\". Consult for debugging, best practices, or modifying @nuxt/image, nuxt/image, nuxt image, image."
 metadata:
-  version: 2.0.0
+  version: 2.1.0
   generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  generated_at: 2026-09-13
 ---
 
-# nuxt/image `@nuxt/image@2.0.0`
-
-**Tags:** rc: 1.0.0-rc.3, alpha: 2.0.0-alpha.1, latest: 2.0.0
+# nuxt/image `@nuxt/image@2.1.0`
+**Tags:** rc: 1.0.0-rc.3, alpha: 2.0.0-alpha.1, latest: 2.1.0
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
@@ -18,74 +17,89 @@ metadata:
 Use `skilld search "query" -p @nuxt/image` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/image` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
-
 ## API Changes
 
 This section documents version-specific API changes — prioritize recent major/minor releases.
 
-- BREAKING: `defineProvider()` replaces old provider export pattern — v2 changed provider API from `export const getImage` to `export default defineProvider({ getImage() { ... } })`, old pattern no longer works [source](./.skilld/releases/v2.0.0.md#breaking-changes)
+### Breaking Changes (v2.0.0 → v2.1.0)
 
-- BREAKING: `layer0` and `edgio` providers removed — these providers have been deleted in v2, custom code using them will fail [source](./.skilld/releases/v2.0.0.md:L244)
+- BREAKING: `defineProvider()` now required for custom providers — v2.0.0 changed from exporting `const getImage` to `export default defineProvider({...})`, with full TypeScript support for modifiers [source](./.skilld/releases/v2.0.0.md#breaking-changes)
 
-- BREAKING: Default screen sizes changed — removed `xs` (320px) and `xxl` (2560px) breakpoints to align with Tailwind CSS, may require updating `sizes` props in components [source](./.skilld/docs/content/1.get-started/5.migration.md:L55-L85)
+- BREAKING: `layer0` and `edgio` providers removed — both providers were deprecated and completely removed in v2.0.0 [source](./.skilld/releases/v2.0.0.md:L244)
 
-- BREAKING: `createOperationsGenerator` formatter required — if using `joinWith` for custom URL formatting, must now explicitly provide `formatter` function; URLSearchParams is the new default [source](./.skilld/docs/content/1.get-started/5.migration.md:L137-L157)
+- BREAKING: URL formatter API changed — `joinWith` parameter no longer accepted in isolation; must now use `createOperationsGenerator` with explicit `formatter` function [source](./.skilld/docs/content/1.get-started/5.migration.md:L139:160)
 
-- NEW: `defineProvider<T>()` — type-safe provider definition with full TypeScript support, replaces plain function export pattern and enables modifier typing [source](./.skilld/releases/v2.0.0.md:L22-L41)
+- BREAKING: Screen sizes `xs` (320px) and `xxl` (2560px) removed — default breakpoints now align with Tailwind CSS; add back via `screens` config if needed [source](./.skilld/docs/content/1.get-started/5.migration.md:L56:88)
 
-- NEW: `useImage()` composable — strongly typed image helper with full autocomplete for modifiers, available on client and server (Nitro endpoints) [source](./.skilld/releases/v2.0.0.md:L60-L94)
+- BREAKING: Runtime utilities removed — internal helper functions removed; custom code importing these directly will fail [source](./.skilld/releases/v2.0.0.md:L268)
 
-- NEW: Image helpers in Nitro endpoints — `useImage()` can now be called directly in server-side event handlers for dynamic image URL generation [source](./.skilld/releases/v2.0.0.md:L79-L94)
+- BREAKING: SVG sanitization now always runs regardless of `svgo: false` — previously could get unsanitized SVGs; now SMIL, foreign content, and unsafe URIs always filtered for security [source](./.skilld/releases/v2.1.0.md:L20)
 
-- NEW: `NuxtImg` template refs — components expose underlying `<img>` element via `useTemplateRef()` for direct DOM access [source](./.skilld/releases/v2.0.0.md:L100-L115)
+- BREAKING: URLSearchParams now default formatter — changed from manual parameter handling to `URLSearchParams`; may affect query parameter encoding for custom providers [source](./.skilld/releases/v2.0.0.md:L250)
 
-- NEW: Typed slots — `<NuxtImg>` and `<NuxtPicture>` slots are now properly typed with DefaultSlotProps [source](./.skilld/releases/v2.0.0.md:L118-L119)
+### New APIs (v2.0.0 — v2.1.0)
 
-- NEW: Custom modifier typing — extend `ImageModifiers` interface to type custom provider modifiers with full autocomplete [source](./.skilld/docs/content/1.get-started/5.migration.md:L113-L134)
+- NEW: `useImage()` composable for server-side use — can now call image helpers in Nitro endpoints (`server/api/*`), not just client components [source](./.skilld/releases/v2.0.0.md:L79:94)
 
-- NEW: Shopify provider — new built-in provider for Shopify store images with baseURL configuration [source](./.skilld/releases/v2.0.0.md:L125-L137)
+- NEW: Template refs on `<NuxtImg>` — expose underlying `<img>` element via `useTemplateRef()` and access with `imgEl` property [source](./.skilld/releases/v2.0.0.md:L100:115)
 
-- NEW: GitHub provider — new built-in provider for GitHub avatars and user content [source](./.skilld/releases/v2.0.0.md:L126)
+- NEW: Typed component slots — `<NuxtImg>` and `<NuxtPicture>` default slots now fully typed with `imgAttrs`, `src`, and `isLoaded` [source](./.skilld/releases/v2.0.0.md:L119)
 
-- NEW: URLSearchParams default formatter — improved URL parameter encoding via URLSearchParams instead of custom joinWith logic [source](./.skilld/releases/v2.0.0.md:L143)
+- NEW: `NuxtImgProps` and `NuxtPictureProps` type exports — exported from `#image` for typing custom components that wrap `<NuxtImg>` or `<NuxtPicture>` [source](./.skilld/releases/v2.1.0.md:L44:50)
 
-- NEW: Custom image directories in layers — Nuxt Image now properly supports image directories within Nuxt layers for modular projects [source](./.skilld/releases/v2.0.0.md:L148-L150)
+- NEW: IPX v4 image modifiers — added `opacity`, `brightness`, `saturation`, `hue`, `lightness`, `autoorient`, `dilate`, `erode`, `clahe`, `linear` [source](./.skilld/releases/v2.1.0.md:L15:23)
 
-- NEW: IPX v3 upgrade — dependency upgraded for better performance and automatic sharp binary detection for deployment architecture [source](./.skilld/releases/v2.0.0.md:L73-L75)
+- NEW: Shopify provider — new built-in provider for Shopify store images [source](./.skilld/releases/v2.0.0.md:L228)
 
-**Also changed:** Requires Nuxt 3.1+ · Removed unused runtime utilities · Improved preload link handling for multiple densities · Fixed crossorigin attributes on preload links · Provider-specific format allow lists for AWS Amplify and Vercel · Hygraph URL validation improved · Preset size application when sizes prop undefined · Cloudflare baseURL handling refined
+- NEW: GitHub provider — new built-in provider for GitHub avatars and user content [source](./.skilld/releases/v2.0.0.md:L232)
+
+- NEW: Eight new providers (v2.1.0) — Builder.io Image API, Cloudflare Images, EdgeOne Pages, Flyimg, imgproxy, Lorem Picsum, Supabase, Umbraco [source](./.skilld/releases/v2.1.0.md:L25:36)
+
+### Enhanced APIs (v2.0.0 — v2.1.0)
+
+- ENHANCED: Full TypeScript support throughout — `defineProvider` now includes type-safe modifiers, configuration validation, and typed composables [source](./.skilld/releases/v2.0.0.md:L16:72)
+
+- ENHANCED: Directus provider — added sharp transforms support and configurable `key` modifier for named presets [source](./.skilld/releases/v2.1.0.md:L40)
+
+- ENHANCED: Sanity provider — supports absolute URLs with automatic project/dataset extraction, and configurable `baseURL` for custom CDN [source](./.skilld/releases/v2.1.0.md:L41:42)
+
+- ENHANCED: AWS Amplify & Vercel — `minimumCacheTTL` now configurable [source](./.skilld/releases/v2.1.0.md:L42)
+
+- ENHANCED: IPX v3 upgrade (v2.0.0) — automatic detection of correct sharp binaries for deployment architecture [source](./.skilld/releases/v2.0.0.md:L223)
+
+- ENHANCED: Layer support — Nuxt Image now properly supports custom image directories within Nuxt layers [source](./.skilld/releases/v2.0.0.md:L234)
+
+**Also changed:** Typed modifiers via `ImageModifiers` interface · Custom `$img` helper in Nitro endpoints · Preload link types aligned with unhead v3 · SVG XSS security (SMIL, foreignObject, unsafe URIs sanitised) · Better error messages from IPX (400 instead of 500) · Custom URL parsing via `parseURL` option · `cloudflare` baseURL handling for operations-less URLs · `fastly` absolute URL handling · `shopify` and `bunny` query param merging · `github` max size handling · Multiple provider format allow lists · `hygraph` broken URL prevention
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
-
 ## Best Practices
 
-- Use `presets` to unify image transformations across your application — centralize modifiers (width, height, format, quality) in `nuxt.config` rather than repeating them in components, reducing duplication and enabling site-wide changes in one place [source](./.skilld/docs/content/1.get-started/2.configuration.md#presets)
+- Always provide an `alt` attribute for every image — it's essential for accessibility and describes the image content or its purpose [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#alt)
 
-- Use `<NuxtPicture>` instead of `<NuxtImg>` when serving modern formats like AVIF or WebP alongside fallbacks — the component automatically generates legacy formats for older browsers without extra configuration [source](./.skilld/docs/content/2.usage/2.nuxt-picture.md#format)
+- Specify `width` and `height` props to help browsers reserve layout space and prevent cumulative layout shift — use original dimensions for responsive images with `sizes` [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#width--height)
 
-- Define responsive sizes with breakpoint-prefixed syntax (e.g. `sizes="100vw sm:50vw md:400px"`) to generate correctly optimized images per device — Nuxt Image multiplies dimensions by density settings to produce responsive srcsets that adapt to actual viewport widths [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#sizes)
+- Create presets for unified image configuration across your project — centralises modifiers like format, quality, and fit in `nuxt.config` to avoid duplication [source](./.skilld/docs/content/1.get-started/2.configuration.md#presets)
 
-- Enable `densities` prop for icons and avatars on high-DPI/Retina devices — specify `densities="x1 x2"` to automatically generate multiple resolutions without manual srcset wiring [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#densities)
+- Use the `alias` option to simplify external image URLs and optimise HTML output — map long URLs to short prefixes in configuration [source](./.skilld/docs/content/1.get-started/2.configuration.md#alias)
 
-- Use `placeholder` prop with auto-generated or custom images to improve perceived performance — Nuxt Image creates low-quality placeholders on-the-fly while full images load, reducing perceived latency [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#placeholder)
+- Whitelist external image domains with the `domains` option before optimising remote images — required for security to prevent open proxy abuse [source](./.skilld/docs/content/1.get-started/2.configuration.md#domains)
 
-- Define custom providers with `defineProvider` from `@nuxt/image/runtime` and add modifier types via `ImageModifiers` interface for full TypeScript support — v2 enforces type-safe provider contracts that catch configuration errors at build time [source](./.skilld/docs/content/4.advanced/1.custom-provider.md#provider-entry) and [source](./.skilld/docs/content/1.get-started/5.migration.md#add-modifier-types-optional)
+- Prefer `<NuxtPicture>` for modern format support — automatically serves webp/avif with PNG/JPEG fallbacks based on browser capability [source](./.skilld/docs/content/2.usage/2.nuxt-picture.md#format)
 
-- Store local images in `public/` directory and external images in `assets/` only if they bypass Nuxt Image optimization — use the `dir` config to customize the source directory for local image scanning when deploying without a `public/` folder [source](./.skilld/docs/content/1.get-started/3.providers.md#local-images)
+- Use the `placeholder` prop to show a low-quality placeholder before the image loads — improves perceived performance and user experience [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#placeholder)
 
-- Use URL aliases (e.g. `alias: { unsplash: 'https://images.unsplash.com' }`) to shorten HTML output and simplify component usage — aliases resolve server-side with IPX, keeping external URLs out of generated HTML [source](./.skilld/docs/content/1.get-started/2.configuration.md#alias)
+- Add `preload` to critical above-the-fold images with `fetchPriority: 'high'` to improve Core Web Vitals, especially LCP [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#preload)
 
-- Apply `loading="lazy"` to images below the fold to defer network requests until they enter the viewport — native browser lazy loading is supported on all modern browsers since March 2022 [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#loading)
+- Define responsive image sizes using the `sizes` prop with your configured screen breakpoints — enables proper responsive sizing and srcset generation [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#sizes)
 
-- Use `preload` prop only on critical above-the-fold images to prioritize them in the browser's resource queue — generates a `<link>` tag in the page head that signals high priority to the browser [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#preload)
+- Set `densities` when targeting high-DPI (Retina/HiDPI) displays — specifies which pixel densities to generate, defaulting to `[1, 2]` [source](./.skilld/docs/content/1.get-started/2.configuration.md#densities)
 
-- Enable the `inject` config option to provide a global `$img` helper throughout your application — useful for background images and dynamic image URL generation without importing `useImage()` in every component [source](./.skilld/docs/content/1.get-started/2.configuration.md#inject)
+- Restrict IPX endpoint abuse by setting `runtimeConfig.ipx.domains` and using aliases for private images — add CDN/WAF rate limiting in production [source](./.skilld/repos/nuxt/image/discussions/discussion-1787.md)
 
-- Use `useImage()` composable in Nitro server endpoints (v2+) to generate optimized image URLs server-side — enables dynamic OG image generation and API responses without client-side rendering [source](./.skilld/repos/nuxt/image/releases/v2.0.0.md:L79)
+- Use the `custom` prop to implement custom rendering patterns like image placeholders — enables full control over image element whilst keeping optimisation [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#custom)
 
-- Set explicit `legacyFormat` in `<NuxtPicture>` when serving AVIF/WebP to control the fallback format — by default PNG is used for transparent images and JPEG for others, but explicit configuration clarifies intent [source](./.skilld/docs/content/2.usage/2.nuxt-picture.md#legacyformat)
+- Use `img.getSizes()` composable when manual srcset generation is required — generates responsive sizes and srcset for custom component wrappers [source](./.skilld/docs/content/2.usage/3.use-image.md#imggetsizes)
 
-- Use the `custom` prop with default slot to implement custom loading states and placeholders — disables default rendering while Nuxt Image continues to optimize and provide data, enabling full control over placeholder transitions [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#custom)
-
+- Prefer `defineProvider` for custom image providers in v2 — offers proper TypeScript support and modifier typing for provider-specific transformations [source](./.skilld/docs/content/1.get-started/5.migration.md#update-custom-providers)
 <!-- /skilld:best-practices -->

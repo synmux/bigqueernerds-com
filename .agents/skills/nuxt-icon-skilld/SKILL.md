@@ -1,15 +1,14 @@
 ---
 name: nuxt-icon-skilld
-description: 'ALWAYS use when writing code importing "@nuxt/icon". Consult for debugging, best practices, or modifying @nuxt/icon, nuxt/icon, nuxt icon, icon.'
+description: "ALWAYS use when writing code importing \"@nuxt/icon\". Consult for debugging, best practices, or modifying @nuxt/icon, nuxt/icon, nuxt icon, icon."
 metadata:
-  version: 2.3.1
+  version: 2.5.1
   generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  generated_at: 2026-09-13
 ---
 
-# nuxt/icon `@nuxt/icon@2.3.1`
-
-**Tags:** latest: 2.3.1
+# nuxt/icon `@nuxt/icon@2.5.1`
+**Tags:** latest: 2.5.1
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
@@ -18,58 +17,85 @@ metadata:
 Use `skilld search "query" -p @nuxt/icon` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/icon` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
-
 ## API Changes
 
-This section documents version-specific API changes — prioritise recent major/minor releases.
+This section documents version-specific API changes — prioritize recent major/minor releases.
 
-- BREAKING: Upgrade to Nuxt v4 — v2.0.0 requires Nuxt v4 and drops support for Nuxt 3, all existing code must target Nuxt 4 runtime APIs [source](./.skilld/releases/v2.0.0.md)
+- BREAKING: Nuxt v4 requirement — v2.0.0 requires Nuxt v4, v1.x compatible with Nuxt 3 [source](./.skilld/releases/v2.0.0.md#breaking-changes)
 
-- NEW: `NuxtIconBundle` Vite plugin — v2.3.0 added standalone Vite plugin for pre-bundling icons in non-Nuxt projects, accepts `icons`, `scan`, `sizeLimitKb`, and `customCollections` options [source](./.skilld/pkg/README.md:L567:586)
+- NEW: `NuxtIconBundle` Vite plugin — standalone icon bundler for non-Nuxt Vue apps, introduced v2.3.0 [source](./.skilld/releases/v2.3.0.md:L11)
 
-- NEW: `virtual:nuxt-icon-bundle/register` virtual module — v2.3.0 registers bundled icons once in entry file for standalone Vite usage [source](./.skilld/pkg/README.md:L592:593)
+- NEW: `icon.serverBundle.externalizeIconsJson` option — v2.x feature to externalize icon JSON instead of inlining, requires Node.js JSON module support [source](./.skilld/pkg-icon/README.md:L415:L434)
 
-- NEW: `@nuxt/icon/utils` utility exports — v2.3.0 exports `IconUsageScanner`, `resolveBundleIcons`, `generateClientBundleCode`, and `init(addIcon)` for integration with custom icon stores [source](./.skilld/pkg/README.md:L607)
+- NEW: Nested folder scanning for custom collections — v2.1.0 added automatic discovery of nested icon directories (recursive: true or auto) [source](./.skilld/releases/v2.1.0.md:L11)
 
-- NEW: `recursive` option for custom collections — v2.1.0 added ability to scan nested subfolders in custom icon collections by setting `recursive: true` in `icon.customCollections` config [source](./.skilld/releases/v2.1.0.md)
+- NEW: `icon.serverBundle` mode options — v2.x supports `'local'`, `'remote'`, and `'auto'` modes for serving icons from different sources [source](./.skilld/pkg-icon/README.md:L368:L411)
 
-- NEW: `customCollections` option for Vite plugin — v2.3.0 Vite plugin supports custom collections identical to Nuxt module, enabled by default in plugin context [source](./.skilld/pkg/README.md:L605)
+- NEW: `icon.clientBundle.includeCustomCollections` option — v2.x feature to include all custom collections in client bundle, auto-enabled when `ssr: false` [source](./.skilld/pkg-icon/README.md:L519:L529)
 
-- DEPRECATED: `normalizeIconName` default value to change — currently defaults to `true` for backward compatibility but will flip to `false` in future major version, case-sensitive icon names require opt-in via `normalizeIconName: false` [source](./.skilld/pkg/README.md:L254:277)
+- NEW: `icon.cssLayer` option — v2.x support for specifying CSS layer for icon styles (e.g., for TailwindCSS v4) [source](./.skilld/pkg-icon/README.md:L85:L90)
 
-**Also changed:** Server bundle query parsing fixed in v2.2.3 · Scoped per-instance customization via unique CSS selectors v2.2.3 · Client bundle collections resolution from rootDir/workspaceDir v2.2.4
+- NEW: `icon.aliases` configuration — ability to define icon aliases for easier swapping and reuse [source](./.skilld/pkg-icon/README.md:L297:L299)
+
+- NEW: `provider: 'none'` option — v1.13.0 added ability to disable runtime icon fetching entirely, rely on client bundle only [source](./.skilld/releases/v1.13.0.md:L12)
+
+- NEW: `:customize="false"` prop — v1.12.0 added ability to disable per-icon customization override [source](./.skilld/releases/v1.12.0.md:L12)
+
+- NEW: IconifyJSON object support in customCollections — v1.12.0 allows passing full IconifyJSON objects instead of just file paths [source](./.skilld/releases/v1.12.0.md:L13)
+
+- NEW: `icon.customize` global option — ability to define SVG customization functions globally in app.config.ts for all icons [source](./.skilld/pkg-icon/README.md:L356:L362)
+
+- NEW: `icon.normalizeIconName` option for custom collections — v1.10+ feature to opt-in to case-sensitive icon names, defaults true but planned to flip in v2 [source](./.skilld/pkg-icon/README.md:L254:L277)
+
+- NEW: `icon.clientBundle.scan` with globInclude/globExclude — fine-grained control over which files are scanned for icon usage in client bundle [source](./.skilld/pkg-icon/README.md:L542:L551)
+
+- NEW: `icon.localApiEndpoint` configuration — customise the default `/api/_nuxt_icon/:collection` server endpoint path [source](./.skilld/pkg-icon/README.md:L311)
+
+- NEW: `icon.fallbackToApi` option — control whether to fallback to Iconify API when icon not in local bundle [source](./.skilld/pkg-icon/README.md:L311)
+
+- NEW: `icon.iconifyApiEndpoint` option — override default Iconify API endpoint with custom hosted API [source](./.skilld/pkg-icon/README.md:L311)
+
+- NEW: `icon.componentName` option — rename the component from `<Icon />` to custom name (e.g., `<NuxtIcon />`) [source](./.skilld/pkg-icon/README.md:L139:L143)
+
+- NEW: `icon.serverBundle.remote` provider option — v2.x support for remote CDN providers (jsdelivr, unpkg, github-raw) instead of bundling locally [source](./.skilld/pkg-icon/README.md:L395:L405)
+
+**Also changed:** Provider mode `'auto'` as default behavior · Client bundle globbing patterns · Server provider endpoint registration in v2.5.0 · SSR adapter fixes v2.5.1
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
-
 ## Best Practices
 
-- Use `fill="currentColor"` in custom SVG icons to enable CSS mask-based colourization — Iconify icons use `mask-image` styling by default, and custom icons need this attribute to generate matching CSS rules that respond to colour utilities [source](./.skilld/issues/issue-402.md)
+- Install icon collections locally with `npm i -D @iconify-json/collection-name` instead of relying on Iconify API fetching — improves performance on both SSR and client-side, and keeps the server bundle lean by only including used collections [source](./.skilld/pkg/README.md#L102:L108)
 
-- Set `serverBundle` to `'remote'` in serverless environments (Cloudflare Workers, Vercel Edge) to avoid bundling icon collections — reduces build time and server bundle size by fetching icons from CDN instead of inlining them [source](./.skilld/README.md:L374:410)
+- Use `createResolver()` from `nuxt/kit` when defining custom collection paths — ensures paths resolve correctly both in regular projects and when your project is used as an extendable Nuxt layer by other projects [source](./.skilld/pkg/README.md#L160:L183)
 
-- Pre-bundle frequently-used icons with explicit `clientBundle.icons` list for instant first render without network requests [source](./.skilld/README.md:L462:476)
+```ts
+import { createResolver } from "nuxt/kit"
+const { resolve } = createResolver(import.meta.url)
+// Then use resolve() for paths in customCollections
+```
 
-- Use literal icon names instead of dynamic template strings — static scanning only detects hardcoded icon names like `Icon name="carbon:moon"`, not dynamic constructions like ``Icon :name="`carbon:${variable}`"`` [source](./.skilld/README.md:L554:565)
+- Configure icon customization and defaults in `app.config.ts` (not `nuxt.config.ts`) — enables runtime configuration changes without rebuilding the server [source](./.skilld/pkg/README.md#L288)
 
-- Enable `recursive: true` in custom collections to automatically include icons from nested directories — prevents needing multiple `customCollections` entries for different folder levels [source](./.skilld/README.md:L169:178)
+- Switch server bundle mode to `'remote'` when deploying to serverless or edge computing environments like Vercel Edge or Cloudflare Workers — avoids bundling large icon JSON files and fetches from CDN instead [source](./.skilld/pkg/README.md#L369:L411)
 
-- Set `provider: 'server'` when building SPAs (`ssr: false`) with custom collections — the Iconify API lacks custom icons, so explicit server routing is needed to serve them [source](./.skilld/README.md:L218:236)
+- Use `fill="currentColor"` in custom SVG icon definitions — automatically generates `mask-image` CSS rules instead of `background-image`, making icons respond to Tailwind text-colour utilities [source](./.skilld/issues/issue-367.md#L26:L36)
 
-- Configure `icon.cssLayer` to `'base'` with TailwindCSS v4 in CSS mode — ensures icon CSS rules cascade correctly in Tailwind's new layered architecture [source](./.skilld/README.md:L78:90)
+- Switch icon rendering `mode` to `'svg'` when using custom icons that need colour control — allows SVG native rendering with currentColor support, bypassing CSS mask limitations [source](./.skilld/issues/issue-402.md#L70:L77)
 
-- Set `normalizeIconName: false` in custom collections for case-sensitive icon names — allows `assets/my-icons/FooBar.svg` to be used as `my-icon:FooBar` without kebab-case conversion [source](./.skilld/README.md:L254:277)
+- Set `icon.serverBundle.externalizeIconsJson: true` for large icon collections — reduces build memory usage and improves bundling speed at the cost of requiring dynamic JSON imports in Node.js v22+ [source](./.skilld/pkg/README.md#L415:L434)
 
-- Fine-tune `clientBundle.scan` with `globInclude` and `globExclude` patterns to avoid scanning unnecessary files — reduces build time when scanning large projects [source](./.skilld/README.md:L543:552)
+- Enable client bundle with static scanning (`scan: true`) to pre-bundle all statically-detected icon usages — eliminates network requests for known icons while keeping the client bundle lean [source](./.skilld/pkg/README.md#L478:L494)
 
-- Explicitly list collection names in `serverBundle.collections` when using all-in-one `@iconify/json` package — constrains the server bundle to only the collections you use instead of loading the entire 100+ MB set [source](./.skilld/README.md:L111:122)
+- Write icon names literally in templates instead of dynamic string construction — enables the static scanner to detect and pre-bundle icons, avoiding runtime network requests [source](./.skilld/pkg/README.md#L555:L565)
 
-- Define `icon.customize` in `app.config.ts` for global SVG modifications (stroke width, colours, animation) instead of repeating customization logic per component [source](./.skilld/README.md:L350:363)
+- Configure `cssLayer: 'base'` in app.config when using TailwindCSS v4 with CSS mode rendering — ensures icon styles are injected into the correct CSS layer for proper cascade [source](./.skilld/pkg/README.md#L78:L90)
 
-- Use `provider: 'none'` with `clientBundle: { scan: true }` to disable all runtime icon fetching — forces offline-only rendering, useful for static generation or when all icons are known at build time [source](./.skilld/README.md:L240:252)
+- Set `provider: 'server'` explicitly when building SPAs (`ssr: false`) with custom collections — routes icon fetching to the server endpoint instead of falling back to Iconify API [source](./.skilld/pkg/README.md#L218:L236)
 
-- Import Icon from `'#components'` in render functions and setup scripts — enables type-safe component access outside templates [source](./.skilld/README.md:L613:631)
+- Use `provider: 'none'` with client bundle when you want zero runtime fetching — useful for offline-first apps or static generation where all icons are pre-bundled [source](./.skilld/pkg/README.md#L240:L252)
 
-- Configure separate `clientBundle` patterns in `NODE_ENV === 'test'` to enable component testing — in-browser test environments lack the internal Nuxt server routes for on-demand icon fetching [source](./.skilld/README.md:L649:679)
+- Enable `normalizeIconName: false` in custom collections to preserve icon name casing (requires v1.10+) — allows using custom icons like `my-icon:FooBar` without kebab-case conversion [source](./.skilld/pkg/README.md#L254:L277)
 
+- Configure test-mode icon handling with `provider: 'none'` and client bundle using node_modules scan paths — component testing environments lack server routes, so icons must be pre-bundled with explicit dynamic icon includes [source](./.skilld/pkg/README.md#L649:L679)
 <!-- /skilld:best-practices -->

@@ -1,17 +1,17 @@
 ---
 name: eslint-skilld
-description: 'ALWAYS use when writing code importing "eslint". Consult for debugging, best practices, or modifying eslint.'
+description: 'An AST-based pattern checker for JavaScript. ALWAYS use when writing code importing "eslint". Consult for debugging, best practices, or modifying eslint.'
 metadata:
-  version: 10.7.0
-  generated_by: Anthropic · Haiku 4.5
-  generated_at: 2026-07-18
+  version: 10.10.0
+  generated_by: cached
+  generated_at: 2026-09-13
 ---
 
-# eslint/eslint `eslint@10.7.0`
+# eslint/eslint `eslint@10.10.0`
 
-**Tags:** es6jsx: 0.11.0-alpha.0, next: 10.0.0-rc.2, latest: 10.7.0
+**Tags:** es6jsx: 0.11.0-alpha.0, next: 10.0.0-rc.2, maintenance: 9.39.5
 
-**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
+**References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
 
 ## Search
 
@@ -21,95 +21,115 @@ Use `skilld search "query" -p eslint` instead of grepping `.skilld/` directories
 
 ## API Changes
 
-This section documents version-specific API changes — prioritize recent major/minor releases.
+This section documents version-specific API changes for ESLint v10.x — focus on the v10.0.0 major release which contains all breaking changes from v9 → v10.
 
-### Major Breaking Changes in v10.0.0
+### Breaking Changes
 
-- BREAKING: Deprecated `SourceCode` methods removed — replace with documented equivalents on `SourceCode` class [source](./.skilld/releases/v10.0.0.md#breaking-changes)
+- BREAKING: `context.getCwd()` — removed in v10.0.0, use `context.cwd` property instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: Deprecated rule context methods removed — use `context` directly without underscore-prefixed methods [source](./.skilld/releases/v10.0.0.md:L17)
+- BREAKING: `context.getFilename()` — removed in v10.0.0, use `context.filename` property instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: ESLintRC config format support removed entirely — must use flat config (`eslint.config.js`) [source](./.skilld/releases/v10.0.0.md:L18)
+- BREAKING: `context.getPhysicalFilename()` — removed in v10.0.0, use `context.physicalFilename` property instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: `ScopeManager#addGlobals()` is now required — replaces implicit global tracking [source](./.skilld/releases/v10.0.0.md:L19)
+- BREAKING: `context.getSourceCode()` — removed in v10.0.0, use `context.sourceCode` property instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: `LintMessage#nodeType` and `TestCaseError#type` removed — use type definitions from `@eslint/core` [source](./.skilld/releases/v10.0.0.md:L26)
+- BREAKING: `context.parserOptions` — removed in v10.0.0, use `context.languageOptions` or `context.languageOptions.parserOptions` instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: jiti < 2.2.0 no longer supported — requires jiti v2.2.0+ [source](./.skilld/releases/v10.0.0.md:L27)
+- BREAKING: `context.parserPath` — removed in v10.0.0, no direct replacement available [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- BREAKING: `eslint-env` comments now report as errors — migrate comments to flat config `languageOptions.globals` [source](./.skilld/releases/v10.0.0.md:L25)
+- BREAKING: `SourceCode#getTokenOrCommentBefore()` — removed in v10.0.0, use `getTokenBefore(nodeOrToken, { includeComments: true, skip })` instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#sourcecode-methods-removed)
 
-- BREAKING: Node.js version requirement increased — now requires `^20.19.0 || ^22.13.0 || >=24` [source](./.skilld/releases/v10.0.0.md:L31)
+- BREAKING: `SourceCode#getTokenOrCommentAfter()` — removed in v10.0.0, use `getTokenAfter(nodeOrToken, { includeComments: true, skip })` instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#sourcecode-methods-removed)
 
-- BREAKING: `radix` rule options "always" and "as-needed" deprecated — use options object format or omit for auto-detection [source](./.skilld/releases/v10.0.0.md:L23)
+- BREAKING: `SourceCode#isSpaceBetweenTokens()` — removed in v10.0.0, use `isSpaceBetween()` instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#sourcecode-methods-removed)
 
-- BREAKING: `chalk` replaced with `styleText` — if using `ResultsMeta`, access `color` property instead of chalk instance [source](./.skilld/releases/v10.0.0.md:L11)
+- BREAKING: `SourceCode#getJSDocComment()` — removed in v10.0.0, no direct replacement available [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#sourcecode-methods-removed)
 
-- NEW: `name` field added to config objects — all configs now accept optional `name` property [source](./.skilld/releases/v10.0.0.md:L13)
+- BREAKING: `.eslintrc` configuration format — no longer supported in v10.0.0, must use flat config (`eslint.config.js`) format [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#remove-eslintrc)
 
-- NEW: JSX reference tracking now enabled by default — no configuration needed, may affect rule behavior [source](./.skilld/releases/v10.0.0.md:L12)
+- BREAKING: `FlatESLint` and `LegacyESLint` exports — removed in v10.0.0, use `ESLint` class instead [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#remove-eslintrc)
 
-- NEW: `Program` node now spans entire source text — previously spanned only the parsed content [source](./.skilld/releases/v10.0.0.md:L21)
+- BREAKING: `Linter` class `configType: "eslintrc"` option — removed in v10.0.0, must use flat config format [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#remove-eslintrc)
 
-- NEW: `countThis` option added to `max-params` rule — allows counting `this` binding in parameter count [source](./.skilld/releases/v10.0.0.md:L39)
+- BREAKING: `LintMessage#nodeType` property — removed in v10.0.0, no longer present on message objects [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#lintmessage-nodetype-removed)
 
-- NEW: Error assertion options in RuleTester — `requireData` option and enhanced error assertions [source](./.skilld/releases/v10.0.0.md:L37)
+- BREAKING: `RuleTester` error `type` property — removed in v10.0.0, must be removed from invalid test case error objects [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#ruletester-type-removed)
 
-### New & Changed APIs in v10.1-v10.7
+- BREAKING: `Program` AST node `range` property — now spans entire source text including leading/trailing comments/whitespace in v10.0.0 [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#program-node-range)
 
-- NEW: `includeIgnoreFile()` function in `eslint/config` module — loads `.eslintignore` files in flat config [source](./.skilld/releases/v10.4.0.md:L11)
+- BREAKING: `RuleFixer` methods `text` argument — must now be string type in v10.0.0, methods: `insertTextBefore()`, `insertTextBeforeRange()`, `insertTextAfter()`, `insertTextAfterRange()`, `replaceText()`, `replaceTextRange()` [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#fixer-text-must-be-string)
 
-- NEW: `meta.languages` support for rules — indicates which languages a rule applies to (JavaScript, TypeScript, JSON, etc.) [source](./.skilld/releases/v10.2.0.md:L10)
+- BREAKING: `RuleTester` valid test cases — no longer allow `errors` or `output` properties in v10.0.0, will throw error if present [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#stricter-rule-tester)
 
-- NEW: `Temporal` globals added to ES2026 — new `Temporal` API object supported in `no-obj-calls` rule [source](./.skilld/releases/v10.2.0.md:L12)
+- BREAKING: `eslint-env` comments — now reported as errors in v10.0.0, must be removed from code [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#eslint-env-comments)
 
-- NEW: Bulk-suppressions API support — new API methods for handling multiple suppressions [source](./.skilld/releases/v10.1.0.md:L11)
+- BREAKING: `v10_config_lookup_from_file` flag — removed in v10.0.0, this behavior is now default [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#config-lookup-from-file)
 
-- ENHANCED: `no-compare-neg-zero` rule now has suggestions — automatic fix suggestions for zero comparisons [source](./.skilld/releases/v10.7.0.md:L13)
+### New APIs
 
-- ENHANCED: `preserve-caught-error` rule adds `errorClassNames` option — control which class names to preserve [source](./.skilld/releases/v10.7.0.md:L10)
+- NEW: `context.cwd` property — new in v10.0.0, replaces deprecated `context.getCwd()` method [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- ENHANCED: `max-nested-callbacks` adds constructor callback handling — new option tracks constructors separately [source](./.skilld/releases/v10.7.0.md:L11)
+- NEW: `context.filename` property — new in v10.0.0, replaces deprecated `context.getFilename()` method [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- ENHANCED: `radix` rule enhanced — computed `Number.parseInt` member access and invalid signed numeric radix detection [source](./.skilld/releases/v10.7.0.md:L12)
+- NEW: `context.physicalFilename` property — new in v10.0.0, replaces deprecated `context.getPhysicalFilename()` method [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- ENHANCED: `no-constant-binary-expression` detects `Symbol()` and `BigInt()` — adds safety checks [source](./.skilld/releases/v10.6.0.md:L10)
+- NEW: `context.sourceCode` property — new in v10.0.0, replaces deprecated `context.getSourceCode()` method [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-- ENHANCED: Error location reporting improved across v10.5 — `max-nested-callbacks`, `no-with`, `max-lines-per-function`, `max-depth`, `max-statements` now report at precise locations [source](./.skilld/releases/v10.5.0.md:L10-L16)
+- NEW: `context.languageOptions` property — new in v10.0.0, provides access to language options and parser options [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#rule-context)
 
-**Also changed:** `Array.fromAsync` support in `array-callback-return` · `self` parameter option in `no-implied-eval` · `no-shadow` handles function/class expressions · RuleTester failure index output · error locations in `require-yield` and `no-useless-constructor` · `no-var` autofix in `TSModuleBlock` · `no-unused-private-class-members` suggestions · `ignoreClassesWithImplements` applied to class expressions · `eqeqeq` static template literal handling · `for-direction` sequence expression checking
+- NEW: `ScopeManager#addGlobals()` method — required in v10.0.0 for custom ScopeManager implementations to resolve global variable references [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#scope-manager)
+
+### Deprecated APIs
+
+- DEPRECATED: `radix` rule options `"always"` and `"as-needed"` — deprecated in v10.0.0 (still work but should be removed), rule now always enforces providing a radix [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#radix)
+
+### Behavioral Changes
+
+- JSX references are now tracked in v10.0.0 — enables correct scope analysis of JSX elements, may produce new linting reports in JSX files [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#jsx-reference-tracking)
+
+- `no-shadow-restricted-names` reports `globalThis` by default — v10.0.0 changed `reportGlobalThis` option default from `false` to `true` [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#no-shadow-restricted-names)
+
+- `eslint:recommended` configuration updated in v10.0.0 — three new rules enabled: `no-unassigned-vars`, `no-useless-assignment`, `preserve-caught-error` [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#eslint-recommended)
+
+- `styleText` replaces `chalk` in formatters — v10.0.0 stylish formatter now uses Node.js native `styleText()` API, respects `NO_COLOR` and `NODE_DISABLE_COLORS` environment variables [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#stylish-formatter)
+
+- Node.js version requirement — v10.0.0 requires Node.js ^20.19.0 || ^22.13.0 || >=24, dropped support for v20.<19, v21, and v23 [source](./.skilld/docs/src/use/migrate-to-10.0.0.md#drop-old-node)
+
+**Also changed:** `jiti` minimum version 2.2.0 · `minimatch` v10 with POSIX character classes · `func-names` schema stricter · `no-invalid-regexp` `allowConstructorFlags` requires unique items · `name` property restored to ESLint core configs · `RuleTester` `requireData` assertion option new · `RuleTester` error assertion options added · `Array.fromAsync` support in `array-callback-return` · `SourceCode#traverse()` behavior changes · configuration file lookup algorithm changes
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
 
+## ESLint v10.10.0 — Best Practices
+
 ## Best Practices
 
-- Use the `ESLint` class for file system operations, not the `Linter` class — the latter is designed for in-browser or in-memory linting only and doesn't handle configuration files or filesystem operations [source](./.skilld/docs/src/integrate/nodejs-api.md#eslint-class)
+- Use `defineConfig()` when exporting flat config arrays — enables type inference, plugin validation, and automatic merging of configuration objects without manual verification [source](./.skilld/docs/src/use/configure/configuration-files.md#configuration-file)
 
-- Use `defineConfig()` when authoring flat config files to enable type inference and automatic plugin resolution — this helper handles config array composition and validation [source](./.skilld/docs/src/use/configure/configuration-files.md:L33:L44)
+- Prefer `messageId` over literal `message` strings in `context.report()` — centralises violation messages in `meta.messages`, eliminates duplication between rule and test files, and reduces barrier to contributing message improvements [source](./.skilld/docs/src/extend/custom-rules.md#messageids)
 
-- Compose configurations via the `extends` key rather than manually merging config objects — this ensures predictable precedence and enables proper rule resolution across shareable configs [source](./.skilld/docs/src/use/configure/combine-configs.md:L12:L35)
+- Declare `meta.languages` when writing rules to target specific languages — ESLint throws an error if the rule is enabled for a non-matching language, preventing silent failures in multi-language projects [source](./.skilld/docs/src/extend/custom-rules.md#rule-structure)
 
-- Specify `meta.namespace` in plugins to enable proper caching and identify plugins even when users assign different namespace aliases in their config [source](./.skilld/docs/src/extend/plugins.md:L49:L65)
+- Always set `meta.fixable` ("`code`" or "`whitespace`") or `meta.hasSuggestions` (boolean) when implementing those features — ESLint throws an error at runtime if you omit these mandatory declarations [source](./.skilld/docs/src/extend/custom-rules.md#rule-structure)
 
-- Use predicate functions for `fix` and `ruleFilter` options to selectively apply fixes and rules at runtime — enables fine-grained control over which issues are processed without recreating the ESLint instance [source](./.skilld/docs/src/integrate/nodejs-api.md:L158:L152)
+- Never build on top of core rules by extending them — core rule implementation is not public API and changes will break your rule; copy the rule file into your project instead [source](./.skilld/docs/src/extend/custom-rules.md)
 
-- Enable `cache: true` with `cacheStrategy: "content"` for large projects to avoid redundant linting of unchanged files — metadata strategy is faster but content strategy is more reliable across version upgrades [source](./.skilld/docs/src/integrate/nodejs-api.md:L165:L170)
+- Use AST selectors in rule listeners for precise node matching instead of manual traversal — selectors reduce boilerplate, handle specificity ordering automatically, and make pattern intent explicit [source](./.skilld/docs/src/extend/selectors.md#listening-for-selectors-in-rules)
 
-- Use `concurrency: "auto"` when linting multiple files to leverage worker threads — significantly improves performance on multi-core systems at the cost of slightly higher memory usage [source](./.skilld/docs/src/integrate/nodejs-api.md:L181:L182)
+- Use `fixer` object methods (`fixer.replaceText()`, `fixer.insertTextAfter()`, etc.) instead of manually building replacement text — the fixer system detects and prevents conflicting fixes across rules, and allows up to 10 iterations of autofix [source](./.skilld/docs/src/extend/custom-rules.md#applying-fixes)
 
-- Use `stats: true` in production integrations to track linting performance metrics — enables per-rule timing analysis via the `stats` property on `LintResult` [source](./.skilld/docs/src/integrate/nodejs-api.md:L153:L154)
+- Add `meta.schema` when your rule accepts options — ESLint validates user-provided options against the schema and rejects invalid configurations before rule execution [source](./.skilld/docs/src/extend/custom-rules.md#rule-structure)
 
-- Prefer `messageId` over inline `message` in rule violation reports — centralizes messages in the rule's `meta.messages` object, enabling easier maintenance and translation [source](./.skilld/docs/src/extend/custom-rules.md:L246:L250)
+- Set `meta.namespace` and read `meta.version` from `package.json` in plugins — enables effective plugin caching, allows `defineConfig()` to locate plugins by namespace even when users register them under different names, and improves debugging [source](./.skilld/docs/src/extend/plugins.md#meta-data-in-plugins)
 
-- Use `baseConfig` for default settings that apply to all files, and `overrideConfig` to apply additional configuration on top — baseConfig is applied first, making it suitable for setting baseline rules [source](./.skilld/docs/src/integrate/nodejs-api.md:L143:L146)
+- Use flat config's `files` and `ignores` patterns to scope rules to specific file sets instead of applying rules globally — enables per-language configuration, reduces false positives on incompatible file types, and makes rule activation explicit [source](./.skilld/docs/src/use/configure/configuration-files.md#specify-files-and-ignores)
 
-- Use `applySuppressions: true` when building integrations that need to respect suppression files — automatically filters suppressed messages from results without requiring manual post-processing [source](./.skilld/docs/src/integrate/nodejs-api.md:L174:L177)
+- Use custom processors to lint non-JavaScript file formats — processors allow ESLint to preprocess (e.g. extract code blocks) and postprocess (e.g. map locations back) results, extending ESLint to Markdown, HTML, YAML and other formats [source](./.skilld/docs/src/extend/custom-processors.md)
 
-- Specify `ignores` without any other keys in a configuration object to create global ignore patterns — these apply across all configuration objects and files, avoiding duplication [source](./.skilld/docs/src/use/configure/configuration-files.md:L139:L144)
+- Use ESLint's built-in `RuleTester` for testing rules — no external test library required, integrates seamlessly with Mocha and Jest, and tests both valid and invalid code paths with expected messages [source](./.skilld/docs/src/extend/custom-rule-tutorial.md#step-5-set-up-testing)
 
-- Use `errorOnUnmatchedPattern: false` in integrations that handle missing files gracefully — prevents errors when glob patterns don't match any files [source](./.skilld/docs/src/integrate/nodejs-api.md:L126:L127)
+- Name shareable configs with `eslint-config-` prefix (or `@scope/eslint-config` for scoped) and declare `eslint` as `peerDependencies` — npm users can easily identify and discover your config, and version compatibility is explicit [source](./.skilld/docs/src/extend/shareable-configs.md#create-a-shareable-config)
 
-- Leverage `loadESLint()` for integrations that need to support both flat config and legacy eslintrc systems — automatically detects which system the user's project uses and returns the appropriate implementation [source](./.skilld/docs/src/integrate/nodejs-api.md:L560:L596)
+- Use `defineConfig()` with `plugins` in flat config to register plugins and enable config validation — allows ESLint to validate plugin availability and correct namespace usage before linting begins, catching misconfigurations early [source](./.skilld/docs/src/use/configure/configuration-files.md#configuration-file)
 
 <!-- /skilld:best-practices -->
