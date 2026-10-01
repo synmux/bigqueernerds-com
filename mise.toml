@@ -2,7 +2,7 @@
 BIGQUEERNERDS_MISE_ACTIVE = 'true'
 
 [tools]
-node = { version = '24.20.0' }
+node = { version = '26.10.0' }
 
 [tasks]
 claude = 'pnpm claude'
