@@ -1,6 +1,6 @@
 ---
 name: node-gyp-skilld
-description: "ALWAYS use when writing code importing \"node-gyp\". Consult for debugging, best practices, or modifying node-gyp, node gyp."
+description: 'ALWAYS use when writing code importing "node-gyp". Consult for debugging, best practices, or modifying node-gyp, node gyp.'
 metadata:
   version: 13.0.2
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nodejs/node-gyp `node-gyp@13.0.2`
+
 **Tags:** latest: 13.0.2
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p node-gyp` instead of grepping `.skilld/` directories. Run `skilld search --guide -p node-gyp` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases and breaking changes.
@@ -61,6 +63,7 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Keep node-gyp updated to latest stable release — older versions lack critical build fixes and Python 3.12+ support requires v10 or later [source](./.skilld/docs/README.md:L1:25)
@@ -92,4 +95,5 @@ This section documents version-specific API changes — prioritise recent major/
 - Set `'win_delay_load_hook': 'true'` in binding.gyp targets on Windows to ensure the addon works regardless of Node.js binary name (node.exe, iojs.exe, etc.) [source](./.skilld/pkg/addon.gypi:L68:89)
 
 - Use `--target=v<version>` to compile addons for a specific Node.js version without requiring that version to be running locally — essential for cross-platform CI and prebuilt distributions [source](./.skilld/docs/README.md:L211)
+
 <!-- /skilld:best-practices -->

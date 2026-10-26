@@ -1,6 +1,6 @@
 ---
 name: nuxt-eslint-skilld
-description: "ALWAYS use when writing code importing \"@nuxt/eslint\". Consult for debugging, best practices, or modifying @nuxt/eslint, nuxt/eslint, nuxt eslint, eslint."
+description: 'ALWAYS use when writing code importing "@nuxt/eslint". Consult for debugging, best practices, or modifying @nuxt/eslint, nuxt/eslint, nuxt eslint, eslint.'
 metadata:
   version: 1.17.0
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nuxt/eslint `@nuxt/eslint@1.17.0`
+
 **Tags:** next: 0.3.0-beta.10, latest: 1.17.0
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p @nuxt/eslint` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/eslint` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes — @nuxt/eslint v1.17.0
 
 ## Note
@@ -71,9 +73,11 @@ The primary export is a Nuxt module that generates ESLint flat configuration:
 
 - **`import/order` support** — Discussion [#593](../../repos/nuxt/eslint/discussions/discussion-593.md) indicates that `import/order` rule no longer works without explicitly installing the `eslint-plugin-import` package, suggesting a change in how import rules are handled
 - **Version history unavailable** — No changelog or release notes data is available locally to document changes from v1.16, v1.15, or earlier versions
+
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Use the ESLint Module for new Nuxt projects rather than manual setup via `@nuxt/eslint-config` — it auto-generates project-aware flat config, integrates with Nuxt DevTools, and includes Config Inspector for debugging [source](./.skilld/docs/content/1.packages/0.module.md#features)
@@ -82,7 +86,9 @@ The primary export is a Nuxt module that generates ESLint flat configuration:
 
   ```ts
   eslint: {
-    config: { stylistic: true }
+    config: {
+      stylistic: true;
+    }
   }
   ```
 
@@ -109,4 +115,5 @@ The primary export is a Nuxt module that generates ESLint flat configuration:
 - Use type casting with `@ts-ignore` when mixing `@nuxt/eslint` types with `typescript-eslint` configs due to upstream type incompatibilities — the error messages are misleading as both are valid configs at runtime [source](./.skilld/issues/issue-497.md)
 
 - Prefer `import.meta.client` and `import.meta.server` over legacy `process.client`/`process.server` — the `nuxt/prefer-import-meta` ESLint rule enforces this pattern which is the modern Nuxt standard [source](./.skilld/docs/content/1.packages/2.plugin.md#nuxtprefer-import-meta)
+
 <!-- /skilld:best-practices -->

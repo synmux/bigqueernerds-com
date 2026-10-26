@@ -1,6 +1,6 @@
 ---
 name: vue-skilld
-description: "ALWAYS use when editing or working with *.vue files or code importing \"vue\". Consult for debugging, best practices, or modifying vue, core."
+description: 'ALWAYS use when editing or working with *.vue files or code importing "vue". Consult for debugging, best practices, or modifying vue, core.'
 metadata:
   version: 3.5.42
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # vuejs/core `vue@3.5.42`
+
 **Tags:** csp: 1.0.28-csp, legacy: 2.7.16, v2-latest: 2.7.16
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p vue` instead of grepping `.skilld/` directories. Run `skilld search --guide -p vue` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## Vue 3.5.42 API Changes
 
 This section documents version-specific API changes — prioritize recent major/minor releases.
@@ -65,6 +67,7 @@ This section documents version-specific API changes — prioritize recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Use a build step to enable tree-shaking and pre-compile templates, which removes unused Vue APIs and the compiler from the bundle, saving ~14kb min+gzipped JavaScript and avoiding runtime compilation overhead. [source](./.skilld/docs/guide/best-practices/performance.md#bundle-size-and-tree-shaking)
@@ -94,4 +97,5 @@ This section documents version-specific API changes — prioritize recent major/
 - Understand that slot content renders in the parent's scope, not the child's—expressions in parent templates access parent data, while expressions in child templates access child data. This is consistent with JavaScript lexical scoping. [source](./.skilld/docs/guide/components/slots.md#render-scope)
 
 - In Vue 3.5+, destructured props from `defineProps()` remain reactive thanks to compiler transformation—`const { foo } = defineProps(['foo'])` becomes `props.foo` in reactive contexts. Use getter wrappers when passing destructured props to functions like `watch()` to retain reactivity. [source](./.skilld/docs/guide/components/props.md#reactive-props-destructure)
+
 <!-- /skilld:best-practices -->

@@ -1,6 +1,6 @@
 ---
 name: nuxt-icon-skilld
-description: "ALWAYS use when writing code importing \"@nuxt/icon\". Consult for debugging, best practices, or modifying @nuxt/icon, nuxt/icon, nuxt icon, icon."
+description: 'ALWAYS use when writing code importing "@nuxt/icon". Consult for debugging, best practices, or modifying @nuxt/icon, nuxt/icon, nuxt icon, icon.'
 metadata:
   version: 2.5.1
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nuxt/icon `@nuxt/icon@2.5.1`
+
 **Tags:** latest: 2.5.1
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p @nuxt/icon` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/icon` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritize recent major/minor releases.
@@ -63,6 +65,7 @@ This section documents version-specific API changes — prioritize recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Install icon collections locally with `npm i -D @iconify-json/collection-name` instead of relying on Iconify API fetching — improves performance on both SSR and client-side, and keeps the server bundle lean by only including used collections [source](./.skilld/pkg/README.md#L102:L108)
@@ -70,8 +73,8 @@ This section documents version-specific API changes — prioritize recent major/
 - Use `createResolver()` from `nuxt/kit` when defining custom collection paths — ensures paths resolve correctly both in regular projects and when your project is used as an extendable Nuxt layer by other projects [source](./.skilld/pkg/README.md#L160:L183)
 
 ```ts
-import { createResolver } from "nuxt/kit"
-const { resolve } = createResolver(import.meta.url)
+import { createResolver } from "nuxt/kit";
+const { resolve } = createResolver(import.meta.url);
 // Then use resolve() for paths in customCollections
 ```
 
@@ -98,4 +101,5 @@ const { resolve } = createResolver(import.meta.url)
 - Enable `normalizeIconName: false` in custom collections to preserve icon name casing (requires v1.10+) — allows using custom icons like `my-icon:FooBar` without kebab-case conversion [source](./.skilld/pkg/README.md#L254:L277)
 
 - Configure test-mode icon handling with `provider: 'none'` and client bundle using node_modules scan paths — component testing environments lack server routes, so icons must be pre-bundled with explicit dynamic icon includes [source](./.skilld/pkg/README.md#L649:L679)
+
 <!-- /skilld:best-practices -->

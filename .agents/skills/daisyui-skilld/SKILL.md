@@ -1,6 +1,6 @@
 ---
 name: daisyui-skilld
-description: "ALWAYS use when writing code importing \"daisyui\". Consult for debugging, best practices, or modifying daisyui."
+description: 'ALWAYS use when writing code importing "daisyui". Consult for debugging, best practices, or modifying daisyui.'
 metadata:
   version: 5.7.28
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # saadeghi/daisyui `daisyui@5.7.28`
+
 **Tags:** alpha: 5.6.0-alpha.4, beta: 5.6.0-beta.0, latest: 5.7.37
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p daisyui` instead of grepping `.skilld/` directories. Run `skilld search --guide -p daisyui` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
@@ -103,11 +105,12 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
-- Never dynamically construct daisyUI class names like `bg-{{ color }}-500` — the Tailwind CSS scanner won't find partial class names. Either hardcode the complete class string or safelist all possibilities in your tailwind.config.js using `safelist` or `content` arrays [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/most-common-mistake-when-using-tailwind-css/+page.md#solutions)
+- Never dynamically construct daisyUI class names like `bg-{{ color }}-500` — the Tailwind CSS scanner won't find partial class names. Either hardcode the complete class string or safelist all possibilities in your tailwind.config.js using `safelist` or `content` arrays [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/most-common-mistake-when-using-tailwind-css/+page.md#solutions>)
 
-- Use semantic colour names (primary, secondary, accent, success, warning, error, info) throughout your design instead of arbitrary Tailwind colour shades — enables theme-switching and consistent visual language without changing individual elements [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/daisyui-colors-and-themes/+page.md#the-colour-system)
+- Use semantic colour names (primary, secondary, accent, success, warning, error, info) throughout your design instead of arbitrary Tailwind colour shades — enables theme-switching and consistent visual language without changing individual elements [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/daisyui-colors-and-themes/+page.md#the-colour-system>)
 
 - Structure menu components with `<ul>` and `<li>` semantics for screen readers and keyboard navigation — reserve `<ol>` only when visual numbering is required, as daisyUI menu styles apply equally to both [source](/Users/syn/.skilld/repos/saadeghi/daisyui/discussions/discussion-4473.md#accepted-answer)
 
@@ -119,19 +122,20 @@ This section documents version-specific API changes — prioritise recent major/
 
 - Use `<fieldset>` with nested `<label>` elements for form control grouping instead of form-control — aligns with semantic HTML and provides clearer accessibility structure in v5 [source](/Users/syn/.skilld/repos/saadeghi/daisyui/issues/issue-3573.md#describe-the-issue)
 
-- Leverage the Popover API (`[popover]`, `:popover-open`, `::backdrop`) for modal and overlay patterns as an alternative to `<dialog>` — offers another semantic approach depending on your use case [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#better-sliders-tooltips-modals-and-cards)
+- Leverage the Popover API (`[popover]`, `:popover-open`, `::backdrop`) for modal and overlay patterns as an alternative to `<dialog>` — offers another semantic approach depending on your use case [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#better-sliders-tooltips-modals-and-cards>)
 
-- Apply `aura` component wrapper for animated border glow effects instead of building custom animations — comes with predefined styles (aura-dual, aura-rainbow, aura-holo, etc.) and size variants [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#aura)
+- Apply `aura` component wrapper for animated border glow effects instead of building custom animations — comes with predefined styles (aura-dual, aura-rainbow, aura-holo, etc.) and size variants [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#aura>)
 
-- Use `megamenu` for navigation structures with deeply nested links instead of chained dropdowns — supports width variants, Popover API, and responsive fallback to vertical layout [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#megamenu)
+- Use `megamenu` for navigation structures with deeply nested links instead of chained dropdowns — supports width variants, Popover API, and responsive fallback to vertical layout [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#megamenu>)
 
-- Use `otp` component for one-time password inputs with `autocomplete="one-time-code"` and `inputmode="numeric"` for better mobile support — handles visual slot design whilst keeping form semantics simple [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#otp)
+- Use `otp` component for one-time password inputs with `autocomplete="one-time-code"` and `inputmode="numeric"` for better mobile support — handles visual slot design whilst keeping form semantics simple [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#otp>)
 
-- Apply tooltip alignment modifiers (tooltip-start, tooltip-center, tooltip-end) for precise positioning control — works with all directions (top, bottom, left, right) to prevent overflow and scrollbar artifacts [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#better-sliders-tooltips-modals-and-cards)
+- Apply tooltip alignment modifiers (tooltip-start, tooltip-center, tooltip-end) for precise positioning control — works with all directions (top, bottom, left, right) to prevent overflow and scrollbar artifacts [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#better-sliders-tooltips-modals-and-cards>)
 
-- Use `aria-disabled="true"` for buttons that cannot use the native disabled attribute (e.g., when the element is a div or custom component) — allows state styling without JavaScript [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/v5.6/+page.md#improvements-across-existing-components)
+- Use `aria-disabled="true"` for buttons that cannot use the native disabled attribute (e.g., when the element is a div or custom component) — allows state styling without JavaScript [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/v5.6/+page.md#improvements-across-existing-components>)
 
-- Use OKLCH color functions when directly accessing daisyUI CSS variables in custom CSS: `color: oklch(var(--p))` instead of `hsl()` — v5 uses OKLCH colour space for improved perceptual accuracy [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/how-to-update-daisyui-4/+page.md#2-daisyui-color-variables)
+- Use OKLCH color functions when directly accessing daisyUI CSS variables in custom CSS: `color: oklch(var(--p))` instead of `hsl()` — v5 uses OKLCH colour space for improved perceptual accuracy [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/how-to-update-daisyui-4/+page.md#2-daisyui-color-variables>)
 
-- Set `dir="rtl"` on the `<html>` element for RTL support without needing daisyUI RTL config or tailwindcss-flip plugin — v5 uses logical CSS properties that automatically adapt to document direction [source](/Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/\(routes\)/blog/\(posts\)/how-to-update-daisyui-4/+page.md#5-rtl)
+- Set `dir="rtl"` on the `<html>` element for RTL support without needing daisyUI RTL config or tailwindcss-flip plugin — v5 uses logical CSS properties that automatically adapt to document direction [source](</Users/syn/.skilld/references/daisyui@5.7.28/docs/src/routes/(routes)/blog/(posts)/how-to-update-daisyui-4/+page.md#5-rtl>)
+
 <!-- /skilld:best-practices -->

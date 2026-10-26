@@ -1,6 +1,6 @@
 ---
 name: vue-router-skilld
-description: "ALWAYS use when writing code importing \"vue-router\". Consult for debugging, best practices, or modifying vue-router, vue router, router."
+description: 'ALWAYS use when writing code importing "vue-router". Consult for debugging, best practices, or modifying vue-router, vue router, router.'
 metadata:
   version: 5.3.1
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # vuejs/router `vue-router@5.3.1`
+
 **Tags:** next: 4.0.13, legacy: 3.6.5, edge: 4.4.0-alpha.3
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p vue-router` instead of grepping `.skilld/` directories. Run `skilld search --guide -p vue-router` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
@@ -41,7 +43,7 @@ This section documents version-specific API changes — prioritise recent major/
 
 - NEW: `experimental_createRouter()` — introduced in v5.0.0 for experimental resolver-based matching with stronger typing and custom param parsers [source](./.skilld/docs/experimental/router-resolver.md:L16)
 
-- NEW: Experimental param parser system — introduced in v5.0.0, enables custom `defineParamParser()` in v5.1.0 for typed route parameters with automatic string  JS value transforms [source](./.skilld/docs/experimental/param-parsers.md:L1:20)
+- NEW: Experimental param parser system — introduced in v5.0.0, enables custom `defineParamParser()` in v5.1.0 for typed route parameters with automatic string JS value transforms [source](./.skilld/docs/experimental/param-parsers.md:L1:20)
 
 - NEW: `defineParamParser()` and `defineParamParserRaw()` — added in v5.1.0, allow defining custom param transformations for path and query parameters with end-to-end TypeScript types [source](./.skilld/releases/v5.1.0.md:L9:18)
 
@@ -57,6 +59,7 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - **Always use `router.beforeResolve` for pre-navigation operations** — It runs after all in-component guards and lazy-loaded route components, making it the ideal spot for async data fetching or permission checks before confirming navigation [source](./.skilld/docs/guide/advanced/navigation-guards.md#Global-Resolve-Guards)
@@ -86,4 +89,5 @@ This section documents version-specific API changes — prioritise recent major/
 - **Add dynamic routes outside navigation guards and manually trigger redirect** — When using `router.addRoute()`, call it outside guards (e.g., in component mount), then manually use `router.replace()` to display the new route; within guards, return `to.fullPath` to redirect [source](./.skilld/docs/guide/advanced/dynamic-routing.md#Adding-routes-inside-navigation-guards)
 
 - **Use file-based routing conventions to eliminate manual route maintenance** — Place `.vue` files in `src/pages/`, with `index.vue` for empty paths and `[paramName].vue` for dynamic segments; the plugin auto-generates the routing structure, reducing boilerplate [source](./.skilld/docs/file-based-routing/file-based-routing.md#File-Conventions)
+
 <!-- /skilld:best-practices -->

@@ -1,6 +1,6 @@
 ---
 name: nuxt-skilld
-description: "ALWAYS use when writing code importing \"nuxt\". Consult for debugging, best practices, or modifying nuxt."
+description: 'ALWAYS use when writing code importing "nuxt". Consult for debugging, best practices, or modifying nuxt.'
 metadata:
   version: 4.5.2
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nuxt/nuxt `nuxt@4.5.2`
+
 **Tags:** 1x: 1.4.5, 2x: 2.18.1, alpha: 4.0.0-alpha.4
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p nuxt` instead of grepping `.skilld/` directories. Run `skilld search --guide -p nuxt` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
@@ -65,6 +67,7 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Use `useFetch` and `useAsyncData` for data fetching to prevent double requests — these composables ensure data fetched on the server is transferred to the client in the payload, avoiding re-fetching during hydration and improving performance and consistency [source](./.skilld/docs/1.getting-started/10.data-fetching.md#the-need-for-usefetch-and-useasyncdata)
@@ -92,6 +95,7 @@ This section documents version-specific API changes — prioritise recent major/
 - Call Nuxt composables only within the correct lifecycle context — composables relying on Nuxt context must be called synchronously within components, plugins, route middleware, or `<script setup>` blocks; calling them in async functions or at module level raises `Nuxt instance is unavailable` [source](./.skilld/docs/3.guide/1.concepts/3.auto-imports.md#vue-and-nuxt-composables)
 
 - Use `useRequestHeaders` to proxy client cookies and auth headers to internal API calls — ensures proper credential forwarding during server-side rendering, but avoid proxying sensitive headers like `host` [source](./.skilld/docs/1.getting-started/10.data-fetching.md#pass-client-headers-to-the-api)
+
 <!-- /skilld:best-practices -->
 
 Related: unhead-vue-skilld, vue-skilld, vue-router-skilld

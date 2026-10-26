@@ -1,6 +1,6 @@
 ---
 name: unhead-vue-skilld
-description: "ALWAYS use when writing code importing \"@unhead/vue\". Consult for debugging, best practices, or modifying @unhead/vue, unhead/vue, unhead vue, unhead."
+description: 'ALWAYS use when writing code importing "@unhead/vue". Consult for debugging, best practices, or modifying @unhead/vue, unhead/vue, unhead vue, unhead.'
 metadata:
   version: 3.4.0
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # unjs/unhead `@unhead/vue@3.4.0`
+
 **Tags:** next: 3.0.0-beta.9, beta: 3.0.0-beta.12, rc: 3.0.0-rc.4
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p @unhead/vue` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @unhead/vue` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
@@ -97,6 +99,7 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Pass refs and computed values directly to `useHead()` without dereferencing — the adapter unwraps them in a `watchEffect()` and updates automatically when dependencies change [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#reactive-values)
@@ -110,9 +113,9 @@ This section documents version-specific API changes — prioritise recent major/
 - Use `storeToRefs()` when destructuring from Pinia stores — maintains reactivity so store actions automatically update head entries [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/0.reactivity-and-context.md#pinia)
 
 ```ts
-const store = usePageStore()
-const { title, description } = storeToRefs(store)
-useHead({ title, meta: [{ name: 'description', content: description }] })
+const store = usePageStore();
+const { title, description } = storeToRefs(store);
+useHead({ title, meta: [{ name: "description", content: description }] });
 ```
 
 - Use `useHeadSafe()` and `useSeoMeta()` instead of `useHead()` when handling untrusted or user-provided input — they avoid exposing `innerHTML` and arbitrary tag attributes [source](./.skilld/docs/head/7.api/composables/0.use-head.md#security-considerations)
@@ -123,8 +126,8 @@ useHead({ title, meta: [{ name: 'description', content: description }] })
 
 ```ts
 const head = createHead({
-  plugins: [InferSeoMetaPlugin()]
-})
+  plugins: [InferSeoMetaPlugin()],
+});
 ```
 
 - Register `CanonicalPlugin` to normalize relative URLs to absolute URLs in canonical, Open Graph, and link tags — matches SEO guidance from Google and Open Graph protocol [source](./.skilld/docs/head/1.guides/plugins/canonical.md#setup)
@@ -138,4 +141,5 @@ const head = createHead({
 - Pause DOM updates during route transitions using the `dom:beforeRender` hook — queues changes until the new route and its Suspense boundary have resolved, preventing flash of old metadata [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/4.pausing-dom-rendering.md)
 
 - Register canonical, robots, and Open Graph tags before the HTML shell in streaming SSR — some bots and link previews do not run inline patch scripts, so critical SEO tags must render with the initial response [source](./.skilld/docs/0.vue/head/guides/1.core-concepts/5.streaming.md#where-tags-render)
+
 <!-- /skilld:best-practices -->

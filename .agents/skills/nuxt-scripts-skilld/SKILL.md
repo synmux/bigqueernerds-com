@@ -1,6 +1,6 @@
 ---
 name: nuxt-scripts-skilld
-description: "ALWAYS use when writing code importing \"@nuxt/scripts\". Consult for debugging, best practices, or modifying @nuxt/scripts, nuxt/scripts, nuxt scripts, scripts."
+description: 'ALWAYS use when writing code importing "@nuxt/scripts". Consult for debugging, best practices, or modifying @nuxt/scripts, nuxt/scripts, nuxt scripts, scripts.'
 metadata:
   version: 1.3.8
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nuxt/scripts `@nuxt/scripts@1.3.8`
+
 **Tags:** rc: 1.0.0-rc.11, beta: 2.0.0-beta.6, latest: 1.3.9
 
 **References:** [package.json](./.skilld/pkg/package.json) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p @nuxt/scripts` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/scripts` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases.
@@ -90,9 +92,11 @@ Also changed: `Consent.default()` new in v1.1.0 · `NUXT_PUBLIC_SCRIPTS_*` envir
 ### Deprecated APIs
 
 - DEPRECATED: `ScriptGoogleMapsHeatmap` component — deprecated in v1.2.0, will be removed in v2. Use alternative visualisation libraries instead. [source](./.skilld/releases/v1.2.0.md:L17)
+
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Call `reload()` after SPA navigation instead of manually removing and re-inserting scripts when a vendor's script scans the DOM once and needs to rescan. Alternatively, prefer the vendor's native SPA API when available (e.g. iubenda's `_iub.cs.api.activateSnippets()`). [source](./.skilld/docs/content/docs/3.api/1.use-script.md#L126:L139)
@@ -122,4 +126,5 @@ Also changed: `Consent.default()` new in v1.1.0 · `NUXT_PUBLIC_SCRIPTS_*` envir
 - When using full privacy anonymization (all six flags), understand that analytics identifiers like `uid`, `cid`, and `email` are deliberately preserved; the proxy reduces network and fingerprinting data, not user identification. [source](./.skilld/docs/content/docs/1.guides/2.first-party.md#L45:L48)
 
 - Use `proxy: { alias: { 'internal.domain': 'a' } }` to hide internal hostnames in proxy paths from network observers and ad blockers. [source](./.skilld/docs/content/docs/1.guides/2.first-party.md#L160:L192)
+
 <!-- /skilld:best-practices -->

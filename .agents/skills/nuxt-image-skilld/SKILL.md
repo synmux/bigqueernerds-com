@@ -1,6 +1,6 @@
 ---
 name: nuxt-image-skilld
-description: "ALWAYS use when writing code importing \"@nuxt/image\". Consult for debugging, best practices, or modifying @nuxt/image, nuxt/image, nuxt image, image."
+description: 'ALWAYS use when writing code importing "@nuxt/image". Consult for debugging, best practices, or modifying @nuxt/image, nuxt/image, nuxt image, image.'
 metadata:
   version: 2.1.0
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # nuxt/image `@nuxt/image@2.1.0`
+
 **Tags:** rc: 1.0.0-rc.3, alpha: 2.0.0-alpha.1, latest: 2.1.0
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p @nuxt/image` instead of grepping `.skilld/` directories. Run `skilld search --guide -p @nuxt/image` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritize recent major/minor releases.
@@ -73,6 +75,7 @@ This section documents version-specific API changes — prioritize recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Always provide an `alt` attribute for every image — it's essential for accessibility and describes the image content or its purpose [source](./.skilld/docs/content/2.usage/1.nuxt-img.md#alt)
@@ -102,4 +105,5 @@ This section documents version-specific API changes — prioritize recent major/
 - Use `img.getSizes()` composable when manual srcset generation is required — generates responsive sizes and srcset for custom component wrappers [source](./.skilld/docs/content/2.usage/3.use-image.md#imggetsizes)
 
 - Prefer `defineProvider` for custom image providers in v2 — offers proper TypeScript support and modifier typing for provider-specific transformations [source](./.skilld/docs/content/1.get-started/5.migration.md#update-custom-providers)
+
 <!-- /skilld:best-practices -->

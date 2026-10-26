@@ -1,6 +1,6 @@
 ---
 name: wrangler-skilld
-description: "ALWAYS use when writing code importing \"wrangler\". Consult for debugging, best practices, or modifying wrangler, workers-sdk, workers sdk."
+description: 'ALWAYS use when writing code importing "wrangler". Consult for debugging, best practices, or modifying wrangler, workers-sdk, workers sdk.'
 metadata:
   version: 4.129.0
   generated_by: Anthropic · Haiku 4.5
@@ -8,6 +8,7 @@ metadata:
 ---
 
 # cloudflare/workers-sdk `wrangler@4.129.0`
+
 **Tags:** wrangler@2.2.4: 2.2.4, legacy: 3.114.17, latest: 4.131.1
 
 **References:** [package.json](./.skilld/pkg/package.json) • [README](./.skilld/pkg/README.md) • [Docs](./.skilld/docs/_INDEX.md) • [Issues](./.skilld/issues/_INDEX.md) • [Discussions](./.skilld/discussions/_INDEX.md) • [Releases](./.skilld/releases/_INDEX.md)
@@ -17,6 +18,7 @@ metadata:
 Use `skilld search "query" -p wrangler` instead of grepping `.skilld/` directories. Run `skilld search --guide -p wrangler` for full syntax, filters, and operators.
 
 <!-- skilld:api-changes -->
+
 ## API Changes
 
 This section documents version-specific API changes — prioritise recent major/minor releases in v4.x.
@@ -53,6 +55,7 @@ This section documents version-specific API changes — prioritise recent major/
 <!-- /skilld:api-changes -->
 
 <!-- skilld:best-practices -->
+
 ## Best Practices
 
 - Run `wrangler types` after adding or renaming bindings to generate accurate TypeScript definitions for your Env interface — this catches type mismatches between your config and code at compile time instead of at deploy time, eliminating a common source of runtime errors [source](./.skilld/docs/workers/best-practices/workers-best-practices.md#generate-binding-types-with-wrangler-types)
@@ -82,4 +85,5 @@ This section documents version-specific API changes — prioritise recent major/
 - Test with `@cloudflare/vitest-plugin` to run tests inside the Workers runtime with access to real bindings (KV, R2, D1, Durable Objects) — note that the plugin automatically injects `nodejs_compat`, so always confirm your `wrangler.jsonc` includes the flag if your code depends on Node.js built-in modules [source](./.skilld/docs/workers/best-practices/workers-best-practices.md#test-with-cloudflarevitest-plugin)
 
 - For new projects, use Workers Static Assets with the `assets.directory` configuration instead of Cloudflare Pages — it is the recommended deployment method, provides optimised static serving, and integrates seamlessly with a Worker script via the `ASSETS` binding for full-stack applications [source](./.skilld/docs/workers/best-practices/workers-best-practices.md#use-workers-static-assets-for-new-projects)
+
 <!-- /skilld:best-practices -->
