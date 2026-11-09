@@ -10,21 +10,21 @@
     "@nuxt/fonts": "^1.2.0",
     "@nuxt/hints": "^1.1.5",
     "@nuxt/icon": "^2.6.2",
-    "@nuxt/image": "^2.2.0",
+    "@nuxt/image": "^2.2.1",
     "@nuxt/scripts": "^1.3.12",
     "@tailwindcss/vite": "^4.3.3",
     "@unhead/vue": "^3.4.3",
     "daisyui": "^5.7.50",
     "drizzle-orm": "^0.45.4",
-    "eslint": "^10.13.0",
+    "eslint": "^10.14.0",
     "nuxt": "^4.6.3",
     "tailwindcss": "^4.3.3",
-    "three": "^0.186.1",
+    "three": "^0.187.0",
     "vue": "^3.5.44",
     "vue-router": "^5.4.0"
   },
   "devDependencies": {
-    "@anthropic-ai/claude-code": "^2.1.312",
+    "@anthropic-ai/claude-code": "^2.1.316",
     "@trunkio/launcher": "^1.3.4",
     "@types/node": "^26.6.6",
     "drizzle-kit": "^0.31.11",
@@ -34,7 +34,7 @@
     "npm-run-all2": "^9.0.4",
     "prettier": "^3.9.10",
     "typescript": "^6.0.3",
-    "wrangler": "^4.155.0"
+    "wrangler": "^4.156.1"
   },
   "engines": {
     "node": "^24.20.0"
